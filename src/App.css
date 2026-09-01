@@ -107,6 +107,36 @@
   .agenda-layout { grid-template-columns: 1fr; }.agenda-side { display: grid; grid-template-columns: 1fr 1fr; }
   .reports-library { grid-template-columns: 1fr 1fr; }.report-file { border-left: 0; border-top: 1px solid #e7eceb; }
 }
+
+.api-state {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.api-loading svg { animation: api-spin .85s linear infinite; color: var(--primary); }
+.api-error { align-items: flex-start; justify-content: flex-start; min-height: 0; color: #ad4d3e; }
+.api-error div { flex: 1; }
+.api-error p { margin: 5px 0 0; color: var(--muted); }
+.form-error { display: flex; gap: 8px; align-items: flex-start; margin: 14px 0; padding: 12px 14px; border-radius: 10px; background: #fff1ee; color: #a94134; font-size: .86rem; }
+.report-date-fields { display: flex; gap: 10px; }
+.report-date-fields .field { min-width: 150px; }
+.report-date-fields .field span { font-size: .68rem; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+
+@keyframes api-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 720px) {
+  .report-date-fields { width: 100%; flex-direction: column; }
+  .report-date-fields .field { width: 100%; }
+}
 @media (max-width: 900px) {
   .filter-tabs { display: none; }.profile-info-grid { grid-template-columns: repeat(2, 1fr); }
   .report-grid { grid-template-columns: 1fr; }

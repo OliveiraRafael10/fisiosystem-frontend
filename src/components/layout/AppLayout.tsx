@@ -144,7 +144,7 @@ export function AppLayout() {
         </nav>
         <div className="sidebar-card">
           <span className="sidebar-card-icon"><Activity size={18} /></span>
-          <div><strong>Ambiente operacional</strong><small>API v1 configurada</small></div>
+          <div><strong>Ambiente operacional</strong><small>Backend Spring integrado</small></div>
         </div>
         <div className="profile-mini">
           <span className="avatar">RM</span>
@@ -166,10 +166,9 @@ export function AppLayout() {
               <button className="icon-button" aria-label="Notificações" onClick={() => setNotificationsOpen((open) => !open)}><Bell size={19} /><span /></button>
               {notificationsOpen && (
                 <div className="notification-popover">
-                  <div><strong>Notificações</strong><span>3 novas</span></div>
-                  <button><i className="notice-dot urgent" /><span><strong>Prioridade alta</strong><small>Joana Ferreira aguarda vaga há 12 dias.</small></span></button>
-                  <button><i className="notice-dot" /><span><strong>Consulta em 20 minutos</strong><small>Carlos Eduardo • Ortopedia.</small></span></button>
-                  <button><i className="notice-dot success" /><span><strong>Prontuário atualizado</strong><small>Helena Martins teve evolução registrada.</small></span></button>
+                  <div><strong>Central do sistema</strong><span>Integração ativa</span></div>
+                  <button><i className="notice-dot success" /><span><strong>Dados sincronizados</strong><small>As telas consultam diretamente a API Spring.</small></span></button>
+                  <button><i className="notice-dot" /><span><strong>Atualização automática</strong><small>Alterações invalidam e recarregam os dados relacionados.</small></span></button>
                 </div>
               )}
             </div>

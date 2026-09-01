@@ -1,21 +1,25 @@
 import { api } from '../api/api'
-import type { Patient } from '../types'
+import type { Paciente, PacienteInput } from '../types'
 
 export const patientService = {
-  async list(): Promise<Patient[]> {
-    const { data } = await api.get<Patient[]>('/pacientes')
+  async list(): Promise<Paciente[]> {
+    const { data } = await api.get<Paciente[]>('/pacientes')
     return data
   },
-  async getById(id: number): Promise<Patient> {
-    const { data } = await api.get<Patient>(`/pacientes/${id}`)
+  async search(nome: string): Promise<Paciente[]> {
+    const { data } = await api.get<Paciente[]>('/pacientes/buscar', { params: { nome } })
     return data
   },
-  async create(patient: Omit<Patient, 'id'>): Promise<Patient> {
-    const { data } = await api.post<Patient>('/pacientes', patient)
+  async getBySus(numeroSus: string): Promise<Paciente> {
+    const { data } = await api.get<Paciente>(`/pacientes/sus/${encodeURIComponent(numeroSus)}`)
     return data
   },
-  async update(id: number, patient: Partial<Patient>): Promise<Patient> {
-    const { data } = await api.put<Patient>(`/pacientes/${id}`, patient)
+  async create(patient: PacienteInput): Promise<Paciente> {
+    const { data } = await api.post<Paciente>('/pacientes', patient)
+    return data
+  },
+  async update(id: number, patient: PacienteInput): Promise<Paciente> {
+    const { data } = await api.put<Paciente>(`/pacientes/${id}`, patient)
     return data
   },
 }
