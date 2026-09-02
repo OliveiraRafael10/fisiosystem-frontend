@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ArrowUpRight, Building2, ClipboardCheck, Clock3, MoreHorizontal, Plus, Search, Siren } from 'lucide-react'
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { Modal } from '../../components/ui/Modal'
@@ -16,9 +16,8 @@ const emptyReferral: EncaminhamentoInput = { dataEntrega: localDate(), paciente:
 
 export function ReferralsPage() {
   const queryClient = useQueryClient()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const requestedStatus = searchParams.get('status')
-  const requestedReferralId = Number(searchParams.get('encaminhamento')) || 0
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState<'TODOS' | StatusEncaminhamento>(() => ['NA_FILA', 'ASSUMIDO', 'EM_TRATAMENTO', 'ALTA', 'RETIRADO_PELO_PACIENTE'].includes(requestedStatus ?? '') ? requestedStatus as StatusEncaminhamento : 'TODOS')
   const [formOpen, setFormOpen] = useState(false)
@@ -47,14 +46,8 @@ export function ReferralsPage() {
       if (action === 'withdraw') return referralService.withdraw(selected.id, reason)
       return referralService.discharge(selected.id)
     },
-    onSuccess: () => { invalidate(); closeSelected() },
+    onSuccess: () => { invalidate(); setSelected(null); setTherapistId(0); setReason('') },
   })
-
-  useEffect(() => {
-    if (!requestedReferralId || !referrals.data || selected?.id === requestedReferralId) return
-    const requestedReferral = referrals.data.find((item) => item.id === requestedReferralId)
-    if (requestedReferral) setSelected(requestedReferral)
-  }, [referrals.data, requestedReferralId, selected?.id])
 
   const filtered = useMemo(() => (referrals.data ?? []).filter((item) => {
     const term = query.toLocaleLowerCase('pt-BR')
@@ -65,16 +58,6 @@ export function ReferralsPage() {
   function submit(event: FormEvent) {
     event.preventDefault()
     createMutation.mutate()
-  }
-
-  function closeSelected() {
-    setSelected(null)
-    setTherapistId(0)
-    setReason('')
-    if (!searchParams.has('encaminhamento')) return
-    const nextParams = new URLSearchParams(searchParams)
-    nextParams.delete('encaminhamento')
-    setSearchParams(nextParams, { replace: true })
   }
 
   const queries = [referrals, indicators, priority, patients, therapists]
@@ -107,7 +90,7 @@ export function ReferralsPage() {
         <label className="field field-wide"><span>Observações</span><textarea value={form.observacoes} onChange={(event) => setForm({ ...form, observacoes: event.target.value })} /></label>
       </div></div><MutationError error={createMutation.error} /><div className="modal-footer"><button type="button" className="secondary-button" onClick={() => setFormOpen(false)}>Cancelar</button><button className="primary-button" disabled={createMutation.isPending || !form.paciente.id}>{createMutation.isPending ? 'Registrando...' : 'Registrar encaminhamento'}</button></div></form></Modal>
 
-      <Modal open={Boolean(selected)} onClose={closeSelected} title={selected ? `Encaminhamento #${selected.id}` : ''} description={selected ? `${selected.pacienteNome || 'Paciente não informado'} • recebido em ${formatDate(selected.dataEntrega)}` : ''} size="large">{selected && <div className="patient-profile"><div className="profile-hero"><span className="profile-avatar">{initials(selected.pacienteNome)}</span><div><StatusBadge>{getStatusEncaminhamentoLabel(selected.statusEncaminhamento)}</StatusBadge><h3>{selected.patologia || 'Patologia não informada'}</h3><p>{getPrioridadeLabel(selected.prioridade)} prioridade • {selected.tipoAtendimento || 'Tipo não informado'}</p></div></div><div className="profile-info-grid"><div><span>Médico solicitante</span><strong>{selected.medicoSolicitante || 'Não informado'}</strong></div><div><span>Responsável</span><strong>{selected.fisioterapeutaResponsavelNome || 'Não atribuído'}</strong></div><div><span>Assunção</span><strong>{formatDate(selected.dataAssuncao)}</strong></div><div><span>Alta</span><strong>{formatDate(selected.dataAlta)}</strong></div></div>
+      <Modal open={Boolean(selected)} onClose={() => setSelected(null)} title={selected ? `Encaminhamento #${selected.id}` : ''} description={selected ? `${selected.pacienteNome || 'Paciente não informado'} • recebido em ${formatDate(selected.dataEntrega)}` : ''} size="large">{selected && <div className="patient-profile"><div className="profile-hero"><span className="profile-avatar">{initials(selected.pacienteNome)}</span><div><StatusBadge>{getStatusEncaminhamentoLabel(selected.statusEncaminhamento)}</StatusBadge><h3>{selected.patologia || 'Patologia não informada'}</h3><p>{getPrioridadeLabel(selected.prioridade)} prioridade • {selected.tipoAtendimento || 'Tipo não informado'}</p></div></div><div className="profile-info-grid"><div><span>Médico solicitante</span><strong>{selected.medicoSolicitante || 'Não informado'}</strong></div><div><span>Responsável</span><strong>{selected.fisioterapeutaResponsavelNome || 'Não atribuído'}</strong></div><div><span>Assunção</span><strong>{formatDate(selected.dataAssuncao)}</strong></div><div><span>Alta</span><strong>{formatDate(selected.dataAlta)}</strong></div></div>
         {selected.statusEncaminhamento === 'NA_FILA' && <div className="form-section"><label className="field"><span>Fisioterapeuta que assumirá o caso</span><select value={therapistId} onChange={(event) => setTherapistId(Number(event.target.value))}><option value={0}>Selecione</option>{therapists.data?.filter((item) => item.ativo).map((item) => <option value={item.id} key={item.id}>{item.nome} • {item.crefito}</option>)}</select></label><button className="primary-button" disabled={!therapistId || actionMutation.isPending} onClick={() => actionMutation.mutate('assume')}>Assumir encaminhamento</button></div>}
         {selected.statusEncaminhamento === 'EM_TRATAMENTO' && <button className="primary-button" disabled={actionMutation.isPending} onClick={() => actionMutation.mutate('discharge')}>Registrar alta terapêutica</button>}
         {!['ALTA', 'RETIRADO_PELO_PACIENTE'].includes(selected.statusEncaminhamento) && <div className="form-section"><label className="field field-wide"><span>Motivo da retirada</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Preencha somente para retirada pelo paciente" /></label><button className="secondary-button" disabled={!reason.trim() || actionMutation.isPending} onClick={() => actionMutation.mutate('withdraw')}>Registrar retirada</button></div>}
