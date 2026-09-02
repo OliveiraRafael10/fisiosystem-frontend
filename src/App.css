@@ -2118,13 +2118,32 @@ body {
 
 .dashboard-queue-item {
   position: relative;
+  width: 100%;
   min-height: 104px;
   padding: 16px 3px;
+  border: 0;
   border-bottom: 1px solid #eaf0ec;
+  color: inherit;
+  background: transparent;
   display: grid;
   grid-template-columns: 54px minmax(190px, 1fr) 130px 105px 106px;
   align-items: center;
   gap: 14px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .18s ease, box-shadow .18s ease;
+}
+
+.dashboard-queue-item:hover {
+  background: #f6faf8;
+  box-shadow: 25px 0 #f6faf8, -25px 0 #f6faf8;
+}
+
+.dashboard-queue-item:focus-visible {
+  z-index: 1;
+  outline: 3px solid rgba(30, 127, 95, .22);
+  outline-offset: -3px;
 }
 
 .dashboard-queue-item:last-child {

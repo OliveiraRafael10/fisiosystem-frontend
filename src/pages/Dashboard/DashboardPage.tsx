@@ -72,13 +72,18 @@ export function DashboardPage() {
             {filteredQueue.map((item) => {
               const waiting = daysWaiting(item.dataEntrega)
               return (
-                <article className={`dashboard-queue-item ${item.prioridade === 'PRIMARIA' ? 'is-primary' : ''}`} key={item.id}>
+                <button
+                  className={`dashboard-queue-item ${item.prioridade === 'PRIMARIA' ? 'is-primary' : ''}`}
+                  key={item.id}
+                  onClick={() => navigate(`/encaminhamentos?status=NA_FILA&encaminhamento=${item.id}`)}
+                  aria-label={`Abrir encaminhamento de ${item.pacienteNome || 'paciente não informado'} para assumir o caso`}
+                >
                   <span className="queue-position">{String(fullQueue.indexOf(item) + 1).padStart(2, '0')}</span>
                   <div className="queue-person"><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'} <i /> {item.tipoAtendimento || 'Tipo não informado'}</p></div>
                   <span className={`queue-priority priority-${priorityTone(item.prioridade)}`}><b>{priorityCode[item.prioridade] ?? '—'}</b>{getPrioridadeLabel(item.prioridade)}</span>
                   <div className="queue-date"><span>Entrada</span><strong>{formatDate(item.dataEntrega)}</strong></div>
                   <div className={`queue-wait ${waiting >= 14 ? 'is-overdue' : ''}`}><strong>{waiting} dias</strong><span>aguardando</span></div>
-                </article>
+                </button>
               )
             })}
             {!filteredQueue.length && <div className="empty-state"><ClipboardPlus size={25} /><strong>Nenhum encaminhamento nesta prioridade</strong><p>Use outro filtro para consultar a fila atual.</p></div>}
@@ -109,7 +114,7 @@ export function DashboardPage() {
       <section className={`dashboard-attention ${attentionReferral ? 'has-attention' : ''}`}>
         <span><AlertTriangle size={20} /></span>
         <div><strong>Requer atenção</strong>{attentionReferral ? <p><b>{attentionReferral.pacienteNome || 'Paciente não informado'}</b> está na fila com prioridade {getPrioridadeLabel(attentionReferral.prioridade).toLocaleLowerCase('pt-BR')} há {daysWaiting(attentionReferral.dataEntrega)} dias.</p> : <p>Nenhuma situação excepcional identificada na fila neste momento.</p>}</div>
-        {attentionReferral && <button onClick={() => navigate('/encaminhamentos?status=NA_FILA')}>Ver encaminhamento <ChevronRight size={16} /></button>}
+        {attentionReferral && <button onClick={() => navigate(`/encaminhamentos?status=NA_FILA&encaminhamento=${attentionReferral.id}`)}>Ver encaminhamento <ChevronRight size={16} /></button>}
       </section>
     </section>
   )
