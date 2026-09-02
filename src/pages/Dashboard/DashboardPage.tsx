@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { StatusBadge } from '../../components/ui/StatusBadge'
-import { daysWaiting, formatDate, getPrioridadeLabel, getStatusConsultaLabel, initials, localDate, priorityTone } from '../../lib/domain'
+import { daysWaiting, formatDate, getPrioridadeLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
@@ -89,9 +88,18 @@ export function DashboardPage() {
         </section>
 
         <aside className="panel dashboard-agenda-panel">
-          <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length} atendimentos programados</p></div></div>
+          <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length === 1 ? '1 atendimento programado' : `${todayAppointments.length} atendimentos programados`}</p></div></div>
           <div className="compact-agenda-list">
-            {todayAppointments.slice(0, 5).map((item) => <article className="compact-agenda-item" key={item.id}><time>{item.dataHora?.slice(11, 16) || '—'}</time><div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><span>{item.fisioterapeutaNome?.split(' ')[0] || 'Profissional não informado'}</span></div><StatusBadge>{getStatusConsultaLabel(item.status)}</StatusBadge></article>)}
+            {todayAppointments.slice(0, 5).map((item) => (
+              <article className="compact-agenda-item" key={item.id}>
+                <time>{item.dataHora?.slice(11, 16) || '—'}</time>
+                <span className="compact-agenda-avatar" aria-hidden="true">{initials(item.pacienteNome)}</span>
+                <div className="compact-agenda-info">
+                  <strong>{item.pacienteNome || 'Paciente não informado'}</strong>
+                  <span>{item.fisioterapeutaNome?.split(' ')[0] || 'Profissional não informado'}</span>
+                </div>
+              </article>
+            ))}
             {!todayAppointments.length && <div className="empty-state compact-empty"><CalendarDays size={24} /><strong>Nenhuma consulta hoje</strong><p>A agenda está livre para novos atendimentos.</p></div>}
           </div>
           <button className="agenda-full-button" onClick={() => navigate('/consultas')}>Ver agenda completa <ChevronRight size={17} /></button>
