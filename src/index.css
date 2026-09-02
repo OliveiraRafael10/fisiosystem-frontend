@@ -2,24 +2,33 @@
 
 :root {
   font-family: 'DM Sans', sans-serif;
-  color: #173334;
-  background: #f3f7f6;
+  color: #18362f;
+  background: #f4f7f3;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #173334;
-  --muted: #718081;
-  --teal: #0c7773;
-  --teal-dark: #075b59;
-  --mint: #dff3ed;
-  --line: #e3eae8;
+  --ink: #18362f;
+  --muted: #6f7f79;
+  --teal: #19745c;
+  --teal-dark: #0d5947;
+  --mint: #dff2e9;
+  --line: #dfe8e2;
   --white: #ffffff;
+  --primary: #19745c;
+  --surface: #ffffff;
+  --border: #dfe8e2;
+  --sidebar: #0d3f34;
+  --sidebar-soft: #155343;
+  --canvas: #f4f7f3;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 14px 40px rgba(28, 65, 53, .07);
 }
 
 * { box-sizing: border-box; }
 html { min-width: 320px; min-height: 100%; }
-body { margin: 0; min-width: 320px; min-height: 100vh; }
-button, input { font: inherit; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--canvas); }
+button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 button:focus-visible, input:focus-visible { outline: 3px solid rgba(12, 119, 115, .22); outline-offset: 2px; }
-

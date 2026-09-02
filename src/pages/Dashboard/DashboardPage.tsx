@@ -32,13 +32,13 @@ export function DashboardPage() {
   return (
     <section className="page-content">
       <PageHeader eyebrow={headerDate} title="Bom dia, Rafa." description="Dados sincronizados com a operação do FisioSystem." actions={<button className="date-button"><CalendarDays size={18} /> Hoje <ChevronRight size={16} /></button>} />
-      <div className="stats-grid">
+      <div className="stats-grid bento-stats">
         <article className="stat-card accent-teal"><div className="stat-top"><span className="stat-icon"><UsersRound /></span><span className="positive">Base atual</span></div><strong>{patients.data?.length ?? 0}</strong><p>Pacientes cadastrados</p><div className="mini-bars"><i /><i /><i /><i /><i /><i /></div></article>
         <article className="stat-card"><div className="stat-top"><span className="stat-icon blue"><CalendarDays /></span><span className="neutral">Hoje</span></div><strong>{todayAppointments.length}</strong><p>Consultas na agenda</p><div className="progress-line"><span style={{ width: `${Math.min(100, todayAppointments.length * 8)}%` }} /></div><small>{todayAppointments.filter((item) => item.status === 'AGENDADA').length} ainda agendadas</small></article>
         <article className="stat-card"><div className="stat-top"><span className="stat-icon orange"><ClipboardPlus /></span><span className="warning">Atenção</span></div><strong>{referralIndicators.data?.naFila ?? 0}</strong><p>Na fila de espera</p><div className="progress-line orange-line"><span style={{ width: `${Math.min(100, (priorityIndicators.data?.primaria ?? 0) * 15)}%` }} /></div><small>{priorityIndicators.data?.primaria ?? 0} com prioridade alta</small></article>
         <article className="stat-card"><div className="stat-top"><span className="stat-icon violet"><Stethoscope /></span><span className="positive">Ativos</span></div><strong>{activeTherapists.length}</strong><p>Fisioterapeutas</p><div className="team-avatars">{activeTherapists.slice(0, 3).map((item) => <span key={item.id}>{initials(item.nome)}</span>)}{activeTherapists.length > 3 && <span>+{activeTherapists.length - 3}</span>}</div></article>
       </div>
-      <div className="dashboard-grid">
+      <div className="dashboard-grid bento-dashboard">
         <section className="panel schedule-panel">
           <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length} atendimentos programados</p></div><button onClick={() => navigate('/consultas')}>Ver agenda completa <ChevronRight size={16} /></button></div>
           <div className="schedule-list">
