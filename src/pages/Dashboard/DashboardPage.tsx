@@ -3,7 +3,7 @@ import { CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } fr
 import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { initials, localDate, prioridadeLabel } from '../../lib/domain'
+import { getPrioridadeLabel, getStatusConsultaLabel, initials, localDate } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
@@ -42,13 +42,13 @@ export function DashboardPage() {
         <section className="panel schedule-panel">
           <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length} atendimentos programados</p></div><button onClick={() => navigate('/consultas')}>Ver agenda completa <ChevronRight size={16} /></button></div>
           <div className="schedule-list">
-            {todayAppointments.slice(0, 4).map((item, index) => <article className="appointment" key={item.id}><div className="time"><strong>{item.dataHora.slice(11, 16)}</strong><span>{item.status === 'AGENDADA' ? 'agendada' : item.status.toLowerCase()}</span></div><span className={`timeline-dot dot-${index}`} /><div className="patient-avatar">{initials(item.pacienteNome)}</div><div className="appointment-info"><strong>{item.pacienteNome}</strong><span>Encaminhamento #{item.encaminhamentoId}</span></div><span className="therapist">{item.fisioterapeutaNome.split(' ')[0]}</span><button className="more-button" onClick={() => navigate('/consultas')}>•••</button></article>)}
+            {todayAppointments.slice(0, 4).map((item, index) => <article className="appointment" key={item.id}><div className="time"><strong>{item.dataHora?.slice(11, 16) || '—'}</strong><span>{getStatusConsultaLabel(item.status).toLocaleLowerCase('pt-BR')}</span></div><span className={`timeline-dot dot-${index}`} /><div className="patient-avatar">{initials(item.pacienteNome)}</div><div className="appointment-info"><strong>{item.pacienteNome || 'Paciente não informado'}</strong><span>Encaminhamento #{item.encaminhamentoId}</span></div><span className="therapist">{item.fisioterapeutaNome?.split(' ')[0] || '—'}</span><button className="more-button" onClick={() => navigate('/consultas')}>•••</button></article>)}
             {!todayAppointments.length && <div className="empty-state"><CalendarDays size={24} /><strong>Nenhuma consulta hoje</strong><p>A agenda está livre para novos atendimentos.</p></div>}
           </div>
         </section>
         <aside className="panel priority-panel">
           <div className="panel-heading"><div><h2>Fila prioritária</h2><p>Ordenada pelo backend</p></div><button className="round-arrow" onClick={() => navigate('/encaminhamentos')}><ChevronRight size={17} /></button></div>
-          {priorityQueue.map((item, index) => index === 0 ? <div className="priority-highlight" key={item.id}><span className="priority-number">01</span><div><span className="danger-label">{prioridadeLabel[item.prioridade].toUpperCase()} PRIORIDADE</span><strong>{item.pacienteNome}</strong><p>{item.patologia} • {item.tipoAtendimento}</p></div></div> : <div className="priority-row" key={item.id}><span>0{index + 1}</span><div><strong>{item.pacienteNome}</strong><p>{item.patologia}</p></div><em>{prioridadeLabel[item.prioridade]}</em></div>)}
+          {priorityQueue.map((item, index) => index === 0 ? <div className="priority-highlight" key={item.id}><span className="priority-number">01</span><div><span className="danger-label">{getPrioridadeLabel(item.prioridade).toUpperCase()} PRIORIDADE</span><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'} • {item.tipoAtendimento || '—'}</p></div></div> : <div className="priority-row" key={item.id}><span>0{index + 1}</span><div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'}</p></div><em>{getPrioridadeLabel(item.prioridade)}</em></div>)}
           {!priorityQueue.length && <div className="empty-state"><ClipboardPlus size={22} /><strong>Fila vazia</strong><p>Não há encaminhamentos aguardando vaga.</p></div>}
           <button className="queue-button" onClick={() => navigate('/encaminhamentos')}>Organizar fila de espera</button>
         </aside>

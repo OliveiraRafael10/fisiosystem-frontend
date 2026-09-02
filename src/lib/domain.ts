@@ -21,7 +21,24 @@ export const prioridadeLabel: Record<Prioridade, string> = {
   TERCIARIA: 'Baixa',
 }
 
-export function initials(name: string) {
+export function getPrioridadeLabel(value?: Prioridade | null) {
+  return value ? prioridadeLabel[value] ?? 'Não definida' : 'Não definida'
+}
+
+export function getStatusEncaminhamentoLabel(value?: StatusEncaminhamento | null) {
+  return value ? statusEncaminhamentoLabel[value] ?? 'Não informado' : 'Não informado'
+}
+
+export function getStatusConsultaLabel(value?: StatusConsulta | null) {
+  return value ? statusConsultaLabel[value] ?? 'Não informado' : 'Não informado'
+}
+
+export function priorityTone(value?: Prioridade | null) {
+  return getPrioridadeLabel(value).toLocaleLowerCase('pt-BR').replace('é', 'e').replace('ã', 'a').replace(' ', '-')
+}
+
+export function initials(name?: string | null) {
+  if (!name) return '—'
   return name.split(' ').filter(Boolean).map((part) => part[0]).slice(0, 2).join('').toUpperCase()
 }
 
@@ -30,7 +47,8 @@ export function formatDate(value?: string | null) {
   return new Date(`${value}T12:00:00`).toLocaleDateString('pt-BR')
 }
 
-export function formatDateTime(value: string) {
+export function formatDateTime(value?: string | null) {
+  if (!value) return 'Data não informada'
   return new Date(value).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })
 }
 
@@ -39,6 +57,7 @@ export function localDate(date = new Date()) {
   return new Date(date.getTime() - offset).toISOString().slice(0, 10)
 }
 
-export function daysWaiting(start: string) {
+export function daysWaiting(start?: string | null) {
+  if (!start) return 0
   return Math.max(0, Math.floor((Date.now() - new Date(`${start}T12:00:00`).getTime()) / 86400000))
 }
