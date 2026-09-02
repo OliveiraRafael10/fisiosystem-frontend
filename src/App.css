@@ -1680,3 +1680,306 @@ body {
   .chart-heading h2,
   .agenda-header h2 { font-size: 18px; }
 }
+
+body {
+  font-size: 18px;
+}
+
+.main-content :where(p, span, small, em, button, input, select, textarea, th, td, label) {
+  font-size: 16px;
+}
+
+.topbar {
+  height: 84px;
+}
+
+.nav-item {
+  height: 52px;
+}
+
+.nav-item span:nth-child(2) {
+  font-size: 17px;
+}
+
+.nav-label,
+.eyebrow {
+  font-size: 14px !important;
+}
+
+.sidebar-card strong,
+.profile-mini strong {
+  font-size: 16px;
+}
+
+.sidebar-card small,
+.profile-mini small,
+.global-search kbd {
+  font-size: 14px;
+}
+
+.page-heading h1 {
+  font-size: clamp(36px, 3.4vw, 46px);
+}
+
+.page-heading p {
+  font-size: 18px;
+}
+
+.primary-button,
+.secondary-button,
+.date-button,
+.text-button,
+.global-search input {
+  font-size: 16px;
+}
+
+.primary-button,
+.secondary-button,
+.date-button {
+  min-height: 48px;
+}
+
+.stat-card {
+  min-height: 218px;
+  padding: 25px;
+}
+
+.stat-card > strong {
+  font-size: 40px;
+}
+
+.stat-card > p {
+  font-size: 19px;
+}
+
+.stat-card > small {
+  font-size: 16px;
+}
+
+.positive,
+.neutral,
+.warning,
+.status-badge,
+.priority-pill,
+.protocol {
+  font-size: 13px;
+}
+
+.panel-heading,
+.agenda-header {
+  min-height: 100px;
+}
+
+.panel-heading h2,
+.chart-heading h2,
+.agenda-header h2 {
+  font-size: 23px;
+}
+
+.panel-heading p,
+.chart-heading p,
+.agenda-header p,
+.panel-heading > button {
+  font-size: 16px;
+}
+
+.appointment {
+  min-height: 96px;
+}
+
+.time strong,
+.appointment-info strong,
+.priority-highlight strong,
+.priority-row strong,
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong {
+  font-size: 17px;
+}
+
+.time span,
+.appointment-info span,
+.therapist,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.danger-label,
+.wait-time,
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span {
+  font-size: 15px;
+}
+
+.patient-avatar {
+  font-size: 15px;
+}
+
+.priority-number,
+.priority-row > span {
+  font-size: 20px;
+}
+
+.queue-button,
+.insight-strip p,
+.insight-strip button,
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p {
+  font-size: 16px;
+}
+
+.insight-strip strong,
+.list-summary span {
+  font-size: 17px;
+}
+
+.list-summary strong,
+.metric-row article strong,
+.report-kpis article > strong {
+  font-size: 32px;
+}
+
+.metric-row article em {
+  font-size: 14px;
+}
+
+.table-toolbar {
+  min-height: 88px;
+}
+
+.table-search,
+.field input,
+.field select {
+  min-height: 50px;
+}
+
+.table-search input,
+.filter-tabs button {
+  font-size: 16px;
+}
+
+.data-table th {
+  font-size: 14px;
+}
+
+.data-table td,
+.person-cell strong {
+  font-size: 17px;
+}
+
+.person-cell small,
+.mono-text,
+.table-footer {
+  font-size: 15px;
+}
+
+.empty-state strong,
+.form-section-title strong,
+.profile-section-heading strong,
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong {
+  font-size: 18px;
+}
+
+.empty-state p,
+.form-section-title small,
+.profile-section-heading small,
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p {
+  font-size: 16px;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+}
+
+.modal-header p,
+.field > span,
+.report-date-fields .field span,
+.form-error,
+.form-section p {
+  font-size: 16px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-size: 17px;
+}
+
+.profile-hero h3 {
+  font-size: 26px;
+}
+
+.calendar-navigation strong,
+.team-summary strong,
+.therapist-name h2,
+.donut-center strong {
+  font-size: 21px;
+}
+
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i,
+.capacity-badge,
+.overview-line,
+.next-slot p,
+.next-slot small,
+.next-slot button,
+.team-summary p,
+.team-capacity > span,
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button,
+.add-therapist-card p,
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p,
+.donut-center span,
+.reports-library p,
+.report-file strong,
+.report-file span,
+.notification-popover button small {
+  font-size: 15px;
+}
+
+.next-slot strong,
+.add-therapist-card strong,
+.reports-library h2,
+.notification-popover > div span,
+.notification-popover button strong {
+  font-size: 17px;
+}
+
+.recharts-text {
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  body { font-size: 17px; }
+  .main-content :where(p, span, small, em, button, input, select, textarea, th, td, label) { font-size: 15px; }
+  .page-heading h1 { font-size: 34px; }
+  .page-heading p { font-size: 17px; }
+  .stat-card > p { font-size: 18px; }
+  .data-table td { font-size: 16px; }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 { font-size: 21px; }
+}
+
+@media (max-width: 440px) {
+  .topbar-actions .primary-button,
+  .page-primary,
+  .panel-heading > button:not(.round-arrow) {
+    font-size: 0;
+  }
+}
