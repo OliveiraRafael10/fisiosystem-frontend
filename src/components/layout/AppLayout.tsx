@@ -1,7 +1,6 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Activity,
-  Bell,
   CalendarDays,
   ChevronRight,
   ClipboardPlus,
@@ -9,9 +8,7 @@ import {
   HeartPulse,
   LayoutDashboard,
   Menu,
-  Search,
   Stethoscope,
-  UserRoundPlus,
   UsersRound,
   X,
 } from 'lucide-react'
@@ -47,12 +44,9 @@ export function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const [search, setSearch] = useState('')
 
   useEffect(() => {
     setMobileOpen(false)
-    setNotificationsOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
 
@@ -104,17 +98,6 @@ export function AppLayout() {
     return () => lifecycle.abort()
   }, [navigate])
 
-  function submitSearch(event: FormEvent) {
-    event.preventDefault()
-    if (!search.trim()) return
-    navigate(`/pacientes?busca=${encodeURIComponent(search.trim())}`)
-  }
-
-  function openPatientForm() {
-    navigate('/pacientes')
-    window.setTimeout(() => window.dispatchEvent(new CustomEvent('fisio:new-patient')), 50)
-  }
-
   return (
     <div className="app-shell">
       {mobileOpen && <button className="sidebar-backdrop" aria-label="Fechar menu" onClick={() => setMobileOpen(false)} />}
@@ -154,27 +137,7 @@ export function AppLayout() {
       </aside>
 
       <main className="main-content">
-        <header className="topbar">
-          <button className="mobile-menu" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}><Menu size={21} /></button>
-          <form className="global-search" onSubmit={submitSearch}>
-            <Search size={18} />
-            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar paciente, CPF ou encaminhamento..." aria-label="Busca global" />
-            <kbd>Enter</kbd>
-          </form>
-          <div className="topbar-actions">
-            <div className="notification-wrap">
-              <button className="icon-button" aria-label="Notificações" onClick={() => setNotificationsOpen((open) => !open)}><Bell size={19} /><span /></button>
-              {notificationsOpen && (
-                <div className="notification-popover">
-                  <div><strong>Central do sistema</strong><span>Integração ativa</span></div>
-                  <button><i className="notice-dot success" /><span><strong>Dados sincronizados</strong><small>As telas consultam diretamente a API Spring.</small></span></button>
-                  <button><i className="notice-dot" /><span><strong>Atualização automática</strong><small>Alterações invalidam e recarregam os dados relacionados.</small></span></button>
-                </div>
-              )}
-            </div>
-            <button className="primary-button" onClick={openPatientForm}><UserRoundPlus size={18} /> Novo paciente</button>
-          </div>
-        </header>
+        <button className="mobile-menu mobile-menu-floating" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}><Menu size={23} /></button>
         <Outlet />
       </main>
     </div>

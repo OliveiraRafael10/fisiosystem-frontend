@@ -2470,3 +2470,24 @@ body {
   .dashboard-attention { grid-template-columns: 42px minmax(0, 1fr); }
   .dashboard-attention button { grid-column: 2; justify-self: start; }
 }
+
+.mobile-menu-floating {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-floating {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 18;
+    display: grid;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 10px 28px rgba(24, 64, 51, .15);
+    backdrop-filter: blur(14px);
+  }
+
+  .main-content > .page-content {
+    padding-top: 82px;
+  }
+}
