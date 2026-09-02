@@ -96,7 +96,7 @@ export function DashboardPage() {
                 <span className="compact-agenda-avatar" aria-hidden="true">{initials(item.pacienteNome)}</span>
                 <div className="compact-agenda-info">
                   <strong>{item.pacienteNome || 'Paciente não informado'}</strong>
-                  <span>{item.fisioterapeutaNome?.split(' ')[0] || 'Profissional não informado'}</span>
+                  <span>Fisioterapeuta: {item.fisioterapeutaNome || 'Não informado'}</span>
                 </div>
               </article>
             ))}
