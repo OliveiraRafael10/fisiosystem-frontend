@@ -1,16 +1,28 @@
 import { useQuery } from '@tanstack/react-query'
-import { CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
+import { Activity, AlertTriangle, CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { getPrioridadeLabel, getStatusConsultaLabel, initials, localDate } from '../../lib/domain'
+import { StatusBadge } from '../../components/ui/StatusBadge'
+import { daysWaiting, formatDate, getPrioridadeLabel, getStatusConsultaLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
 import { therapistService } from '../../services/therapistService'
+import type { Prioridade } from '../../types'
+
+type QueueFilter = 'TODOS' | Prioridade
+
+const priorityCode: Record<Prioridade, string> = {
+  PRIMARIA: 'P1',
+  SECUNDARIA: 'P2',
+  TERCIARIA: 'P3',
+}
 
 export function DashboardPage() {
   const navigate = useNavigate()
+  const [queueFilter, setQueueFilter] = useState<QueueFilter>('TODOS')
   const today = localDate()
   const patients = useQuery({ queryKey: ['patients'], queryFn: patientService.list })
   const therapists = useQuery({ queryKey: ['therapists'], queryFn: therapistService.list })
@@ -26,33 +38,71 @@ export function DashboardPage() {
 
   const activeTherapists = therapists.data?.filter((item) => item.ativo) ?? []
   const todayAppointments = appointments.data ?? []
-  const priorityQueue = (queue.data ?? []).slice(0, 3)
+  const fullQueue = queue.data ?? []
+  const filteredQueue = fullQueue.filter((item) => queueFilter === 'TODOS' || item.prioridade === queueFilter).slice(0, 5)
+  const primaryCount = priorityIndicators.data?.primaria ?? 0
+  const attentionReferral = fullQueue.find((item) => item.prioridade === 'PRIMARIA' && daysWaiting(item.dataEntrega) >= 14)
+    ?? fullQueue.find((item) => daysWaiting(item.dataEntrega) >= 30)
   const headerDate = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()
 
   return (
-    <section className="page-content">
-      <PageHeader eyebrow={headerDate} title="Bom dia, Rafa." description="Dados sincronizados com a operação do FisioSystem." actions={<button className="date-button"><CalendarDays size={18} /> Hoje <ChevronRight size={16} /></button>} />
-      <div className="stats-grid bento-stats">
-        <article className="stat-card accent-teal"><div className="stat-top"><span className="stat-icon"><UsersRound /></span><span className="positive">Base atual</span></div><strong>{patients.data?.length ?? 0}</strong><p>Pacientes cadastrados</p><div className="mini-bars"><i /><i /><i /><i /><i /><i /></div></article>
-        <article className="stat-card"><div className="stat-top"><span className="stat-icon blue"><CalendarDays /></span><span className="neutral">Hoje</span></div><strong>{todayAppointments.length}</strong><p>Consultas na agenda</p><div className="progress-line"><span style={{ width: `${Math.min(100, todayAppointments.length * 8)}%` }} /></div><small>{todayAppointments.filter((item) => item.status === 'AGENDADA').length} ainda agendadas</small></article>
-        <article className="stat-card"><div className="stat-top"><span className="stat-icon orange"><ClipboardPlus /></span><span className="warning">Atenção</span></div><strong>{referralIndicators.data?.naFila ?? 0}</strong><p>Na fila de espera</p><div className="progress-line orange-line"><span style={{ width: `${Math.min(100, (priorityIndicators.data?.primaria ?? 0) * 15)}%` }} /></div><small>{priorityIndicators.data?.primaria ?? 0} com prioridade alta</small></article>
-        <article className="stat-card"><div className="stat-top"><span className="stat-icon violet"><Stethoscope /></span><span className="positive">Ativos</span></div><strong>{activeTherapists.length}</strong><p>Fisioterapeutas</p><div className="team-avatars">{activeTherapists.slice(0, 3).map((item) => <span key={item.id}>{initials(item.nome)}</span>)}{activeTherapists.length > 3 && <span>+{activeTherapists.length - 3}</span>}</div></article>
+    <section className="page-content dashboard-page">
+      <PageHeader eyebrow={headerDate} title="Bom dia, Rafa." description="Prioridades da unidade e próximos atendimentos em uma visão operacional." actions={<button className="date-button"><CalendarDays size={18} /> Hoje <ChevronRight size={16} /></button>} />
+
+      <div className="stats-grid dashboard-stat-grid">
+        <button className="stat-card accent-teal dashboard-stat-button" onClick={() => navigate('/pacientes')}><div className="stat-top"><span className="stat-icon"><UsersRound /></span><span className="positive">Base atual</span></div><strong>{patients.data?.length ?? 0}</strong><p>Pacientes cadastrados</p><small>Acessar prontuários</small></button>
+        <button className="stat-card dashboard-stat-button" onClick={() => navigate('/consultas')}><div className="stat-top"><span className="stat-icon blue"><CalendarDays /></span><span className="neutral">Hoje</span></div><strong>{todayAppointments.length}</strong><p>Consultas hoje</p><small>{todayAppointments.filter((item) => item.status === 'AGENDADA').length} ainda agendadas</small></button>
+        <button className="stat-card dashboard-stat-button queue-stat-card" onClick={() => navigate('/encaminhamentos?status=NA_FILA')}><div className="stat-top"><span className="stat-icon orange"><ClipboardPlus /></span><span className="warning">{primaryCount ? 'Requer atenção' : 'Fila atual'}</span></div><strong>{referralIndicators.data?.naFila ?? 0}</strong><p>Na fila de espera</p><small>{primaryCount} com prioridade primária</small></button>
+        <button className="stat-card dashboard-stat-button" onClick={() => navigate('/encaminhamentos?status=EM_TRATAMENTO')}><div className="stat-top"><span className="stat-icon mint"><Activity /></span><span className="positive">Em curso</span></div><strong>{referralIndicators.data?.emTratamento ?? 0}</strong><p>Em tratamento</p><small>{referralIndicators.data?.assumidos ?? 0} casos assumidos</small></button>
+        <button className="stat-card dashboard-stat-button" onClick={() => navigate('/fisioterapeutas?status=ativos')}><div className="stat-top"><span className="stat-icon violet"><Stethoscope /></span><span className="positive">Ativos</span></div><strong>{activeTherapists.length}</strong><p>Fisioterapeutas ativos</p><div className="team-avatars">{activeTherapists.slice(0, 3).map((item) => <span key={item.id}>{initials(item.nome)}</span>)}{activeTherapists.length > 3 && <span>+{activeTherapists.length - 3}</span>}</div></button>
       </div>
-      <div className="dashboard-grid bento-dashboard">
-        <section className="panel schedule-panel">
-          <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length} atendimentos programados</p></div><button onClick={() => navigate('/consultas')}>Ver agenda completa <ChevronRight size={16} /></button></div>
-          <div className="schedule-list">
-            {todayAppointments.slice(0, 4).map((item, index) => <article className="appointment" key={item.id}><div className="time"><strong>{item.dataHora?.slice(11, 16) || '—'}</strong><span>{getStatusConsultaLabel(item.status).toLocaleLowerCase('pt-BR')}</span></div><span className={`timeline-dot dot-${index}`} /><div className="patient-avatar">{initials(item.pacienteNome)}</div><div className="appointment-info"><strong>{item.pacienteNome || 'Paciente não informado'}</strong><span>Encaminhamento #{item.encaminhamentoId}</span></div><span className="therapist">{item.fisioterapeutaNome?.split(' ')[0] || '—'}</span><button className="more-button" onClick={() => navigate('/consultas')}>•••</button></article>)}
-            {!todayAppointments.length && <div className="empty-state"><CalendarDays size={24} /><strong>Nenhuma consulta hoje</strong><p>A agenda está livre para novos atendimentos.</p></div>}
+
+      <div className="operational-dashboard">
+        <section className="panel dashboard-queue-panel">
+          <header className="queue-panel-heading">
+            <div className="queue-heading-top">
+              <div><h2>Fila de encaminhamentos</h2><p>Ordenada por prioridade e tempo de espera</p></div>
+              <strong>{referralIndicators.data?.naFila ?? 0} aguardando <i /> {primaryCount} prioritários</strong>
+            </div>
+            <div className="queue-filter-tabs" aria-label="Filtrar fila por prioridade">
+              {([['TODOS', 'Todos'], ['PRIMARIA', 'Primária'], ['SECUNDARIA', 'Secundária'], ['TERCIARIA', 'Terciária']] as const).map(([value, label]) => <button className={queueFilter === value ? 'selected' : ''} onClick={() => setQueueFilter(value)} key={value}>{label}</button>)}
+            </div>
+          </header>
+
+          <div className="dashboard-queue-list">
+            {filteredQueue.map((item) => {
+              const waiting = daysWaiting(item.dataEntrega)
+              return (
+                <article className={`dashboard-queue-item ${item.prioridade === 'PRIMARIA' ? 'is-primary' : ''}`} key={item.id}>
+                  <span className="queue-position">{String(fullQueue.indexOf(item) + 1).padStart(2, '0')}</span>
+                  <div className="queue-person"><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'} <i /> {item.tipoAtendimento || 'Tipo não informado'}</p></div>
+                  <span className={`queue-priority priority-${priorityTone(item.prioridade)}`}><b>{priorityCode[item.prioridade] ?? '—'}</b>{getPrioridadeLabel(item.prioridade)}</span>
+                  <div className="queue-date"><span>Entrada</span><strong>{formatDate(item.dataEntrega)}</strong></div>
+                  <div className={`queue-wait ${waiting >= 14 ? 'is-overdue' : ''}`}><strong>{waiting} dias</strong><span>aguardando</span></div>
+                </article>
+              )
+            })}
+            {!filteredQueue.length && <div className="empty-state"><ClipboardPlus size={25} /><strong>Nenhum encaminhamento nesta prioridade</strong><p>Use outro filtro para consultar a fila atual.</p></div>}
           </div>
+
+          <footer className="queue-panel-footer"><span>Exibindo {filteredQueue.length} de {fullQueue.length} encaminhamentos</span><button onClick={() => navigate('/encaminhamentos?status=NA_FILA')}>Ver fila completa <ChevronRight size={17} /></button></footer>
         </section>
-        <aside className="panel priority-panel">
-          <div className="panel-heading"><div><h2>Fila prioritária</h2><p>Ordenada pelo backend</p></div><button className="round-arrow" onClick={() => navigate('/encaminhamentos')}><ChevronRight size={17} /></button></div>
-          {priorityQueue.map((item, index) => index === 0 ? <div className="priority-highlight" key={item.id}><span className="priority-number">01</span><div><span className="danger-label">{getPrioridadeLabel(item.prioridade).toUpperCase()} PRIORIDADE</span><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'} • {item.tipoAtendimento || '—'}</p></div></div> : <div className="priority-row" key={item.id}><span>0{index + 1}</span><div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.patologia || 'Patologia não informada'}</p></div><em>{getPrioridadeLabel(item.prioridade)}</em></div>)}
-          {!priorityQueue.length && <div className="empty-state"><ClipboardPlus size={22} /><strong>Fila vazia</strong><p>Não há encaminhamentos aguardando vaga.</p></div>}
-          <button className="queue-button" onClick={() => navigate('/encaminhamentos')}>Organizar fila de espera</button>
+
+        <aside className="panel dashboard-agenda-panel">
+          <div className="panel-heading"><div><h2>Agenda de hoje</h2><p>{todayAppointments.length} atendimentos programados</p></div></div>
+          <div className="compact-agenda-list">
+            {todayAppointments.slice(0, 5).map((item) => <article className="compact-agenda-item" key={item.id}><time>{item.dataHora?.slice(11, 16) || '—'}</time><div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><span>{item.fisioterapeutaNome?.split(' ')[0] || 'Profissional não informado'}</span></div><StatusBadge>{getStatusConsultaLabel(item.status)}</StatusBadge></article>)}
+            {!todayAppointments.length && <div className="empty-state compact-empty"><CalendarDays size={24} /><strong>Nenhuma consulta hoje</strong><p>A agenda está livre para novos atendimentos.</p></div>}
+          </div>
+          <button className="agenda-full-button" onClick={() => navigate('/consultas')}>Ver agenda completa <ChevronRight size={17} /></button>
         </aside>
       </div>
+
+      <section className={`dashboard-attention ${attentionReferral ? 'has-attention' : ''}`}>
+        <span><AlertTriangle size={20} /></span>
+        <div><strong>Requer atenção</strong>{attentionReferral ? <p><b>{attentionReferral.pacienteNome || 'Paciente não informado'}</b> está na fila com prioridade {getPrioridadeLabel(attentionReferral.prioridade).toLocaleLowerCase('pt-BR')} há {daysWaiting(attentionReferral.dataEntrega)} dias.</p> : <p>Nenhuma situação excepcional identificada na fila neste momento.</p>}</div>
+        {attentionReferral && <button onClick={() => navigate('/encaminhamentos?status=NA_FILA')}>Ver encaminhamento <ChevronRight size={16} /></button>}
+      </section>
     </section>
   )
 }

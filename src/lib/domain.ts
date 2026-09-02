@@ -16,9 +16,9 @@ export const statusConsultaLabel: Record<StatusConsulta, string> = {
 }
 
 export const prioridadeLabel: Record<Prioridade, string> = {
-  PRIMARIA: 'Alta',
-  SECUNDARIA: 'Média',
-  TERCIARIA: 'Baixa',
+  PRIMARIA: 'Primária',
+  SECUNDARIA: 'Secundária',
+  TERCIARIA: 'Terciária',
 }
 
 export function getPrioridadeLabel(value?: Prioridade | null) {
@@ -34,7 +34,10 @@ export function getStatusConsultaLabel(value?: StatusConsulta | null) {
 }
 
 export function priorityTone(value?: Prioridade | null) {
-  return getPrioridadeLabel(value).toLocaleLowerCase('pt-BR').replace('é', 'e').replace('ã', 'a').replace(' ', '-')
+  if (value === 'PRIMARIA') return 'primaria'
+  if (value === 'SECUNDARIA') return 'secundaria'
+  if (value === 'TERCIARIA') return 'terciaria'
+  return 'indefinida'
 }
 
 export function initials(name?: string | null) {

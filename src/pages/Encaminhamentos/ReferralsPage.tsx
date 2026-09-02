@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ArrowUpRight, Building2, ClipboardCheck, Clock3, MoreHorizontal, Plus, Search, Siren } from 'lucide-react'
 import { useMemo, useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
@@ -15,8 +16,10 @@ const emptyReferral: EncaminhamentoInput = { dataEntrega: localDate(), paciente:
 
 export function ReferralsPage() {
   const queryClient = useQueryClient()
+  const [searchParams] = useSearchParams()
+  const requestedStatus = searchParams.get('status')
   const [query, setQuery] = useState('')
-  const [status, setStatus] = useState<'TODOS' | StatusEncaminhamento>('TODOS')
+  const [status, setStatus] = useState<'TODOS' | StatusEncaminhamento>(() => ['NA_FILA', 'ASSUMIDO', 'EM_TRATAMENTO', 'ALTA', 'RETIRADO_PELO_PACIENTE'].includes(requestedStatus ?? '') ? requestedStatus as StatusEncaminhamento : 'TODOS')
   const [formOpen, setFormOpen] = useState(false)
   const [form, setForm] = useState<EncaminhamentoInput>(emptyReferral)
   const [selected, setSelected] = useState<Encaminhamento | null>(null)
@@ -63,7 +66,7 @@ export function ReferralsPage() {
       <PageHeader eyebrow="REGULAÇÃO" title="Encaminhamentos" description="Fila, prioridades e transições controladas pelas regras do Spring." actions={<button className="primary-button page-primary" onClick={() => { createMutation.reset(); setFormOpen(true) }}><Plus size={18} /> Novo encaminhamento</button>} />
       <div className="metric-row">
         <article><span className="metric-icon peach"><Clock3 /></span><div><strong>{indicators.data?.naFila ?? 0}</strong><p>Aguardando vaga</p></div><em>Fila atual</em></article>
-        <article><span className="metric-icon red"><Siren /></span><div><strong>{priority.data?.primaria ?? 0}</strong><p>Prioridade alta</p></div><em>Requer atenção</em></article>
+        <article><span className="metric-icon red"><Siren /></span><div><strong>{priority.data?.primaria ?? 0}</strong><p>Prioridade primária</p></div><em>Requer atenção</em></article>
         <article><span className="metric-icon mint"><ClipboardCheck /></span><div><strong>{indicators.data?.emTratamento ?? 0}</strong><p>Em tratamento</p></div><em>{indicators.data?.assumidos ?? 0} assumidos</em></article>
         <article><span className="metric-icon blue"><Building2 /></span><div><strong>{indicators.data?.altas ?? 0}</strong><p>Altas registradas</p></div><em>{indicators.data?.total ?? 0} no total</em></article>
       </div>

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CalendarCheck, MoreHorizontal, Phone, Plus, Search, UsersRound } from 'lucide-react'
 import { useMemo, useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
@@ -14,8 +15,9 @@ const emptyForm = { nome: '', crefito: '', telefone: '' }
 
 export function TherapistsPage() {
   const queryClient = useQueryClient()
+  const [searchParams] = useSearchParams()
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<'todos' | 'ativos' | 'inativos'>('todos')
+  const [filter, setFilter] = useState<'todos' | 'ativos' | 'inativos'>(() => searchParams.get('status') === 'ativos' ? 'ativos' : searchParams.get('status') === 'inativos' ? 'inativos' : 'todos')
   const [formOpen, setFormOpen] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [selected, setSelected] = useState<Fisioterapeuta | null>(null)
