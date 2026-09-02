@@ -1519,3 +1519,164 @@ body {
   .chart-heading h2,
   .agenda-header h2 { font-size: 16px; }
 }
+
+body {
+  font-size: 17px;
+}
+
+.nav-item span:nth-child(2) { font-size: 16px; }
+.nav-label { font-size: 12px; }
+.sidebar-card strong,
+.profile-mini strong { font-size: 15px; }
+.sidebar-card small,
+.profile-mini small { font-size: 13px; }
+
+.global-search input,
+.primary-button { font-size: 15px; }
+.global-search kbd { font-size: 12px; }
+.page-heading p { font-size: 17px; }
+.eyebrow { font-size: 13px !important; }
+.date-button,
+.secondary-button,
+.text-button { font-size: 15px; }
+
+.positive,
+.neutral,
+.warning { font-size: 12px; }
+.stat-card > p { font-size: 17px; }
+.stat-card > small { font-size: 14px; }
+
+.panel-heading h2,
+.chart-heading h2 { font-size: 20px; }
+.panel-heading p,
+.chart-heading p,
+.panel-heading > button { font-size: 14px; }
+
+.time strong { font-size: 16px; }
+.time span,
+.appointment-info span,
+.therapist { font-size: 13px; }
+.appointment-info strong { font-size: 15px; }
+.patient-avatar { font-size: 13px; }
+
+.danger-label,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.wait-time { font-size: 12px; }
+.priority-highlight strong,
+.priority-row strong { font-size: 14px; }
+.priority-number,
+.priority-row > span { font-size: 17px; }
+.queue-button { font-size: 14px; }
+
+.insight-strip strong { font-size: 15px; }
+.insight-strip p,
+.insight-strip button { font-size: 14px; }
+.list-summary span { font-size: 15px; }
+
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p { font-size: 14px; }
+.metric-row article em { font-size: 12px; }
+
+.table-search input { font-size: 15px; }
+.filter-tabs button { font-size: 13px; }
+.data-table th { font-size: 12px; }
+.data-table td { font-size: 15px; }
+.person-cell strong { font-size: 15px; }
+.person-cell small,
+.mono-text { font-size: 13px; }
+.status-badge,
+.priority-pill,
+.protocol { font-size: 11px; }
+.table-footer { font-size: 14px; }
+
+.empty-state strong { font-size: 17px; }
+.empty-state p { font-size: 15px; }
+.success-toast strong { font-size: 14px; }
+.success-toast small { font-size: 12px; }
+
+.form-section-title strong,
+.profile-section-heading strong { font-size: 17px; }
+.form-section-title small,
+.profile-section-heading small { font-size: 14px; }
+.field > span,
+.report-date-fields .field span { font-size: 14px; }
+.field input,
+.field select,
+.field textarea { font-size: 16px; }
+.form-error,
+.form-section p { font-size: 15px; }
+
+.profile-hero h3 { font-size: 23px; }
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p { font-size: 14px; }
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong { font-size: 16px; }
+
+.calendar-navigation strong { font-size: 16px; }
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i { font-size: 13px; }
+.agenda-header h2 { font-size: 20px; }
+.agenda-header p,
+.capacity-badge { font-size: 14px; }
+
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong { font-size: 16px; }
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span,
+.overview-line,
+.next-slot p { font-size: 13px; }
+.next-slot small { font-size: 12px; }
+.next-slot strong { font-size: 15px; }
+.next-slot button { font-size: 14px; }
+
+.team-summary strong { font-size: 18px; }
+.team-summary p,
+.team-capacity > span { font-size: 14px; }
+.therapist-name h2 { font-size: 19px; }
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button { font-size: 14px; }
+.add-therapist-card strong { font-size: 16px; }
+.add-therapist-card p { font-size: 14px; }
+
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p { font-size: 13px; }
+.donut-center strong { font-size: 20px; }
+.donut-center span { font-size: 12px; }
+.reports-library h2 { font-size: 16px; }
+.reports-library p,
+.report-file strong,
+.report-file span { font-size: 13px; }
+.recharts-text { font-size: 14px; }
+
+.notification-popover > div strong { font-size: 18px; }
+.notification-popover > div span,
+.notification-popover button strong { font-size: 14px; }
+.notification-popover button small { font-size: 13px; }
+.api-state,
+.route-loading strong { font-size: 16px; }
+
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  .page-heading p { font-size: 15px; }
+  .stat-card > p { font-size: 16px; }
+  .data-table td { font-size: 14px; }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 { font-size: 18px; }
+}
