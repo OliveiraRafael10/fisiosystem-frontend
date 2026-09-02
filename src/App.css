@@ -1154,3 +1154,368 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .data-table { min-width: 760px; }
   .modal-card { border-radius: 24px 24px 0 0; }
 }
+
+body {
+  font-size: 16px;
+}
+
+.nav-label {
+  font-size: 11px;
+}
+
+.nav-item span:nth-child(2) {
+  font-size: 15px;
+}
+
+.sidebar-card strong,
+.profile-mini strong {
+  font-size: 14px;
+}
+
+.sidebar-card small,
+.profile-mini small {
+  font-size: 12px;
+}
+
+.global-search input,
+.primary-button {
+  font-size: 14px;
+}
+
+.global-search kbd {
+  font-size: 11px;
+}
+
+.page-heading p {
+  font-size: 15px;
+}
+
+.eyebrow {
+  font-size: 12px !important;
+}
+
+.date-button,
+.secondary-button,
+.text-button {
+  font-size: 13px;
+}
+
+.positive,
+.neutral,
+.warning {
+  font-size: 11px;
+}
+
+.stat-card > p {
+  font-size: 15px;
+}
+
+.stat-card > small {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.panel-heading h2,
+.chart-heading h2 {
+  font-size: 18px;
+}
+
+.panel-heading p,
+.chart-heading p,
+.panel-heading > button {
+  font-size: 13px;
+}
+
+.time strong {
+  font-size: 15px;
+}
+
+.time span,
+.appointment-info span,
+.therapist {
+  font-size: 12px;
+}
+
+.appointment-info strong {
+  font-size: 14px;
+}
+
+.patient-avatar {
+  font-size: 12px;
+}
+
+.danger-label,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.wait-time {
+  font-size: 11px;
+}
+
+.priority-highlight strong,
+.priority-row strong {
+  font-size: 13px;
+}
+
+.priority-number,
+.priority-row > span {
+  font-size: 16px;
+}
+
+.queue-button {
+  font-size: 13px;
+}
+
+.insight-strip strong {
+  font-size: 14px;
+}
+
+.insight-strip p,
+.insight-strip button {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.list-summary span {
+  font-size: 13px;
+}
+
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p {
+  font-size: 12px;
+}
+
+.metric-row article em {
+  font-size: 10px;
+}
+
+.table-search input {
+  font-size: 14px;
+}
+
+.filter-tabs button {
+  font-size: 12px;
+}
+
+.data-table th {
+  font-size: 11px;
+  letter-spacing: .7px;
+}
+
+.data-table td {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.person-cell strong {
+  font-size: 14px;
+}
+
+.person-cell small,
+.mono-text {
+  font-size: 11px;
+}
+
+.status-badge,
+.priority-pill,
+.protocol {
+  font-size: 10px;
+}
+
+.table-footer {
+  font-size: 12px;
+}
+
+.empty-state strong {
+  font-size: 15px;
+}
+
+.empty-state p {
+  font-size: 13px;
+}
+
+.success-toast strong {
+  font-size: 13px;
+}
+
+.success-toast small {
+  font-size: 11px;
+}
+
+.form-section-title strong,
+.profile-section-heading strong {
+  font-size: 15px;
+}
+
+.form-section-title small,
+.profile-section-heading small {
+  font-size: 12px;
+}
+
+.field > span,
+.report-date-fields .field span {
+  font-size: 12px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-size: 14px;
+}
+
+.form-error,
+.form-section p {
+  font-size: 13px;
+}
+
+.profile-hero h3 {
+  font-size: 21px;
+}
+
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p {
+  font-size: 12px;
+}
+
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong {
+  font-size: 14px;
+}
+
+.calendar-navigation strong {
+  font-size: 14px;
+}
+
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i {
+  font-size: 11px;
+}
+
+.agenda-header h2 {
+  font-size: 18px;
+}
+
+.agenda-header p,
+.capacity-badge {
+  font-size: 12px;
+}
+
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong {
+  font-size: 14px;
+}
+
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span,
+.overview-line,
+.next-slot p {
+  font-size: 11px;
+}
+
+.next-slot small {
+  font-size: 10px;
+}
+
+.next-slot strong {
+  font-size: 13px;
+}
+
+.next-slot button {
+  font-size: 12px;
+}
+
+.team-summary strong {
+  font-size: 16px;
+}
+
+.team-summary p,
+.team-capacity > span {
+  font-size: 12px;
+}
+
+.therapist-name h2 {
+  font-size: 17px;
+}
+
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button {
+  font-size: 12px;
+}
+
+.add-therapist-card strong {
+  font-size: 14px;
+}
+
+.add-therapist-card p {
+  font-size: 12px;
+}
+
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p {
+  font-size: 11px;
+}
+
+.donut-center strong {
+  font-size: 18px;
+}
+
+.donut-center span {
+  font-size: 10px;
+}
+
+.reports-library h2 {
+  font-size: 14px;
+}
+
+.reports-library p,
+.report-file strong,
+.report-file span {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.recharts-text {
+  font-size: 12px;
+}
+
+.notification-popover > div strong {
+  font-size: 16px;
+}
+
+.notification-popover > div span,
+.notification-popover button strong {
+  font-size: 12px;
+}
+
+.notification-popover button small {
+  font-size: 11px;
+}
+
+.api-state,
+.route-loading strong {
+  font-size: 14px;
+}
+
+@media (max-width: 680px) {
+  body { font-size: 15px; }
+  .page-heading p { font-size: 14px; }
+  .stat-card > p { font-size: 14px; }
+  .data-table td { font-size: 12px; }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 { font-size: 16px; }
+}
