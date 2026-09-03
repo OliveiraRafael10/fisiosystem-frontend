@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { daysWaiting, formatDate, getPrioridadeLabel, initials, localDate, priorityTone } from '../../lib/domain'
+import { StatusBadge } from '../../components/ui/StatusBadge'
+import { daysWaiting, formatDate, getPrioridadeLabel, getStatusEncaminhamentoLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
@@ -196,17 +197,18 @@ export function DashboardPage() {
         open={Boolean(selectedReferral)}
         onClose={closeReferral}
         title={selectedReferral ? `Encaminhamento #${selectedReferral.id}` : ''}
-        description={selectedReferral ? `${selectedReferral.pacienteNome || 'Paciente não informado'} • recebido em ${formatDate(selectedReferral.dataEntrega)}` : ''}
+        description={selectedReferral ? `Recebido em ${formatDate(selectedReferral.dataEntrega)}` : ''}
         size="large"
+        variant="referral"
       >
         {selectedReferral && (
           <div className="patient-profile">
-            <div className="profile-hero">
+            <div className="referral-profile-card">
               <span className="profile-avatar">{initials(selectedReferral.pacienteNome)}</span>
-              <div>
-                <span className={`priority-pill priority-${priorityTone(selectedReferral.prioridade)}`}>{getPrioridadeLabel(selectedReferral.prioridade)}</span>
+              <div className="referral-profile-copy">
+                <div className="referral-profile-heading"><strong>{selectedReferral.pacienteNome || 'Paciente não informado'}</strong><StatusBadge>{getStatusEncaminhamentoLabel(selectedReferral.statusEncaminhamento)}</StatusBadge></div>
                 <h3>{selectedReferral.patologia || 'Patologia não informada'}</h3>
-                <p>{selectedReferral.tipoAtendimento || 'Tipo não informado'} • {daysWaiting(selectedReferral.dataEntrega)} dias na fila</p>
+                <p>Prioridade {getPrioridadeLabel(selectedReferral.prioridade).toLocaleLowerCase('pt-BR')} <i /> {selectedReferral.tipoAtendimento || 'Tipo não informado'}</p>
               </div>
             </div>
             <div className="profile-info-grid">
