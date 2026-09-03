@@ -2606,11 +2606,6 @@ body {
   background: #fff3df;
 }
 
-.dashboard-alert-item.notice > span {
-  color: #3978a8;
-  background: #eaf3fa;
-}
-
 .dashboard-alert-item strong {
   display: block;
   overflow: hidden;

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Activity, AlertTriangle, BellRing, CalendarDays, ChevronRight, ClipboardPlus, Clock3, Stethoscope, UsersRound } from 'lucide-react'
+import { Activity, AlertTriangle, BellRing, CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
@@ -63,8 +63,7 @@ export function DashboardPage() {
   const filteredQueue = fullQueue.filter((item) => queueFilter === 'TODOS' || item.prioridade === queueFilter).slice(0, 5)
   const primaryCount = priorityIndicators.data?.primaria ?? 0
   const referralAlerts = fullQueue.filter((item) => daysWaiting(item.dataEntrega) > alertWaitLimit[item.prioridade])
-  const appointmentNotices = todayAppointments.filter((item) => item.status === 'AGENDADA')
-  const alertCount = referralAlerts.length + appointmentNotices.length
+  const alertCount = referralAlerts.length
   const headerDate = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()
 
   function openReferral(referral: Encaminhamento) {
@@ -89,7 +88,7 @@ export function DashboardPage() {
         actions={(
           <button className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`} onClick={() => setAlertsOpen(true)}>
             <span className="dashboard-alert-icon"><BellRing size={20} />{alertCount > 0 && <b>{alertCount > 99 ? '99+' : alertCount}</b>}</span>
-            <span className="dashboard-alert-label"><strong>Alertas</strong><small>{alertCount ? `${alertCount} ${alertCount === 1 ? 'aviso pendente' : 'avisos pendentes'}` : 'Tudo em ordem'}</small></span>
+            <span className="dashboard-alert-label"><strong>Alertas</strong><small>{alertCount ? `${alertCount} ${alertCount === 1 ? 'caso pendente' : 'casos pendentes'}` : 'Tudo em ordem'}</small></span>
             <ChevronRight size={17} />
           </button>
         )}
@@ -161,8 +160,8 @@ export function DashboardPage() {
       <Modal
         open={alertsOpen}
         onClose={() => setAlertsOpen(false)}
-        title="Alertas e avisos"
-        description="Prioridades da fila e compromissos de hoje para a equipe"
+        title="Alertas da fila"
+        description="Encaminhamentos que ultrapassaram o prazo da respectiva prioridade"
         size="large"
       >
         <div className="dashboard-alert-center">
@@ -177,11 +176,10 @@ export function DashboardPage() {
               <div className="dashboard-alert-list">
                 {referralAlerts.map((item) => {
                   const waiting = daysWaiting(item.dataEntrega)
-                  const limit = alertWaitLimit[item.prioridade]
                   return (
                     <button className={`dashboard-alert-item ${item.prioridade === 'PRIMARIA' ? 'critical' : 'warning'}`} onClick={() => openReferral(item)} key={`referral-${item.id}`}>
                       <span><AlertTriangle size={19} /></span>
-                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>Prioridade {getPrioridadeLabel(item.prioridade).toLocaleLowerCase('pt-BR')} • {waiting} dias aguardando • limite de {limit} dias</p></div>
+                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>Prioridade {getPrioridadeLabel(item.prioridade).toLocaleLowerCase('pt-BR')} • {waiting} dias aguardando</p></div>
                       <ChevronRight size={18} />
                     </button>
                   )
@@ -190,22 +188,7 @@ export function DashboardPage() {
             </section>
           )}
 
-          {appointmentNotices.length > 0 && (
-            <section className="dashboard-alert-group">
-              <header><div><CalendarDays size={18} /><strong>Avisos da agenda</strong></div><span>{appointmentNotices.length}</span></header>
-              <div className="dashboard-alert-list">
-                {appointmentNotices.map((item) => (
-                  <button className="dashboard-alert-item notice" onClick={() => { setAlertsOpen(false); navigate('/consultas') }} key={`appointment-${item.id}`}>
-                    <span><Clock3 size={19} /></span>
-                    <div><strong>{item.dataHora?.slice(11, 16) || 'Horário não informado'} • {item.pacienteNome || 'Paciente não informado'}</strong><p>Fisioterapeuta: {item.fisioterapeutaNome || 'Não informado'}</p></div>
-                    <ChevronRight size={18} />
-                  </button>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {!alertCount && <div className="empty-state dashboard-alert-empty"><BellRing size={28} /><strong>Nenhum alerta ou aviso</strong><p>A equipe está com as prioridades operacionais em dia.</p></div>}
+          {!alertCount && <div className="empty-state dashboard-alert-empty"><BellRing size={28} /><strong>Nenhum alerta na fila</strong><p>A equipe está com os prazos de espera em dia.</p></div>}
         </div>
       </Modal>
 
