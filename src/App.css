@@ -3715,6 +3715,497 @@ body {
   display: none;
 }
 
+.subpage-shell {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+}
+
+.subpage-back {
+  min-height: 48px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+  border: 0;
+  color: #2f6653;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.subpage-back svg {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  border: 1px solid #c9ddd4;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(30, 82, 63, .07);
+}
+
+.subpage-back:hover svg {
+  border-color: #91bba9;
+  transform: translateX(-2px);
+}
+
+.subpage-back:focus-visible {
+  outline: 3px solid rgba(30, 127, 95, .2);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.subpage-header {
+  min-height: 150px;
+  padding: 28px 32px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 25px 25px 0 0;
+  color: #fff;
+  background: linear-gradient(128deg, #12694f 0%, #1d8163 56%, #329176 100%);
+  box-shadow: 0 22px 50px rgba(21, 82, 62, .15);
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 19px;
+}
+
+.subpage-header-icon {
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, .11);
+  display: grid;
+  place-items: center;
+}
+
+.subpage-header > div > span {
+  color: #c9eadf;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.subpage-header h1 {
+  margin: 5px 0 0;
+  color: #fff;
+  font: 750 clamp(28px, 3vw, 40px)/1.15 'Manrope';
+  letter-spacing: -.65px;
+}
+
+.subpage-header p {
+  margin: 7px 0 0;
+  color: #d9eee7;
+  font-size: 16px;
+}
+
+.subpage-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subpage-header-button {
+  min-height: 48px;
+  padding: 0 17px;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 13px;
+  color: #fff;
+  background: rgba(255, 255, 255, .12);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.subpage-header-button:hover {
+  background: rgba(255, 255, 255, .2);
+}
+
+.subpage-header-actions .status-badge {
+  padding: 10px 14px;
+  color: #e8f7f1;
+  background: rgba(255, 255, 255, .14);
+  font-size: 14px;
+}
+
+.subpage-surface {
+  min-height: 460px;
+  padding: 30px;
+  border: 1px solid #d6e4dd;
+  border-top: 0;
+  border-radius: 0 0 25px 25px;
+  background: linear-gradient(145deg, rgba(244, 250, 247, .98), #fff 62%);
+  box-shadow: 0 24px 55px rgba(29, 69, 54, .1);
+}
+
+.subpage-form {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.subpage-surface .form-section {
+  margin: 0;
+  padding: 28px;
+  border: 1px solid #d8e6df;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 12px 30px rgba(30, 75, 58, .05);
+}
+
+.subpage-surface .form-section + .form-section {
+  margin-top: 20px;
+}
+
+.subpage-surface .form-section-title {
+  margin-bottom: 24px;
+}
+
+.subpage-surface .form-section-title strong {
+  font-size: 18px;
+}
+
+.subpage-surface .form-section-title small {
+  font-size: 14px;
+}
+
+.subpage-surface .field > span {
+  font-size: 15px;
+}
+
+.subpage-surface .field input,
+.subpage-surface .field select,
+.subpage-surface .field textarea {
+  min-height: 52px;
+  font-size: 17px;
+}
+
+.subpage-surface .field textarea {
+  min-height: 130px;
+}
+
+.subpage-action-bar {
+  min-height: 86px;
+  margin-top: 22px;
+  padding: 16px 20px;
+  border: 1px solid #d8e6df;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .94);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.subpage-action-bar .primary-button,
+.subpage-action-bar .secondary-button {
+  min-width: 170px;
+  min-height: 50px;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.subpage-profile {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.subpage-profile .profile-hero,
+.subpage-profile .referral-profile-card {
+  margin: 0;
+  padding: 28px;
+  border-radius: 21px;
+}
+
+.subpage-profile .profile-hero {
+  border: 1px solid #d3e5dc;
+  background: linear-gradient(135deg, #ebf7f1, #fff 72%);
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.subpage-profile .profile-avatar {
+  width: 78px;
+  height: 78px;
+  font-size: 21px;
+}
+
+.subpage-profile .profile-hero h3 {
+  margin: 10px 0 5px;
+  font-size: 28px;
+}
+
+.subpage-profile .profile-hero p {
+  margin: 0;
+  color: #62786e;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 16px;
+}
+
+.subpage-profile .profile-info-grid {
+  margin: 18px 0 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.subpage-profile .profile-info-grid > div {
+  min-height: 112px;
+  padding: 19px;
+  border: 1px solid #dbe7e1;
+  border-radius: 17px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.subpage-profile .profile-info-grid span {
+  color: #73867d;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+}
+
+.subpage-profile .profile-info-grid strong {
+  color: #315145;
+  font-size: 18px;
+}
+
+.subpage-profile .profile-section-heading {
+  margin: 32px 0 16px;
+}
+
+.subpage-profile .care-card {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 22px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.subpage-card-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.subpage-profile > .referral-consultations {
+  margin: 18px 0 0;
+}
+
+.subpage-work-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.subpage-work-grid .form-section {
+  margin: 0 !important;
+}
+
+.subpage-action-tabs {
+  margin: 22px 0 18px;
+  padding: 6px;
+  border: 1px solid #d6e3dd;
+  border-radius: 15px;
+  background: #eaf2ee;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.subpage-action-tabs button {
+  min-height: 46px;
+  font-size: 15px;
+}
+
+.clinical-record h3 {
+  margin: 0 0 22px;
+  color: #2d5043;
+  font-size: 22px;
+}
+
+.clinical-record dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.clinical-record dl > div {
+  min-height: 118px;
+  padding: 18px;
+  border: 1px solid #dce7e2;
+  border-radius: 15px;
+  background: #f9fcfa;
+}
+
+.clinical-record dt {
+  color: #75877f;
+  font-size: 14px;
+}
+
+.clinical-record dd {
+  margin: 8px 0 0;
+  color: #335146;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.therapist-management {
+  margin-top: 20px !important;
+}
+
+.therapist-management p {
+  margin: 0 0 20px;
+  color: #687d74;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.professional-appointment-card {
+  min-height: 94px;
+  padding: 17px 19px;
+  border: 1px solid #dce7e2;
+  border-radius: 16px;
+  color: inherit;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.professional-appointment-card:hover,
+.subpage-profile .care-card:hover {
+  border-color: #a9cbbb;
+  box-shadow: 0 12px 26px rgba(29, 80, 61, .08);
+}
+
+.professional-appointment-card strong,
+.professional-appointment-card span {
+  display: block;
+}
+
+.professional-appointment-card strong {
+  color: #315145;
+  font-size: 17px;
+}
+
+.professional-appointment-card div > span {
+  margin-top: 6px;
+  color: #778981;
+  font-size: 14px;
+}
+
+.subpage-alert-center {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.subpage-alert-center .dashboard-alert-summary {
+  padding: 22px;
+}
+
+.subpage-alert-center .dashboard-alert-item {
+  min-height: 92px;
+  padding: 17px 19px;
+}
+
+@media (max-width: 1000px) {
+  .subpage-profile .profile-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .subpage-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .subpage-header {
+    min-height: 132px;
+    padding: 22px 18px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    border-radius: 21px 21px 0 0;
+  }
+
+  .subpage-header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .subpage-header h1 {
+    font-size: 26px;
+  }
+
+  .subpage-header p {
+    font-size: 14px;
+  }
+
+  .subpage-header-actions {
+    grid-column: 1 / -1;
+  }
+
+  .subpage-surface {
+    padding: 15px;
+    border-radius: 0 0 21px 21px;
+  }
+
+  .subpage-surface .form-section {
+    padding: 19px;
+  }
+
+  .subpage-action-bar {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .subpage-action-bar .primary-button,
+  .subpage-action-bar .secondary-button {
+    width: 100%;
+  }
+
+  .subpage-profile .profile-hero {
+    padding: 20px;
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .subpage-profile .profile-avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .subpage-profile .profile-info-grid,
+  .subpage-card-list,
+  .clinical-record dl {
+    grid-template-columns: 1fr;
+  }
+
+  .subpage-action-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 900px) {
   .mobile-menu-floating {
     position: fixed;

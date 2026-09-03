@@ -1,18 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Activity, AlertTriangle, BellRing, CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { Activity, BellRing, CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
-import { Modal } from '../../components/ui/Modal'
+import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { StatusBadge } from '../../components/ui/StatusBadge'
-import { ReferralConsultationHistory } from '../../components/referrals/ReferralConsultationHistory'
-import { daysWaiting, formatDate, getPrioridadeLabel, getStatusEncaminhamentoLabel, initials, localDate, priorityTone } from '../../lib/domain'
+import { daysWaiting, formatDate, getPrioridadeLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
 import { therapistService } from '../../services/therapistService'
-import type { Encaminhamento, Prioridade } from '../../types'
+import type { Prioridade } from '../../types'
 
 type QueueFilter = 'TODOS' | Prioridade
 
@@ -30,11 +27,7 @@ const alertWaitLimit: Record<Prioridade, number> = {
 
 export function DashboardPage() {
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const [queueFilter, setQueueFilter] = useState<QueueFilter>('TODOS')
-  const [selectedReferral, setSelectedReferral] = useState<Encaminhamento | null>(null)
-  const [therapistId, setTherapistId] = useState(0)
-  const [alertsOpen, setAlertsOpen] = useState(false)
   const today = localDate()
   const patients = useQuery({ queryKey: ['patients'], queryFn: patientService.list })
   const therapists = useQuery({ queryKey: ['therapists'], queryFn: therapistService.list })
@@ -42,17 +35,6 @@ export function DashboardPage() {
   const referralIndicators = useQuery({ queryKey: ['referrals', 'indicators'], queryFn: referralService.indicators })
   const priorityIndicators = useQuery({ queryKey: ['referrals', 'queue-priority'], queryFn: referralService.queuePriorityIndicators })
   const queue = useQuery({ queryKey: ['referrals', 'queue'], queryFn: referralService.queue })
-  const assumeMutation = useMutation({
-    mutationFn: () => {
-      if (!selectedReferral || !therapistId) throw new Error('Selecione um fisioterapeuta para assumir o caso.')
-      return referralService.assume(selectedReferral.id, therapistId)
-    },
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['referrals'] })
-      setSelectedReferral(null)
-      setTherapistId(0)
-    },
-  })
   const queries = [patients, therapists, appointments, referralIndicators, priorityIndicators, queue]
   const errorQuery = queries.find((query) => query.isError)
 
@@ -68,19 +50,6 @@ export function DashboardPage() {
   const alertCount = referralAlerts.length
   const headerDate = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()
 
-  function openReferral(referral: Encaminhamento) {
-    assumeMutation.reset()
-    setAlertsOpen(false)
-    setTherapistId(0)
-    setSelectedReferral(referral)
-  }
-
-  function closeReferral() {
-    assumeMutation.reset()
-    setTherapistId(0)
-    setSelectedReferral(null)
-  }
-
   return (
     <section className="page-content dashboard-page">
       <PageHeader
@@ -88,7 +57,7 @@ export function DashboardPage() {
         title="Bom dia, Rafa."
         description="Prioridades da unidade e próximos atendimentos em uma visão operacional."
         actions={(
-          <button className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`} onClick={() => setAlertsOpen(true)}>
+          <button className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`} onClick={() => navigate('/alertas', { state: { from: '/' } })}>
             <span className="dashboard-alert-icon"><BellRing size={20} />{alertCount > 0 && <b>{alertCount > 99 ? '99+' : alertCount}</b>}</span>
             <span className="dashboard-alert-label"><strong>Alertas</strong><small>{alertCount ? `${alertCount} ${alertCount === 1 ? 'caso pendente' : 'casos pendentes'}` : 'Tudo em ordem'}</small></span>
             <ChevronRight size={17} />
@@ -123,7 +92,7 @@ export function DashboardPage() {
                 <button
                   className={`dashboard-queue-item ${item.prioridade === 'PRIMARIA' ? 'is-primary' : ''}`}
                   key={item.id}
-                  onClick={() => openReferral(item)}
+                  onClick={() => navigate(`/encaminhamentos/${item.id}`, { state: { from: '/' } })}
                   aria-label={`Abrir encaminhamento de ${item.pacienteNome || 'paciente não informado'} para assumir o caso`}
                 >
                   <span className="queue-position">{String(fullQueue.indexOf(item) + 1).padStart(2, '0')}</span>
@@ -159,83 +128,6 @@ export function DashboardPage() {
         </aside>
       </div>
 
-      <Modal
-        open={alertsOpen}
-        onClose={() => setAlertsOpen(false)}
-        title="Alertas da fila"
-        description="Encaminhamentos que ultrapassaram o prazo da respectiva prioridade"
-        size="large"
-      >
-        <div className="dashboard-alert-center">
-          <div className="dashboard-alert-summary">
-            <span className={referralAlerts.length ? 'is-critical' : ''}><AlertTriangle size={22} /></span>
-            <div><strong>{referralAlerts.length ? `${referralAlerts.length} ${referralAlerts.length === 1 ? 'caso requer' : 'casos requerem'} atenção` : 'Nenhuma prioridade crítica'}</strong><p>{referralAlerts.length ? 'Revise os casos prioritários ou com espera elevada.' : 'A fila não possui casos críticos neste momento.'}</p></div>
-          </div>
-
-          {referralAlerts.length > 0 && (
-            <section className="dashboard-alert-group">
-              <header><div><AlertTriangle size={18} /><strong>Fila de encaminhamentos</strong></div><span>{referralAlerts.length}</span></header>
-              <div className="dashboard-alert-list">
-                {referralAlerts.map((item) => {
-                  const waiting = daysWaiting(item.dataEntrega)
-                  return (
-                    <button className={`dashboard-alert-item ${item.prioridade === 'PRIMARIA' ? 'critical' : 'warning'}`} onClick={() => openReferral(item)} key={`referral-${item.id}`}>
-                      <span><AlertTriangle size={19} /></span>
-                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>Prioridade {getPrioridadeLabel(item.prioridade).toLocaleLowerCase('pt-BR')} • {waiting} dias aguardando</p></div>
-                      <ChevronRight size={18} />
-                    </button>
-                  )
-                })}
-              </div>
-            </section>
-          )}
-
-          {!alertCount && <div className="empty-state dashboard-alert-empty"><BellRing size={28} /><strong>Nenhum alerta na fila</strong><p>A equipe está com os prazos de espera em dia.</p></div>}
-        </div>
-      </Modal>
-
-      <Modal
-        open={Boolean(selectedReferral)}
-        onClose={closeReferral}
-        title={selectedReferral ? `Encaminhamento #${selectedReferral.id}` : ''}
-        description={selectedReferral ? `Recebido em ${formatDate(selectedReferral.dataEntrega)}` : ''}
-        size="large"
-        variant="referral"
-      >
-        {selectedReferral && (
-          <div className="patient-profile">
-            <div className="referral-profile-card">
-              <span className="profile-avatar">{initials(selectedReferral.pacienteNome)}</span>
-              <div className="referral-profile-copy">
-                <div className="referral-profile-heading"><strong>{selectedReferral.pacienteNome || 'Paciente não informado'}</strong><StatusBadge>{getStatusEncaminhamentoLabel(selectedReferral.statusEncaminhamento)}</StatusBadge></div>
-                <h3>{selectedReferral.patologia || 'Patologia não informada'}</h3>
-                <p>Prioridade {getPrioridadeLabel(selectedReferral.prioridade).toLocaleLowerCase('pt-BR')} <i /> {selectedReferral.tipoAtendimento || 'Tipo não informado'}</p>
-              </div>
-            </div>
-            <div className="profile-info-grid">
-              <div><span>Paciente</span><strong>{selectedReferral.pacienteNome || 'Não informado'}</strong></div>
-              <div><span>Médico solicitante</span><strong>{selectedReferral.medicoSolicitante || 'Não informado'}</strong></div>
-              <div><span>Data de entrada</span><strong>{formatDate(selectedReferral.dataEntrega)}</strong></div>
-              <div><span>Observações</span><strong>{selectedReferral.observacoes || 'Nenhuma observação'}</strong></div>
-            </div>
-            <ReferralConsultationHistory referralId={selectedReferral.id} />
-            <div className="form-section dashboard-assume-section">
-              <label className="field field-wide">
-                <span>Fisioterapeuta que assumirá o caso</span>
-                <select value={therapistId} onChange={(event) => setTherapistId(Number(event.target.value))}>
-                  <option value={0}>Selecione um fisioterapeuta</option>
-                  {activeTherapists.map((item) => <option value={item.id} key={item.id}>{item.nome} • {item.crefito || 'CREFITO não informado'}</option>)}
-                </select>
-              </label>
-            </div>
-            <MutationError error={assumeMutation.error} />
-            <div className="modal-footer">
-              <button type="button" className="secondary-button" onClick={closeReferral}>Agora não</button>
-              <button className="primary-button" disabled={!therapistId || assumeMutation.isPending} onClick={() => assumeMutation.mutate()}>{assumeMutation.isPending ? 'Assumindo...' : 'Assumir encaminhamento'}</button>
-            </div>
-          </div>
-        )}
-      </Modal>
     </section>
   )
 }

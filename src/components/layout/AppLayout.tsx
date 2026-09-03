@@ -62,9 +62,8 @@ export function AppLayout() {
         inputSchema: { type: 'object', properties: {}, additionalProperties: false },
         annotations: { readOnlyHint: false, untrustedContentHint: false },
         execute: () => {
-          navigate('/pacientes')
-          window.setTimeout(() => window.dispatchEvent(new CustomEvent('fisio:new-patient')), 50)
-          return { route: '/pacientes', form: 'opened' }
+          navigate('/pacientes/novo', { state: { from: '/pacientes' } })
+          return { route: '/pacientes/novo', form: 'opened' }
         },
       },
       {
