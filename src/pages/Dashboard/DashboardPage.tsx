@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Activity, AlertTriangle, CalendarDays, ChevronRight, ClipboardPlus, Stethoscope, UsersRound } from 'lucide-react'
+import { Activity, AlertTriangle, BellRing, CalendarDays, ChevronRight, ClipboardPlus, Clock3, Stethoscope, UsersRound } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
@@ -26,6 +26,7 @@ export function DashboardPage() {
   const [queueFilter, setQueueFilter] = useState<QueueFilter>('TODOS')
   const [selectedReferral, setSelectedReferral] = useState<Encaminhamento | null>(null)
   const [therapistId, setTherapistId] = useState(0)
+  const [alertsOpen, setAlertsOpen] = useState(false)
   const today = localDate()
   const patients = useQuery({ queryKey: ['patients'], queryFn: patientService.list })
   const therapists = useQuery({ queryKey: ['therapists'], queryFn: therapistService.list })
@@ -55,12 +56,14 @@ export function DashboardPage() {
   const fullQueue = queue.data ?? []
   const filteredQueue = fullQueue.filter((item) => queueFilter === 'TODOS' || item.prioridade === queueFilter).slice(0, 5)
   const primaryCount = priorityIndicators.data?.primaria ?? 0
-  const attentionReferral = fullQueue.find((item) => item.prioridade === 'PRIMARIA' && daysWaiting(item.dataEntrega) >= 14)
-    ?? fullQueue.find((item) => daysWaiting(item.dataEntrega) >= 30)
+  const referralAlerts = fullQueue.filter((item) => item.prioridade === 'PRIMARIA' || daysWaiting(item.dataEntrega) >= 30)
+  const appointmentNotices = todayAppointments.filter((item) => item.status === 'AGENDADA')
+  const alertCount = referralAlerts.length + appointmentNotices.length
   const headerDate = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()
 
   function openReferral(referral: Encaminhamento) {
     assumeMutation.reset()
+    setAlertsOpen(false)
     setTherapistId(0)
     setSelectedReferral(referral)
   }
@@ -73,7 +76,18 @@ export function DashboardPage() {
 
   return (
     <section className="page-content dashboard-page">
-      <PageHeader eyebrow={headerDate} title="Bom dia, Rafa." description="Prioridades da unidade e próximos atendimentos em uma visão operacional." actions={<button className="date-button"><CalendarDays size={18} /> Hoje <ChevronRight size={16} /></button>} />
+      <PageHeader
+        eyebrow={headerDate}
+        title="Bom dia, Rafa."
+        description="Prioridades da unidade e próximos atendimentos em uma visão operacional."
+        actions={(
+          <button className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`} onClick={() => setAlertsOpen(true)}>
+            <span className="dashboard-alert-icon"><BellRing size={20} />{alertCount > 0 && <b>{alertCount > 99 ? '99+' : alertCount}</b>}</span>
+            <span className="dashboard-alert-label"><strong>Alertas</strong><small>{alertCount ? `${alertCount} ${alertCount === 1 ? 'aviso pendente' : 'avisos pendentes'}` : 'Tudo em ordem'}</small></span>
+            <ChevronRight size={17} />
+          </button>
+        )}
+      />
 
       <div className="stats-grid dashboard-stat-grid">
         <button className="stat-card accent-teal dashboard-stat-button" onClick={() => navigate('/pacientes')}><div className="stat-top"><span className="stat-icon"><UsersRound /></span><span className="positive">Base atual</span></div><strong>{patients.data?.length ?? 0}</strong><p>Pacientes cadastrados</p><small>Acessar prontuários</small></button>
@@ -138,11 +152,55 @@ export function DashboardPage() {
         </aside>
       </div>
 
-      <section className={`dashboard-attention ${attentionReferral ? 'has-attention' : ''}`}>
-        <span><AlertTriangle size={20} /></span>
-        <div><strong>Requer atenção</strong>{attentionReferral ? <p><b>{attentionReferral.pacienteNome || 'Paciente não informado'}</b> está na fila com prioridade {getPrioridadeLabel(attentionReferral.prioridade).toLocaleLowerCase('pt-BR')} há {daysWaiting(attentionReferral.dataEntrega)} dias.</p> : <p>Nenhuma situação excepcional identificada na fila neste momento.</p>}</div>
-        {attentionReferral && <button onClick={() => openReferral(attentionReferral)}>Ver encaminhamento <ChevronRight size={16} /></button>}
-      </section>
+      <Modal
+        open={alertsOpen}
+        onClose={() => setAlertsOpen(false)}
+        title="Alertas e avisos"
+        description="Prioridades da fila e compromissos de hoje para a equipe"
+        size="large"
+      >
+        <div className="dashboard-alert-center">
+          <div className="dashboard-alert-summary">
+            <span className={referralAlerts.length ? 'is-critical' : ''}><AlertTriangle size={22} /></span>
+            <div><strong>{referralAlerts.length ? `${referralAlerts.length} ${referralAlerts.length === 1 ? 'caso requer' : 'casos requerem'} atenção` : 'Nenhuma prioridade crítica'}</strong><p>{referralAlerts.length ? 'Revise os casos prioritários ou com espera elevada.' : 'A fila não possui casos críticos neste momento.'}</p></div>
+          </div>
+
+          {referralAlerts.length > 0 && (
+            <section className="dashboard-alert-group">
+              <header><div><AlertTriangle size={18} /><strong>Fila de encaminhamentos</strong></div><span>{referralAlerts.length}</span></header>
+              <div className="dashboard-alert-list">
+                {referralAlerts.map((item) => {
+                  const waiting = daysWaiting(item.dataEntrega)
+                  return (
+                    <button className={`dashboard-alert-item ${item.prioridade === 'PRIMARIA' ? 'critical' : 'warning'}`} onClick={() => openReferral(item)} key={`referral-${item.id}`}>
+                      <span><AlertTriangle size={19} /></span>
+                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.prioridade === 'PRIMARIA' ? 'Prioridade primária' : 'Tempo de espera elevado'} • {waiting} dias aguardando</p></div>
+                      <ChevronRight size={18} />
+                    </button>
+                  )
+                })}
+              </div>
+            </section>
+          )}
+
+          {appointmentNotices.length > 0 && (
+            <section className="dashboard-alert-group">
+              <header><div><CalendarDays size={18} /><strong>Avisos da agenda</strong></div><span>{appointmentNotices.length}</span></header>
+              <div className="dashboard-alert-list">
+                {appointmentNotices.map((item) => (
+                  <button className="dashboard-alert-item notice" onClick={() => { setAlertsOpen(false); navigate('/consultas') }} key={`appointment-${item.id}`}>
+                    <span><Clock3 size={19} /></span>
+                    <div><strong>{item.dataHora?.slice(11, 16) || 'Horário não informado'} • {item.pacienteNome || 'Paciente não informado'}</strong><p>Fisioterapeuta: {item.fisioterapeutaNome || 'Não informado'}</p></div>
+                    <ChevronRight size={18} />
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {!alertCount && <div className="empty-state dashboard-alert-empty"><BellRing size={28} /><strong>Nenhum alerta ou aviso</strong><p>A equipe está com as prioridades operacionais em dia.</p></div>}
+        </div>
+      </Modal>
 
       <Modal
         open={Boolean(selectedReferral)}
