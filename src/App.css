@@ -1984,42 +1984,50 @@ body {
   }
 }
 
-.modal-referral::before {
+.modal-referral::before,
+.modal-default::before {
   background: linear-gradient(90deg, #8fd1b8, #d7f2e7 55%, #79bfa4);
 }
 
-.modal-referral .modal-header {
+.modal-referral .modal-header,
+.modal-default .modal-header {
   border-bottom-color: rgba(255, 255, 255, .14);
   background: linear-gradient(135deg, #0f684f, #1b7b60 58%, #2f8d6f);
 }
 
-.modal-referral .modal-heading-icon {
+.modal-referral .modal-heading-icon,
+.modal-default .modal-heading-icon {
   border-color: rgba(255, 255, 255, .25);
   color: #e7fff5;
   background: rgba(255, 255, 255, .12);
   box-shadow: inset 0 1px rgba(255, 255, 255, .18);
 }
 
-.modal-referral .modal-heading-copy > span {
+.modal-referral .modal-heading-copy > span,
+.modal-default .modal-heading-copy > span {
   color: #bdebd9;
 }
 
-.modal-referral .modal-header h2 {
+.modal-referral .modal-header h2,
+.modal-default .modal-header h2 {
   color: #fff;
 }
 
-.modal-referral .modal-header p {
+.modal-referral .modal-header p,
+.modal-default .modal-header p {
   color: #d2eee3;
 }
 
-.modal-referral .modal-header > button {
+.modal-referral .modal-header > button,
+.modal-default .modal-header > button {
   border-color: rgba(255, 255, 255, .28);
   color: #e8faf3;
   background: rgba(255, 255, 255, .11);
   box-shadow: none;
 }
 
-.modal-referral .modal-header > button:hover {
+.modal-referral .modal-header > button:hover,
+.modal-default .modal-header > button:hover {
   border-color: rgba(255, 255, 255, .5);
   color: #fff;
   background: rgba(255, 255, 255, .2);
