@@ -20,6 +20,12 @@ const priorityCode: Record<Prioridade, string> = {
   TERCIARIA: 'P3',
 }
 
+const alertWaitLimit: Record<Prioridade, number> = {
+  PRIMARIA: 14,
+  SECUNDARIA: 27,
+  TERCIARIA: 30,
+}
+
 export function DashboardPage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -56,7 +62,7 @@ export function DashboardPage() {
   const fullQueue = queue.data ?? []
   const filteredQueue = fullQueue.filter((item) => queueFilter === 'TODOS' || item.prioridade === queueFilter).slice(0, 5)
   const primaryCount = priorityIndicators.data?.primaria ?? 0
-  const referralAlerts = fullQueue.filter((item) => item.prioridade === 'PRIMARIA' || daysWaiting(item.dataEntrega) >= 30)
+  const referralAlerts = fullQueue.filter((item) => daysWaiting(item.dataEntrega) > alertWaitLimit[item.prioridade])
   const appointmentNotices = todayAppointments.filter((item) => item.status === 'AGENDADA')
   const alertCount = referralAlerts.length + appointmentNotices.length
   const headerDate = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase()
@@ -171,10 +177,11 @@ export function DashboardPage() {
               <div className="dashboard-alert-list">
                 {referralAlerts.map((item) => {
                   const waiting = daysWaiting(item.dataEntrega)
+                  const limit = alertWaitLimit[item.prioridade]
                   return (
                     <button className={`dashboard-alert-item ${item.prioridade === 'PRIMARIA' ? 'critical' : 'warning'}`} onClick={() => openReferral(item)} key={`referral-${item.id}`}>
                       <span><AlertTriangle size={19} /></span>
-                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>{item.prioridade === 'PRIMARIA' ? 'Prioridade primária' : 'Tempo de espera elevado'} • {waiting} dias aguardando</p></div>
+                      <div><strong>{item.pacienteNome || 'Paciente não informado'}</strong><p>Prioridade {getPrioridadeLabel(item.prioridade).toLocaleLowerCase('pt-BR')} • {waiting} dias aguardando • limite de {limit} dias</p></div>
                       <ChevronRight size={18} />
                     </button>
                   )
