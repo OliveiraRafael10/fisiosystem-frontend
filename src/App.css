@@ -2504,13 +2504,13 @@ body {
 
 .referral-consultations-trigger {
   width: 100%;
-  min-height: 170px;
-  padding: 24px;
+  min-height: 120px;
+  padding: 20px;
   border: 0;
   color: inherit;
   background: linear-gradient(135deg, #f4faf7, #fff 72%);
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   text-align: left;
@@ -2530,9 +2530,9 @@ body {
 }
 
 .referral-consultations-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   color: #247258;
   background: #dff1e9;
   display: grid;
@@ -2546,24 +2546,23 @@ body {
 
 .referral-consultations-copy small {
   color: #70837a;
-  font-size: 39px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
 .referral-consultations-copy strong {
-  margin-top: 10px;
+  margin-top: 7px;
   color: #294f41;
-  font-size: 54px;
-  line-height: 1.12;
+  font-size: 27px;
+  line-height: 1.2;
 }
 
 .referral-consultations-action {
-  grid-column: 2;
   color: #2d6e57;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 39px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: 750;
 }
@@ -2577,13 +2576,13 @@ body {
 }
 
 .referral-consultations-history {
-  padding: 0 24px 26px;
+  padding: 0 20px 22px;
   border-top: 1px solid #e1ebe6;
   background: #fff;
 }
 
 .referral-consultations-history > header {
-  min-height: 164px;
+  min-height: 108px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2597,27 +2596,27 @@ body {
 
 .referral-consultations-history > header strong {
   color: #345448;
-  font-size: 45px;
-  line-height: 1.15;
+  font-size: 23px;
+  line-height: 1.2;
 }
 
 .referral-consultations-history > header div > span {
-  margin-top: 8px;
+  margin-top: 5px;
   color: #7a8a83;
-  font-size: 36px;
+  font-size: 18px;
   line-height: 1.2;
 }
 
 .referral-consultations-history > header > span {
-  min-width: 58px;
-  height: 58px;
-  padding: 0 15px;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 11px;
   border-radius: 999px;
   color: #2e6c57;
   background: #e5f2ec;
   display: grid;
   place-items: center;
-  font-size: 36px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -2629,25 +2628,25 @@ body {
 
 .referral-history-list > li {
   position: relative;
-  padding: 0 0 22px 70px;
+  padding: 0 0 18px 52px;
 }
 
 .referral-history-list > li:not(:last-child)::before {
   content: '';
   position: absolute;
-  top: 50px;
+  top: 38px;
   bottom: -3px;
-  left: 25px;
+  left: 19px;
   width: 2px;
   background: #d7e8e0;
 }
 
 .referral-history-marker {
   position: absolute;
-  top: 18px;
+  top: 14px;
   left: 0;
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   border: 3px solid #fff;
   border-radius: 50%;
   color: #fff;
@@ -2655,12 +2654,12 @@ body {
   box-shadow: 0 0 0 1px #b9d9ca;
   display: grid;
   place-items: center;
-  font-size: 33px;
+  font-size: 17px;
   font-weight: 800;
 }
 
 .referral-history-list article {
-  padding: 22px;
+  padding: 18px;
   border: 1px solid #e0e9e5;
   border-radius: 14px;
   background: #fbfdfc;
@@ -2669,7 +2668,6 @@ body {
 .referral-history-heading {
   display: flex;
   align-items: flex-start;
-  flex-direction: column;
   justify-content: space-between;
   gap: 16px;
 }
@@ -2681,14 +2679,14 @@ body {
 
 .referral-history-heading strong {
   color: #315247;
-  font-size: 45px;
-  line-height: 1.15;
+  font-size: 23px;
+  line-height: 1.2;
 }
 
 .referral-history-heading time {
-  margin-top: 8px;
+  margin-top: 6px;
   color: #74857d;
-  font-size: 39px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
@@ -2697,7 +2695,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 39px;
+  font-size: 20px;
   line-height: 1.25;
   font-weight: 650;
   text-align: right;
@@ -2713,26 +2711,26 @@ body {
 
 .referral-history-list dl div {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 5px;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 12px;
 }
 
 .referral-history-list dt {
   color: #7c8e86;
-  font-size: 36px;
+  font-size: 18px;
   line-height: 1.2;
 }
 
 .referral-history-list dd {
   margin: 0;
   color: #3e5a50;
-  font-size: 39px;
+  font-size: 20px;
   line-height: 1.45;
 }
 
 .referral-history-state {
-  min-height: 190px;
-  padding: 26px;
+  min-height: 145px;
+  padding: 22px;
   border: 1px dashed #d6e4dd;
   border-radius: 14px;
   color: #648075;
@@ -2746,14 +2744,14 @@ body {
 
 .referral-history-state strong {
   color: #3b5a4f;
-  font-size: 42px;
+  font-size: 21px;
   line-height: 1.18;
 }
 
 .referral-history-state p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   color: #7b8a84;
-  font-size: 36px;
+  font-size: 18px;
   line-height: 1.25;
 }
 
@@ -2764,13 +2762,13 @@ body {
 }
 
 .referral-history-state button {
-  margin-top: 10px;
+  margin-top: 7px;
   padding: 0;
   border: 0;
   color: #17634d;
   background: transparent;
   font: inherit;
-  font-size: 36px;
+  font-size: 18px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -2904,15 +2902,15 @@ body {
   }
 
   .referral-consultations-trigger {
-    min-height: 170px;
-    padding: 18px;
-    grid-template-columns: 52px minmax(0, 1fr) 20px;
+    min-height: 116px;
+    padding: 15px;
+    grid-template-columns: 48px minmax(0, 1fr) 20px;
     gap: 11px;
   }
 
   .referral-consultations-icon {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
   }
 
   .referral-consultations-action {
@@ -2922,7 +2920,7 @@ body {
   }
 
   .referral-consultations-copy strong {
-    font-size: 48px;
+    font-size: 24px;
   }
 
   .referral-consultations-history {
