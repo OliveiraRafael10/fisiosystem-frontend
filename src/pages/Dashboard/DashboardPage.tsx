@@ -6,6 +6,7 @@ import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiStat
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusBadge } from '../../components/ui/StatusBadge'
+import { ReferralConsultationHistory } from '../../components/referrals/ReferralConsultationHistory'
 import { daysWaiting, formatDate, getPrioridadeLabel, getStatusEncaminhamentoLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import { patientService } from '../../services/patientService'
@@ -217,6 +218,7 @@ export function DashboardPage() {
               <div><span>Data de entrada</span><strong>{formatDate(selectedReferral.dataEntrega)}</strong></div>
               <div><span>Observações</span><strong>{selectedReferral.observacoes || 'Nenhuma observação'}</strong></div>
             </div>
+            <ReferralConsultationHistory referralId={selectedReferral.id} />
             <div className="form-section dashboard-assume-section">
               <label className="field field-wide">
                 <span>Fisioterapeuta que assumirá o caso</span>

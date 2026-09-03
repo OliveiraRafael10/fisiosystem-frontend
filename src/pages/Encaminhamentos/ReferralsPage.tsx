@@ -6,6 +6,7 @@ import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiStat
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusBadge } from '../../components/ui/StatusBadge'
+import { ReferralConsultationHistory } from '../../components/referrals/ReferralConsultationHistory'
 import { daysWaiting, formatDate, getPrioridadeLabel, getStatusEncaminhamentoLabel, initials, localDate, priorityTone } from '../../lib/domain'
 import { patientService } from '../../services/patientService'
 import { referralService } from '../../services/referralService'
@@ -40,11 +41,10 @@ export function ReferralsPage() {
   }
   const createMutation = useMutation({ mutationFn: () => referralService.create(form), onSuccess: () => { invalidate(); setFormOpen(false); setForm(emptyReferral) } })
   const actionMutation = useMutation({
-    mutationFn: async (action: 'assume' | 'withdraw' | 'discharge') => {
+    mutationFn: async (action: 'assume' | 'withdraw') => {
       if (!selected) throw new Error('Selecione um encaminhamento.')
       if (action === 'assume') return referralService.assume(selected.id, therapistId)
-      if (action === 'withdraw') return referralService.withdraw(selected.id, reason)
-      return referralService.discharge(selected.id)
+      return referralService.withdraw(selected.id, reason)
     },
     onSuccess: () => { invalidate(); setSelected(null); setTherapistId(0); setReason('') },
   })
@@ -101,8 +101,8 @@ export function ReferralsPage() {
             </div>
           </div>
           <div className="profile-info-grid"><div><span>Médico solicitante</span><strong>{selected.medicoSolicitante || 'Não informado'}</strong></div><div><span>Responsável</span><strong>{selected.fisioterapeutaResponsavelNome || 'Não atribuído'}</strong></div><div><span>Assunção</span><strong>{formatDate(selected.dataAssuncao)}</strong></div><div><span>Alta</span><strong>{formatDate(selected.dataAlta)}</strong></div></div>
+          <ReferralConsultationHistory referralId={selected.id} />
           {selected.statusEncaminhamento === 'NA_FILA' && <div className="form-section referral-assume-section"><label className="field"><span>Fisioterapeuta que assumirá o caso</span><select value={therapistId} onChange={(event) => setTherapistId(Number(event.target.value))}><option value={0}>Selecione</option>{therapists.data?.filter((item) => item.ativo).map((item) => <option value={item.id} key={item.id}>{item.nome} • {item.crefito}</option>)}</select></label><div className="referral-action-row"><button className="primary-button" disabled={!therapistId || actionMutation.isPending} onClick={() => actionMutation.mutate('assume')}>Assumir encaminhamento</button></div></div>}
-          {selected.statusEncaminhamento === 'EM_TRATAMENTO' && <div className="referral-action-row referral-discharge-action"><button className="primary-button" disabled={actionMutation.isPending} onClick={() => actionMutation.mutate('discharge')}>Registrar alta terapêutica</button></div>}
           {!['ALTA', 'RETIRADO_PELO_PACIENTE'].includes(selected.statusEncaminhamento) && <div className="form-section referral-withdraw-section"><label className="field field-wide"><span>Motivo da retirada</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Preencha somente para retirada pelo paciente" /></label><div className="referral-action-row"><button className="secondary-button" disabled={!reason.trim() || actionMutation.isPending} onClick={() => actionMutation.mutate('withdraw')}>Registrar retirada</button></div></div>}
           <MutationError error={actionMutation.error} />
         </div>}
