@@ -11,7 +11,8 @@ export function getApiErrorMessage(error: unknown) {
   if (axios.isAxiosError<ApiErrorBody>(error)) {
     if (error.response?.data?.mensagem) return error.response.data.mensagem
     if (error.code === 'ECONNABORTED') return 'O servidor demorou para responder. Tente novamente.'
-    if (!error.response) return 'Não foi possível conectar ao backend. Confirme se o Spring está rodando na porta 8080.'
+    if (!error.response)
+      return 'Não foi possível conectar ao backend. Confirme se o Spring está rodando na porta 8080.'
   }
   return 'Não foi possível concluir a operação.'
 }

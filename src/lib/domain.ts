@@ -22,15 +22,15 @@ export const prioridadeLabel: Record<Prioridade, string> = {
 }
 
 export function getPrioridadeLabel(value?: Prioridade | null) {
-  return value ? prioridadeLabel[value] ?? 'Não definida' : 'Não definida'
+  return value ? (prioridadeLabel[value] ?? 'Não definida') : 'Não definida'
 }
 
 export function getStatusEncaminhamentoLabel(value?: StatusEncaminhamento | null) {
-  return value ? statusEncaminhamentoLabel[value] ?? 'Não informado' : 'Não informado'
+  return value ? (statusEncaminhamentoLabel[value] ?? 'Não informado') : 'Não informado'
 }
 
 export function getStatusConsultaLabel(value?: StatusConsulta | null) {
-  return value ? statusConsultaLabel[value] ?? 'Não informado' : 'Não informado'
+  return value ? (statusConsultaLabel[value] ?? 'Não informado') : 'Não informado'
 }
 
 export function priorityTone(value?: Prioridade | null) {
@@ -42,7 +42,13 @@ export function priorityTone(value?: Prioridade | null) {
 
 export function initials(name?: string | null) {
   if (!name) return '—'
-  return name.split(' ').filter(Boolean).map((part) => part[0]).slice(0, 2).join('').toUpperCase()
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
 }
 
 export function formatDate(value?: string | null) {

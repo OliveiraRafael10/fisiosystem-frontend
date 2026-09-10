@@ -1,5 +1,12 @@
 import { api } from '../api/api'
-import type { Encaminhamento, EncaminhamentoInput, IndicadoresEncaminhamento, IndicadoresPrioridade, Prioridade, StatusEncaminhamento } from '../types'
+import type {
+  Encaminhamento,
+  EncaminhamentoInput,
+  IndicadoresEncaminhamento,
+  IndicadoresPrioridade,
+  Prioridade,
+  StatusEncaminhamento,
+} from '../types'
 
 export const referralService = {
   async list(): Promise<Encaminhamento[]> {
@@ -23,7 +30,9 @@ export const referralService = {
     return data
   },
   async assume(id: number, fisioterapeutaId: number): Promise<Encaminhamento> {
-    const { data } = await api.put<Encaminhamento>(`/encaminhamentos/${id}/assumir`, undefined, { params: { fisioterapeutaId } })
+    const { data } = await api.put<Encaminhamento>(`/encaminhamentos/${id}/assumir`, undefined, {
+      params: { fisioterapeutaId },
+    })
     return data
   },
   async withdraw(id: number, motivo: string): Promise<Encaminhamento> {
@@ -39,7 +48,9 @@ export const referralService = {
     return data
   },
   async queuePriorityIndicators(): Promise<IndicadoresPrioridade> {
-    const { data } = await api.get<IndicadoresPrioridade>('/encaminhamentos/indicadores/fila-prioridade')
+    const { data } = await api.get<IndicadoresPrioridade>(
+      '/encaminhamentos/indicadores/fila-prioridade',
+    )
     return data
   },
   async averageWait(): Promise<number> {

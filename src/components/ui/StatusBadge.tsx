@@ -26,5 +26,10 @@ const toneByStatus: Record<string, string> = {
 }
 
 export function StatusBadge({ children }: StatusBadgeProps) {
-  return <span className={`status-badge ${toneByStatus[children] ?? 'status-inactive'}`}><i />{children}</span>
+  return (
+    <span className={`status-badge ${toneByStatus[children] ?? 'status-inactive'}`}>
+      <i />
+      {children}
+    </span>
+  )
 }

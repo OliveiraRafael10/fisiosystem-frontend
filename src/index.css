@@ -23,12 +23,33 @@
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 24px;
-  --shadow-soft: 0 14px 40px rgba(28, 65, 53, .07);
+  --shadow-soft: 0 14px 40px rgba(28, 65, 53, 0.07);
 }
 
-* { box-sizing: border-box; }
-html { min-width: 320px; min-height: 100%; }
-body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--canvas); }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible, input:focus-visible { outline: 3px solid rgba(12, 119, 115, .22); outline-offset: 2px; }
+* {
+  box-sizing: border-box;
+}
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--canvas);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(12, 119, 115, 0.22);
+  outline-offset: 2px;
+}

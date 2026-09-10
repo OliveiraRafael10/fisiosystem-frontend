@@ -78,7 +78,13 @@ export function AppLayout() {
         },
         annotations: { readOnlyHint: true, untrustedContentHint: false },
         execute: (input) => {
-          if (!input || typeof input !== 'object' || !('query' in input) || typeof input.query !== 'string' || !input.query.trim()) {
+          if (
+            !input ||
+            typeof input !== 'object' ||
+            !('query' in input) ||
+            typeof input.query !== 'string' ||
+            !input.query.trim()
+          ) {
             throw new Error('Informe um termo de busca válido.')
           }
           const query = input.query.trim()
@@ -89,7 +95,9 @@ export function AppLayout() {
     ]
     tools.forEach((tool) => {
       try {
-        void Promise.resolve(context.registerTool(tool, { signal: lifecycle.signal })).catch(() => undefined)
+        void Promise.resolve(context.registerTool(tool, { signal: lifecycle.signal })).catch(
+          () => undefined,
+        )
       } catch {
         return
       }
@@ -99,17 +107,38 @@ export function AppLayout() {
 
   return (
     <div className="app-shell">
-      {mobileOpen && <button className="sidebar-backdrop" aria-label="Fechar menu" onClick={() => setMobileOpen(false)} />}
+      {mobileOpen && (
+        <button
+          className="sidebar-backdrop"
+          aria-label="Fechar menu"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
       <aside className={`sidebar ${mobileOpen ? 'sidebar-open' : ''}`}>
         <div className="brand">
-          <span className="brand-symbol"><HeartPulse size={22} /></span>
-          <span><strong>Fisio</strong>System</span>
-          <button className="sidebar-close" aria-label="Fechar menu" onClick={() => setMobileOpen(false)}><X size={19} /></button>
+          <span className="brand-symbol">
+            <HeartPulse size={22} />
+          </span>
+          <span>
+            <strong>Fisio</strong>System
+          </span>
+          <button
+            className="sidebar-close"
+            aria-label="Fechar menu"
+            onClick={() => setMobileOpen(false)}
+          >
+            <X size={19} />
+          </button>
         </div>
         <nav className="nav-list" aria-label="Navegação principal">
           <p className="nav-label">ATENDIMENTO</p>
           {menu.slice(0, 5).map(({ label, to, icon: Icon }) => (
-            <NavLink className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`} to={to} end={to === '/'} key={label}>
+            <NavLink
+              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+              to={to}
+              end={to === '/'}
+              key={label}
+            >
               <Icon size={19} strokeWidth={1.8} />
               <span>{label}</span>
               <span className="active-dot" />
@@ -117,7 +146,11 @@ export function AppLayout() {
           ))}
           <p className="nav-label nav-separator">GESTÃO</p>
           {menu.slice(5).map(({ label, to, icon: Icon }) => (
-            <NavLink className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`} to={to} key={label}>
+            <NavLink
+              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+              to={to}
+              key={label}
+            >
               <Icon size={19} strokeWidth={1.8} />
               <span>{label}</span>
               <span className="active-dot" />
@@ -125,18 +158,32 @@ export function AppLayout() {
           ))}
         </nav>
         <div className="sidebar-card">
-          <span className="sidebar-card-icon"><Activity size={18} /></span>
-          <div><strong>Ambiente operacional</strong><small>Backend Spring integrado</small></div>
+          <span className="sidebar-card-icon">
+            <Activity size={18} />
+          </span>
+          <div>
+            <strong>Ambiente operacional</strong>
+            <small>Backend Spring integrado</small>
+          </div>
         </div>
         <div className="profile-mini">
           <span className="avatar">RM</span>
-          <div><strong>Rafa Martins</strong><small>Administrador</small></div>
+          <div>
+            <strong>Rafa Martins</strong>
+            <small>Administrador</small>
+          </div>
           <ChevronRight size={17} />
         </div>
       </aside>
 
       <main className="main-content">
-        <button className="mobile-menu mobile-menu-floating" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}><Menu size={23} /></button>
+        <button
+          className="mobile-menu mobile-menu-floating"
+          aria-label="Abrir menu"
+          onClick={() => setMobileOpen(true)}
+        >
+          <Menu size={23} />
+        </button>
         <Outlet />
       </main>
     </div>

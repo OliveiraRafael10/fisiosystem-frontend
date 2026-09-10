@@ -41,6 +41,10 @@ const alertWaitLimit: Record<Prioridade, number> = {
   TERCIARIA: 30,
 }
 
+function getReferralActionLabel(patientName?: string | null) {
+  return `Abrir encaminhamento de ${patientName || 'paciente não informado'} para assumir o caso`
+}
+
 export function DashboardPage() {
   const navigate = useNavigate()
   const [queueFilter, setQueueFilter] = useState<QueueFilter>('TODOS')
@@ -163,10 +167,7 @@ export function DashboardPage() {
           <small>Acessar prontuários</small>
         </button>
 
-        <button
-          className="stat-card dashboard-stat-button"
-          onClick={() => navigate('/consultas')}
-        >
+        <button className="stat-card dashboard-stat-button" onClick={() => navigate('/consultas')}>
           <div className="stat-top">
             <span className="stat-icon blue">
               <CalendarDays />
@@ -176,8 +177,7 @@ export function DashboardPage() {
           <strong>{todayAppointments.length}</strong>
           <p>Consultas hoje</p>
           <small>
-            {todayAppointments.filter((item) => item.status === 'AGENDADA').length}{' '}
-            ainda agendadas
+            {todayAppointments.filter((item) => item.status === 'AGENDADA').length} ainda agendadas
           </small>
         </button>
 
@@ -241,8 +241,7 @@ export function DashboardPage() {
                 <p>Ordenada por prioridade e tempo de espera</p>
               </div>
               <strong>
-                {referralIndicators.data?.naFila ?? 0} aguardando <i /> {primaryCount}{' '}
-                prioritários
+                {referralIndicators.data?.naFila ?? 0} aguardando <i /> {primaryCount} prioritários
               </strong>
             </div>
 
@@ -275,7 +274,7 @@ export function DashboardPage() {
                   className={`dashboard-queue-item ${item.prioridade === 'PRIMARIA' ? 'is-primary' : ''}`}
                   key={item.id}
                   onClick={() => navigate(`/encaminhamentos/${item.id}`, { state: { from: '/' } })}
-                  aria-label={`Abrir encaminhamento de ${item.pacienteNome || 'paciente não informado'} para assumir o caso`}
+                  aria-label={getReferralActionLabel(item.pacienteNome)}
                 >
                   <span className="queue-position">
                     {String(fullQueue.indexOf(item) + 1).padStart(2, '0')}
@@ -289,9 +288,7 @@ export function DashboardPage() {
                     </p>
                   </div>
 
-                  <span
-                    className={`queue-priority priority-${priorityTone(item.prioridade)}`}
-                  >
+                  <span className={`queue-priority priority-${priorityTone(item.prioridade)}`}>
                     <b>{priorityCode[item.prioridade] ?? '—'}</b>
                     {getPrioridadeLabel(item.prioridade)}
                   </span>

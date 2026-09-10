@@ -1,5 +1,11 @@
 import { api } from '../api/api'
-import type { Consulta, ConsultaInput, IndicadoresConsulta, StatusConsulta, TaxaFaltas } from '../types'
+import type {
+  Consulta,
+  ConsultaInput,
+  IndicadoresConsulta,
+  StatusConsulta,
+  TaxaFaltas,
+} from '../types'
 
 export const appointmentService = {
   async list(): Promise<Consulta[]> {
@@ -22,7 +28,10 @@ export const appointmentService = {
     const { data } = await api.put<Consulta>(`/consultas/${id}/reagendar`, { novaDataHora })
     return data
   },
-  async complete(id: number, payload: { diagnostico: string; procedimentos: string; conduta: string }): Promise<Consulta> {
+  async complete(
+    id: number,
+    payload: { diagnostico: string; procedimentos: string; conduta: string },
+  ): Promise<Consulta> {
     const { data } = await api.put<Consulta>(`/consultas/${id}/realizar`, payload)
     return data
   },
@@ -39,11 +48,15 @@ export const appointmentService = {
     return data
   },
   async periodIndicators(dataInicio: string, dataFim: string): Promise<IndicadoresConsulta> {
-    const { data } = await api.get<IndicadoresConsulta>('/consultas/indicadores/periodo', { params: { dataInicio, dataFim } })
+    const { data } = await api.get<IndicadoresConsulta>('/consultas/indicadores/periodo', {
+      params: { dataInicio, dataFim },
+    })
     return data
   },
   async absenceRate(dataInicio: string, dataFim: string): Promise<TaxaFaltas> {
-    const { data } = await api.get<TaxaFaltas>('/consultas/indicadores/taxa-faltas', { params: { dataInicio, dataFim } })
+    const { data } = await api.get<TaxaFaltas>('/consultas/indicadores/taxa-faltas', {
+      params: { dataInicio, dataFim },
+    })
     return data
   },
 }

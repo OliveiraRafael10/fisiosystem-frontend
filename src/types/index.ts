@@ -1,5 +1,6 @@
 export type StatusConsulta = 'AGENDADA' | 'REALIZADA' | 'FALTA' | 'CANCELADA'
-export type StatusEncaminhamento = 'NA_FILA' | 'ASSUMIDO' | 'EM_TRATAMENTO' | 'ALTA' | 'RETIRADO_PELO_PACIENTE'
+export type StatusEncaminhamento =
+  'NA_FILA' | 'ASSUMIDO' | 'EM_TRATAMENTO' | 'ALTA' | 'RETIRADO_PELO_PACIENTE'
 export type Prioridade = 'PRIMARIA' | 'SECUNDARIA' | 'TERCIARIA'
 export type TipoAtendimento = 'SUS' | 'CONVENIO'
 

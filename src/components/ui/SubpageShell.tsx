@@ -12,7 +12,15 @@ interface SubpageShellProps {
   actions?: ReactNode
 }
 
-export function SubpageShell({ eyebrow, title, description, fallback, backLabel, children, actions }: SubpageShellProps) {
+export function SubpageShell({
+  eyebrow,
+  title,
+  description,
+  fallback,
+  backLabel,
+  children,
+  actions,
+}: SubpageShellProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const from = (location.state as { from?: string } | null)?.from
@@ -24,7 +32,9 @@ export function SubpageShell({ eyebrow, title, description, fallback, backLabel,
         <span>Voltar para {backLabel}</span>
       </button>
       <header className="subpage-header">
-        <span className="subpage-header-icon"><HeartPulse size={27} /></span>
+        <span className="subpage-header-icon">
+          <HeartPulse size={27} />
+        </span>
         <div>
           <span>{eyebrow}</span>
           <h1>{title}</h1>
