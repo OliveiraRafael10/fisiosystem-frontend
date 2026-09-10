@@ -6,9 +6,11 @@ import { appointmentService } from '../../services/appointmentService'
 
 interface ReferralConsultationHistoryProps {
   referralId: number
+  excludeAppointmentId?: number
+  beforeDateTime?: string
 }
 
-export function ReferralConsultationHistory({ referralId }: ReferralConsultationHistoryProps) {
+export function ReferralConsultationHistory({ referralId, excludeAppointmentId, beforeDateTime }: ReferralConsultationHistoryProps) {
   const [open, setOpen] = useState(false)
   const appointments = useQuery({
     queryKey: ['appointments'],
@@ -18,9 +20,9 @@ export function ReferralConsultationHistory({ referralId }: ReferralConsultation
   const completed = useMemo(() => {
     const today = localDate()
     return (appointments.data ?? [])
-      .filter((item) => item.encaminhamentoId === referralId && item.status === 'REALIZADA' && item.dataHora.slice(0, 10) <= today)
+      .filter((item) => item.encaminhamentoId === referralId && item.status === 'REALIZADA' && item.id !== excludeAppointmentId && item.dataHora.slice(0, 10) <= today && (!beforeDateTime || item.dataHora < beforeDateTime))
       .sort((a, b) => a.dataHora.localeCompare(b.dataHora))
-  }, [appointments.data, referralId])
+  }, [appointments.data, beforeDateTime, excludeAppointmentId, referralId])
 
   const countLabel = completed.length === 1 ? '1 consulta realizada' : `${completed.length} consultas realizadas`
 
@@ -35,16 +37,16 @@ export function ReferralConsultationHistory({ referralId }: ReferralConsultation
       >
         <span className="referral-consultations-icon"><CalendarCheck size={21} /></span>
         <span className="referral-consultations-copy">
-          <small>Consultas realizadas até hoje</small>
+          <small>{beforeDateTime ? 'Registros anteriores deste encaminhamento' : 'Consultas realizadas até hoje'}</small>
           <strong>{appointments.isLoading ? 'Carregando histórico...' : countLabel}</strong>
         </span>
-        <span className="referral-consultations-action">{open ? 'Ocultar histórico' : 'Ver histórico'} <ChevronDown size={18} /></span>
+        <span className="referral-consultations-action">{open ? 'Ocultar registros' : beforeDateTime ? 'Ver registros anteriores' : 'Ver histórico'} <ChevronDown size={18} /></span>
       </button>
 
       {open && (
         <div className="referral-consultations-history" id={`referral-consultations-${referralId}`}>
           <header>
-            <div><strong>Linha do tempo de atendimentos</strong><span>Da primeira consulta à mais recente</span></div>
+            <div><strong>Linha do tempo de atendimentos</strong><span>{beforeDateTime ? 'Consultas realizadas antes deste atendimento' : 'Da primeira consulta à mais recente'}</span></div>
             <span>{completed.length}</span>
           </header>
 
