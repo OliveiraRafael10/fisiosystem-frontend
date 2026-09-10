@@ -7,7 +7,7 @@ interface ModalProps {
   description?: string
   onClose: () => void
   children: ReactNode
-  size?: 'medium' | 'large'
+  size?: 'medium' | 'large' | 'wide'
   variant?: 'default' | 'referral'
 }
 

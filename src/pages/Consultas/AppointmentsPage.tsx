@@ -119,7 +119,7 @@ export function AppointmentsPage() {
         <aside className="agenda-side"><section className="panel day-overview"><div className="panel-heading"><div><h2>Resumo do dia</h2><p>Status dos atendimentos</p></div></div><div className="radial-progress"><div style={{ '--progress': `${Math.min(100, selectedAppointments.length * 8)}%` } as React.CSSProperties}><strong>{selectedAppointments.length}</strong><span>consultas</span></div></div><div className="overview-line"><span><i className="legend confirmed" /> Agendadas</span><strong>{selectedAppointments.filter((item) => item.status === 'AGENDADA').length}</strong></div><div className="overview-line"><span><i className="legend pending" /> Realizadas</span><strong>{selectedAppointments.filter((item) => item.status === 'REALIZADA').length}</strong></div><div className="overview-line"><span><i className="legend free" /> Faltas/canceladas</span><strong>{selectedAppointments.filter((item) => ['FALTA', 'CANCELADA'].includes(item.status)).length}</strong></div></section><section className="panel next-slot"><span><Clock3 size={19} /></span><div><small>INTEGRAÇÃO ATIVA</small><strong>Agenda do Spring</strong><p>Dados atualizados automaticamente</p></div></section></aside>
       </div>
 
-      <Modal open={quickAction === 'reschedule'} title="Remarcar consulta" description={quickAppointment ? `${quickAppointment.pacienteNome} • Consulta #${quickAppointment.id}` : undefined} onClose={closeQuickAction}>
+      <Modal open={quickAction === 'reschedule'} title="Remarcar consulta" description={quickAppointment ? `${quickAppointment.pacienteNome} • Consulta #${quickAppointment.id}` : undefined} onClose={closeQuickAction} size="wide">
         <form className="quick-action-modal" onSubmit={(event) => { event.preventDefault(); quickMutation.mutate() }}>
           <div className="quick-action-summary">
             <span className="quick-action-summary-icon"><CalendarClock size={22} /></span>
@@ -136,7 +136,7 @@ export function AppointmentsPage() {
         </form>
       </Modal>
 
-      <Modal open={quickAction === 'cancel'} title="Registrar cancelamento" description={quickAppointment ? `${quickAppointment.pacienteNome} • Consulta #${quickAppointment.id}` : undefined} onClose={closeQuickAction}>
+      <Modal open={quickAction === 'cancel'} title="Registrar cancelamento" description={quickAppointment ? `${quickAppointment.pacienteNome} • Consulta #${quickAppointment.id}` : undefined} onClose={closeQuickAction} size="wide">
         <form className="quick-action-modal" onSubmit={(event) => { event.preventDefault(); quickMutation.mutate() }}>
           <div className="quick-action-summary quick-action-summary-danger">
             <span className="quick-action-summary-icon"><CalendarX size={22} /></span>

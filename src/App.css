@@ -4456,3 +4456,206 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.modal-wide {
+  width: min(920px, 100%);
+}
+
+.modal-wide .modal-header {
+  min-height: 126px;
+  padding: 28px 32px 26px;
+  grid-template-columns: 54px minmax(0, 1fr) 46px;
+  gap: 18px;
+}
+
+.modal-wide .modal-heading-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+}
+
+.modal-wide .modal-heading-copy > span {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.modal-wide .modal-header h2 {
+  font-size: 29px;
+}
+
+.modal-wide .modal-header p {
+  margin-top: 7px;
+  font-size: 16px;
+}
+
+.modal-wide .modal-header > button {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+}
+
+.modal-wide .quick-action-modal {
+  min-height: 390px;
+  gap: 24px;
+  padding-top: 26px;
+}
+
+.modal-wide .quick-action-summary {
+  min-height: 92px;
+  margin: 0 28px;
+  padding: 21px 23px;
+  border-radius: 19px;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 17px;
+}
+
+.modal-wide .quick-action-summary-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+}
+
+.modal-wide .quick-action-summary-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.modal-wide .quick-action-summary span:not(.quick-action-summary-icon) {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.modal-wide .quick-action-summary strong {
+  font-size: 19px;
+}
+
+.modal-card.modal-wide .quick-action-form-section {
+  margin: 0 28px;
+  padding: 25px 26px;
+  border-radius: 19px;
+}
+
+.modal-wide .quick-action-fields {
+  gap: 21px;
+}
+
+.modal-wide .field {
+  gap: 10px;
+}
+
+.modal-wide .field > span {
+  font-size: 16px;
+}
+
+.modal-wide .field input,
+.modal-wide .field select,
+.modal-wide .field textarea {
+  min-height: 60px;
+  padding: 15px 17px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+.modal-wide .field textarea {
+  min-height: 150px;
+}
+
+.modal-wide .quick-action-modal .modal-footer {
+  min-height: 92px;
+  padding: 19px 28px;
+}
+
+.modal-wide .primary-button,
+.modal-wide .secondary-button,
+.modal-wide .danger-button {
+  min-width: 160px;
+  height: 54px;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  .modal-wide .modal-header {
+    min-height: 104px;
+    padding: 22px 18px 19px;
+    grid-template-columns: 44px minmax(0, 1fr) 40px;
+    gap: 12px;
+  }
+
+  .modal-wide .modal-heading-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .modal-wide .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .modal-wide .modal-header p {
+    font-size: 13px;
+  }
+
+  .modal-wide .modal-header > button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-wide .quick-action-modal {
+    min-height: 0;
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .modal-wide .quick-action-summary,
+  .modal-card.modal-wide .quick-action-form-section {
+    margin-right: 14px;
+    margin-left: 14px;
+  }
+
+  .modal-wide .quick-action-summary {
+    min-height: 80px;
+    padding: 16px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .modal-wide .quick-action-summary-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .modal-wide .quick-action-summary strong {
+    font-size: 16px;
+  }
+
+  .modal-card.modal-wide .quick-action-form-section {
+    padding: 19px;
+  }
+
+  .modal-wide .field input,
+  .modal-wide .field select,
+  .modal-wide .field textarea {
+    min-height: 54px;
+    font-size: 16px;
+  }
+
+  .modal-wide .field textarea {
+    min-height: 122px;
+  }
+
+  .modal-wide .quick-action-modal .modal-footer {
+    min-height: 82px;
+    padding: 14px;
+  }
+
+  .modal-wide .primary-button,
+  .modal-wide .secondary-button,
+  .modal-wide .danger-button {
+    min-width: 0;
+    height: 50px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+}
