@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { ReferralMetricCard } from '../../components/referrals/ReferralMetricCard'
 import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusBadge } from '../../components/ui/StatusBadge'
@@ -83,6 +84,37 @@ export function ReferralsPage() {
     )
 
   const currentPath = `${location.pathname}${location.search}`
+  const metrics = [
+    {
+      icon: Clock3,
+      label: 'Aguardando vaga',
+      supportingText: 'Fila atual',
+      tone: 'orange' as const,
+      value: indicators.data?.naFila ?? 0,
+    },
+    {
+      icon: Siren,
+      label: 'Prioridade primária',
+      supportingText: 'Requer atenção',
+      tone: 'red' as const,
+      value: priority.data?.primaria ?? 0,
+    },
+    {
+      icon: ClipboardCheck,
+      label: 'Em tratamento',
+      supportingText: `${indicators.data?.assumidos ?? 0} assumidos`,
+      tone: 'green' as const,
+      value: indicators.data?.emTratamento ?? 0,
+    },
+    {
+      icon: Building2,
+      label: 'Altas registradas',
+      supportingText: `${indicators.data?.total ?? 0} no total`,
+      tone: 'blue' as const,
+      value: indicators.data?.altas ?? 0,
+    },
+  ]
+
   return (
     <section className="page-content">
       <PageHeader
@@ -98,47 +130,10 @@ export function ReferralsPage() {
           </button>
         }
       />
-      <div className="metric-row">
-        <article>
-          <span className="metric-icon peach">
-            <Clock3 />
-          </span>
-          <div>
-            <strong>{indicators.data?.naFila ?? 0}</strong>
-            <p>Aguardando vaga</p>
-          </div>
-          <em>Fila atual</em>
-        </article>
-        <article>
-          <span className="metric-icon red">
-            <Siren />
-          </span>
-          <div>
-            <strong>{priority.data?.primaria ?? 0}</strong>
-            <p>Prioridade primária</p>
-          </div>
-          <em>Requer atenção</em>
-        </article>
-        <article>
-          <span className="metric-icon mint">
-            <ClipboardCheck />
-          </span>
-          <div>
-            <strong>{indicators.data?.emTratamento ?? 0}</strong>
-            <p>Em tratamento</p>
-          </div>
-          <em>{indicators.data?.assumidos ?? 0} assumidos</em>
-        </article>
-        <article>
-          <span className="metric-icon blue">
-            <Building2 />
-          </span>
-          <div>
-            <strong>{indicators.data?.altas ?? 0}</strong>
-            <p>Altas registradas</p>
-          </div>
-          <em>{indicators.data?.total ?? 0} no total</em>
-        </article>
+      <div className="mb-5 grid grid-cols-1 gap-4 min-[680px]:grid-cols-2 min-[1180px]:grid-cols-4">
+        {metrics.map((metric) => (
+          <ReferralMetricCard key={metric.label} {...metric} />
+        ))}
       </div>
       <section className="data-panel">
         <div className="table-toolbar">
