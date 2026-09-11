@@ -1,0 +1,938 @@
+.subpage-shell {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+}
+
+.subpage-back {
+  min-height: 48px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+  border: 0;
+  color: #2f6653;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.subpage-back svg {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  border: 1px solid #c9ddd4;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(30, 82, 63, 0.07);
+}
+
+.subpage-back:hover svg {
+  border-color: #91bba9;
+  transform: translateX(-2px);
+}
+
+.subpage-back:focus-visible {
+  outline: 3px solid rgba(30, 127, 95, 0.2);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.subpage-header {
+  min-height: 150px;
+  padding: 28px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 25px 25px 0 0;
+  color: #fff;
+  background: linear-gradient(128deg, #12694f 0%, #1d8163 56%, #329176 100%);
+  box-shadow: 0 22px 50px rgba(21, 82, 62, 0.15);
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 19px;
+}
+
+.subpage-header-icon {
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.11);
+  display: grid;
+  place-items: center;
+}
+
+.subpage-header > div > span {
+  color: #c9eadf;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.subpage-header h1 {
+  margin: 5px 0 0;
+  color: #fff;
+  font: 750 clamp(28px, 3vw, 40px)/1.15 'Manrope';
+  letter-spacing: -0.65px;
+}
+
+.subpage-header p {
+  margin: 7px 0 0;
+  color: #d9eee7;
+  font-size: 16px;
+}
+
+.subpage-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subpage-header-button {
+  min-height: 48px;
+  padding: 0 17px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 13px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.subpage-header-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.subpage-header-actions .status-badge {
+  padding: 10px 14px;
+  color: #e8f7f1;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 14px;
+}
+
+.subpage-surface {
+  min-height: 460px;
+  padding: 30px;
+  border: 1px solid #d6e4dd;
+  border-top: 0;
+  border-radius: 0 0 25px 25px;
+  background: linear-gradient(145deg, rgba(244, 250, 247, 0.98), #fff 62%);
+  box-shadow: 0 24px 55px rgba(29, 69, 54, 0.1);
+}
+
+.subpage-form {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.subpage-surface .form-section {
+  margin: 0;
+  padding: 28px;
+  border: 1px solid #d8e6df;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 30px rgba(30, 75, 58, 0.05);
+}
+
+.subpage-surface .form-section + .form-section {
+  margin-top: 20px;
+}
+
+.subpage-surface .form-section-title {
+  margin-bottom: 24px;
+}
+
+.subpage-surface .form-section-title strong {
+  font-size: 18px;
+}
+
+.subpage-surface .form-section-title small {
+  font-size: 14px;
+}
+
+.subpage-surface .field > span {
+  font-size: 15px;
+}
+
+.subpage-surface .field input,
+.subpage-surface .field select,
+.subpage-surface .field textarea {
+  min-height: 52px;
+  font-size: 17px;
+}
+
+.subpage-surface .field textarea {
+  min-height: 130px;
+}
+
+.subpage-action-bar {
+  min-height: 86px;
+  margin-top: 22px;
+  padding: 16px 20px;
+  border: 1px solid #d8e6df;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.subpage-action-bar .primary-button,
+.subpage-action-bar .secondary-button {
+  min-width: 170px;
+  min-height: 50px;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.subpage-profile {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.subpage-profile .profile-hero,
+.subpage-profile .referral-profile-card {
+  margin: 0;
+  padding: 28px;
+  border-radius: 21px;
+}
+
+.subpage-profile .profile-hero {
+  border: 1px solid #d3e5dc;
+  background: linear-gradient(135deg, #ebf7f1, #fff 72%);
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.subpage-profile .profile-avatar {
+  width: 78px;
+  height: 78px;
+  font-size: 21px;
+}
+
+.subpage-profile .profile-hero h3 {
+  margin: 10px 0 5px;
+  font-size: 28px;
+}
+
+.subpage-profile .profile-hero p {
+  margin: 0;
+  color: #62786e;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 16px;
+}
+
+.subpage-profile .profile-info-grid {
+  margin: 18px 0 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.subpage-profile .profile-info-grid > div {
+  min-height: 112px;
+  padding: 19px;
+  border: 1px solid #dbe7e1;
+  border-radius: 17px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.subpage-profile .profile-info-grid span {
+  color: #73867d;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+}
+
+.subpage-profile .profile-info-grid strong {
+  color: #315145;
+  font-size: 18px;
+}
+
+.subpage-profile .profile-section-heading {
+  margin: 32px 0 16px;
+}
+
+.subpage-profile .care-card {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 22px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.subpage-card-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.subpage-profile > .referral-consultations {
+  margin: 18px 0 0;
+}
+
+.subpage-work-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.subpage-work-grid .form-section {
+  margin: 0 !important;
+}
+
+.subpage-action-tabs {
+  margin: 22px 0 18px;
+  padding: 6px;
+  border: 1px solid #d6e3dd;
+  border-radius: 15px;
+  background: #eaf2ee;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.subpage-action-tabs button {
+  min-height: 46px;
+  font-size: 15px;
+}
+
+.clinical-record h3 {
+  margin: 0 0 22px;
+  color: #2d5043;
+  font-size: 22px;
+}
+
+.clinical-record dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.clinical-record dl > div {
+  min-height: 118px;
+  padding: 18px;
+  border: 1px solid #dce7e2;
+  border-radius: 15px;
+  background: #f9fcfa;
+}
+
+.clinical-record dt {
+  color: #75877f;
+  font-size: 14px;
+}
+
+.clinical-record dd {
+  margin: 8px 0 0;
+  color: #335146;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.therapist-management {
+  margin-top: 20px !important;
+}
+
+.therapist-management p {
+  margin: 0 0 20px;
+  color: #687d74;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.professional-appointment-card {
+  min-height: 94px;
+  padding: 17px 19px;
+  border: 1px solid #dce7e2;
+  border-radius: 16px;
+  color: inherit;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.professional-appointment-card:hover,
+.subpage-profile .care-card:hover {
+  border-color: #a9cbbb;
+  box-shadow: 0 12px 26px rgba(29, 80, 61, 0.08);
+}
+
+.professional-appointment-card strong,
+.professional-appointment-card span {
+  display: block;
+}
+
+.professional-appointment-card strong {
+  color: #315145;
+  font-size: 17px;
+}
+
+.professional-appointment-card div > span {
+  margin-top: 6px;
+  color: #778981;
+  font-size: 14px;
+}
+
+.subpage-alert-center {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.subpage-alert-center .dashboard-alert-summary {
+  padding: 22px;
+}
+
+.subpage-alert-center .dashboard-alert-item {
+  min-height: 92px;
+  padding: 17px 19px;
+}
+
+@media (max-width: 1000px) {
+  .subpage-profile .profile-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .subpage-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .subpage-header {
+    min-height: 132px;
+    padding: 22px 18px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    border-radius: 21px 21px 0 0;
+  }
+
+  .subpage-header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .subpage-header h1 {
+    font-size: 26px;
+  }
+
+  .subpage-header p {
+    font-size: 14px;
+  }
+
+  .subpage-header-actions {
+    grid-column: 1 / -1;
+  }
+
+  .subpage-surface {
+    padding: 15px;
+    border-radius: 0 0 21px 21px;
+  }
+
+  .subpage-surface .form-section {
+    padding: 19px;
+  }
+
+  .subpage-action-bar {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .subpage-action-bar .primary-button,
+  .subpage-action-bar .secondary-button {
+    width: 100%;
+  }
+
+  .subpage-profile .profile-hero {
+    padding: 20px;
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .subpage-profile .profile-avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .subpage-profile .profile-info-grid,
+  .subpage-card-list,
+  .clinical-record dl {
+    grid-template-columns: 1fr;
+  }
+
+  .subpage-action-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-floating {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 18;
+    display: grid;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 10px 28px rgba(24, 64, 51, 0.15);
+    backdrop-filter: blur(14px);
+  }
+
+  .main-content > .page-content {
+    padding-top: 82px;
+  }
+}
+
+.dashboard-queue-panel .queue-heading-top h2,
+.dashboard-agenda-panel > .panel-heading h2 {
+  margin-bottom: 6px;
+  color: #153f32;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.45px;
+}
+
+@media (max-width: 620px) {
+  .dashboard-queue-panel .queue-heading-top h2,
+  .dashboard-agenda-panel > .panel-heading h2 {
+    font-size: 23px;
+  }
+}
+
+.consultation-card.has-quick-actions {
+  grid-template-columns: 58px 4px minmax(190px, 1.15fr) minmax(155px, 0.85fr) minmax(310px, auto);
+}
+
+.consultation-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.consultation-action {
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.consultation-action:hover {
+  transform: translateY(-1px);
+}
+
+.consultation-action-open {
+  border-color: #c9ddd6;
+  color: #275e4d;
+  background: #fff;
+}
+
+.consultation-action-open:hover {
+  border-color: #88b6a6;
+  box-shadow: 0 7px 18px rgba(32, 94, 75, 0.1);
+}
+
+.consultation-action-reschedule {
+  border-color: #b9d9d8;
+  color: #236c69;
+  background: #e9f5f4;
+}
+
+.consultation-action-reschedule:hover {
+  border-color: #74aaa7;
+  box-shadow: 0 7px 18px rgba(35, 108, 105, 0.12);
+}
+
+.consultation-action-cancel {
+  border-color: #f0cec6;
+  color: #a84c3b;
+  background: #fff2ee;
+}
+
+.consultation-action-cancel:hover {
+  border-color: #dc9586;
+  box-shadow: 0 7px 18px rgba(168, 76, 59, 0.11);
+}
+
+.quick-action-modal {
+  display: grid;
+  gap: 18px;
+}
+
+.quick-action-summary {
+  padding: 17px 18px;
+  border: 1px solid #c8dfd7;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  color: #224f41;
+  background: linear-gradient(135deg, #ecf7f3 0%, #f8fbfa 100%);
+}
+
+.quick-action-summary-danger {
+  border-color: #efd8d1;
+  color: #7f3e32;
+  background: linear-gradient(135deg, #fff1ed 0%, #fff9f7 100%);
+}
+
+.quick-action-summary-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: #16745d;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 7px 18px rgba(32, 86, 68, 0.1);
+}
+
+.quick-action-summary-danger .quick-action-summary-icon {
+  color: #b75644;
+}
+
+.quick-action-summary span:not(.quick-action-summary-icon) {
+  display: block;
+  margin-bottom: 3px;
+  color: #70867e;
+  font-size: 13px;
+}
+
+.quick-action-summary strong {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.modal-card .quick-action-form-section {
+  margin: 0;
+  padding: 19px;
+  background: #fff;
+}
+
+.quick-action-fields {
+  display: grid;
+  gap: 16px;
+}
+
+.quick-action-modal .modal-footer {
+  margin: 0;
+  padding-top: 17px;
+  border-top: 1px solid #dce8e4;
+}
+
+.danger-button {
+  min-height: 43px;
+  padding: 0 18px;
+  border: 1px solid #b85846;
+  border-radius: 11px;
+  color: #fff;
+  background: #b85846;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(184, 88, 70, 0.18);
+}
+
+.danger-button:hover:not(:disabled) {
+  background: #9e4536;
+}
+
+.danger-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 1180px) {
+  .consultation-card.has-quick-actions {
+    grid-template-columns: 58px 4px minmax(190px, 1fr) minmax(160px, 0.8fr);
+  }
+
+  .consultation-actions {
+    grid-column: 3 / -1;
+    justify-content: flex-start;
+    padding-bottom: 5px;
+  }
+}
+
+@media (max-width: 760px) {
+  .consultation-card.has-quick-actions {
+    grid-template-columns: 48px 4px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .consultation-card.has-quick-actions .consultation-therapist {
+    display: none;
+  }
+
+  .consultation-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 5px 0 3px;
+  }
+
+  .consultation-action {
+    min-width: 0;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultation-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-wide {
+  width: min(920px, 100%);
+}
+
+.modal-wide .modal-header {
+  min-height: 126px;
+  padding: 28px 32px 26px;
+  grid-template-columns: 54px minmax(0, 1fr) 46px;
+  gap: 18px;
+}
+
+.modal-wide .modal-heading-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+}
+
+.modal-wide .modal-heading-copy > span {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.modal-wide .modal-header h2 {
+  font-size: 29px;
+}
+
+.modal-wide .modal-header p {
+  margin-top: 7px;
+  font-size: 16px;
+}
+
+.modal-wide .modal-header > button {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+}
+
+.modal-wide .quick-action-modal {
+  min-height: 390px;
+  gap: 24px;
+  padding-top: 26px;
+}
+
+.modal-wide .quick-action-summary {
+  min-height: 92px;
+  margin: 0 28px;
+  padding: 21px 23px;
+  border-radius: 19px;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 17px;
+}
+
+.modal-wide .quick-action-summary-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+}
+
+.modal-wide .quick-action-summary-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.modal-wide .quick-action-summary span:not(.quick-action-summary-icon) {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.modal-wide .quick-action-summary strong {
+  font-size: 19px;
+}
+
+.modal-card.modal-wide .quick-action-form-section {
+  margin: 0 28px;
+  padding: 25px 26px;
+  border-radius: 19px;
+}
+
+.modal-wide .quick-action-fields {
+  gap: 21px;
+}
+
+.modal-wide .field {
+  gap: 10px;
+}
+
+.modal-wide .field > span {
+  font-size: 16px;
+}
+
+.modal-wide .field input,
+.modal-wide .field select,
+.modal-wide .field textarea {
+  min-height: 60px;
+  padding: 15px 17px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+.modal-wide .field textarea {
+  min-height: 150px;
+}
+
+.modal-wide .quick-action-modal .modal-footer {
+  min-height: 92px;
+  padding: 19px 28px;
+}
+
+.modal-wide .primary-button,
+.modal-wide .secondary-button,
+.modal-wide .danger-button {
+  min-width: 160px;
+  height: 54px;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  .modal-wide .modal-header {
+    min-height: 104px;
+    padding: 22px 18px 19px;
+    grid-template-columns: 44px minmax(0, 1fr) 40px;
+    gap: 12px;
+  }
+
+  .modal-wide .modal-heading-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .modal-wide .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .modal-wide .modal-header p {
+    font-size: 13px;
+  }
+
+  .modal-wide .modal-header > button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-wide .quick-action-modal {
+    min-height: 0;
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .modal-wide .quick-action-summary,
+  .modal-card.modal-wide .quick-action-form-section {
+    margin-right: 14px;
+    margin-left: 14px;
+  }
+
+  .modal-wide .quick-action-summary {
+    min-height: 80px;
+    padding: 16px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .modal-wide .quick-action-summary-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .modal-wide .quick-action-summary strong {
+    font-size: 16px;
+  }
+
+  .modal-card.modal-wide .quick-action-form-section {
+    padding: 19px;
+  }
+
+  .modal-wide .field input,
+  .modal-wide .field select,
+  .modal-wide .field textarea {
+    min-height: 54px;
+    font-size: 16px;
+  }
+
+  .modal-wide .field textarea {
+    min-height: 122px;
+  }
+
+  .modal-wide .quick-action-modal .modal-footer {
+    min-height: 82px;
+    padding: 14px;
+  }
+
+  .modal-wide .primary-button,
+  .modal-wide .secondary-button,
+  .modal-wide .danger-button {
+    min-width: 0;
+    height: 50px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+}
+
+.appointment-detail-profile > .referral-consultations,
+.appointment-detail-profile .appointment-clinical-form {
+  margin: 0;
+}
+
+.appointment-detail-profile > .referral-consultations {
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 14px 34px rgba(28, 75, 58, 0.055);
+}

@@ -1,0 +1,1445 @@
+.modal-layer {
+  background: rgba(8, 40, 32, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.modal-card {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 26px;
+  box-shadow: 0 30px 90px rgba(8, 40, 32, 0.27);
+}
+
+.modal-header {
+  padding: 24px 26px;
+}
+
+.modal-header h2 {
+  font-size: 19px;
+}
+
+.modal-header p {
+  font-size: 11px;
+}
+
+.form-section {
+  padding: 22px 26px;
+}
+
+.field > span {
+  font-size: 10px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.field textarea {
+  min-height: 96px;
+}
+
+.notification-popover {
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(18, 58, 45, 0.18);
+}
+
+.empty-state {
+  min-height: 220px;
+}
+
+.empty-state strong {
+  font-size: 13px;
+}
+
+.empty-state p {
+  font-size: 11px;
+}
+
+@media (max-width: 1280px) {
+  .app-shell {
+    grid-template-columns: 248px minmax(0, 1fr);
+  }
+  .sidebar {
+    width: 248px;
+  }
+  .bento-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bento-stats .stat-card,
+  .bento-stats .stat-card:first-child,
+  .bento-stats .stat-card:last-child {
+    grid-column: span 1;
+  }
+  .metric-row,
+  .report-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .metric-row article,
+  .metric-row article:first-child,
+  .metric-row article:last-child,
+  .report-kpis article,
+  .report-kpis article:first-child,
+  .report-kpis article:last-child {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 1080px) {
+  .bento-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bento-stats .stat-card:first-child {
+    grid-column: span 2;
+  }
+  .bento-dashboard,
+  .agenda-layout {
+    grid-template-columns: 1fr;
+  }
+  .agenda-side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .report-grid > :nth-child(n) {
+    grid-column: span 6;
+  }
+  .therapist-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    display: block;
+  }
+  .main-content {
+    width: 100%;
+  }
+  .sidebar {
+    width: min(294px, calc(100vw - 42px));
+    display: flex;
+    transform: translateX(-105%);
+  }
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+  .topbar {
+    height: 70px;
+  }
+  .mobile-menu {
+    display: grid;
+  }
+  .page-content {
+    padding: 28px 22px;
+  }
+  .metric-row,
+  .report-kpis,
+  .list-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-grid > :nth-child(n) {
+    grid-column: 1;
+  }
+  .team-summary {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .filter-tabs {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .table-toolbar .filter-tabs {
+    display: flex;
+  }
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    padding: 0 16px;
+  }
+  .global-search {
+    width: 43px;
+    padding: 0;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+  }
+  .global-search input,
+  .global-search kbd {
+    display: none;
+  }
+  .page-content {
+    padding: 24px 16px 34px;
+  }
+  .page-heading {
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .page-heading h1 {
+    font-size: 29px;
+  }
+  .page-heading p {
+    font-size: 13px;
+  }
+  .page-actions {
+    align-self: center;
+  }
+  .bento-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .bento-stats .stat-card:first-child {
+    grid-column: span 2;
+  }
+  .stat-card {
+    min-height: 170px;
+    padding: 18px;
+  }
+  .stat-card > strong {
+    font-size: 29px;
+  }
+  .bento-dashboard {
+    gap: 12px;
+  }
+  .appointment {
+    grid-template-columns: 48px 8px 36px minmax(0, 1fr) 24px;
+    padding: 0 15px;
+    gap: 8px;
+  }
+  .appointment .therapist {
+    display: none;
+  }
+  .metric-row,
+  .report-kpis,
+  .list-summary {
+    gap: 12px;
+  }
+  .metric-row article,
+  .report-kpis article,
+  .list-summary > div {
+    min-height: 116px;
+    padding: 17px;
+  }
+  .metric-row article em {
+    display: none;
+  }
+  .table-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .table-search {
+    min-width: 100%;
+  }
+  .team-toolbar {
+    flex-direction: column;
+  }
+  .team-toolbar .table-search {
+    max-width: none;
+  }
+  .therapist-grid {
+    grid-template-columns: 1fr;
+  }
+  .agenda-side {
+    grid-template-columns: 1fr;
+  }
+  .consultation-card {
+    grid-template-columns: 48px 4px 1fr 72px;
+  }
+  .consultation-therapist,
+  .consultation-card > .secondary-button {
+    display: none;
+  }
+  .reports-library {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 440px) {
+  .topbar-actions {
+    gap: 8px;
+  }
+  .topbar-actions .primary-button {
+    width: 43px;
+    padding: 0;
+    font-size: 0;
+    justify-content: center;
+  }
+  .bento-stats,
+  .metric-row,
+  .report-kpis {
+    grid-template-columns: 1fr;
+  }
+  .bento-stats .stat-card:first-child {
+    grid-column: span 1;
+  }
+  .list-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .list-summary > div {
+    min-height: 105px;
+  }
+  .panel-heading {
+    padding: 19px;
+  }
+  .panel-heading > button:not(.round-arrow) {
+    font-size: 0;
+  }
+  .data-table {
+    min-width: 760px;
+  }
+  .modal-card {
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+body {
+  font-size: 16px;
+}
+
+.nav-label {
+  font-size: 11px;
+}
+
+.nav-item span:nth-child(2) {
+  font-size: 15px;
+}
+
+.sidebar-card strong,
+.profile-mini strong {
+  font-size: 14px;
+}
+
+.sidebar-card small,
+.profile-mini small {
+  font-size: 12px;
+}
+
+.global-search input,
+.primary-button {
+  font-size: 14px;
+}
+
+.global-search kbd {
+  font-size: 11px;
+}
+
+.page-heading p {
+  font-size: 15px;
+}
+
+.eyebrow {
+  font-size: 12px !important;
+}
+
+.date-button,
+.secondary-button,
+.text-button {
+  font-size: 13px;
+}
+
+.positive,
+.neutral,
+.warning {
+  font-size: 11px;
+}
+
+.stat-card > p {
+  font-size: 15px;
+}
+
+.stat-card > small {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.panel-heading h2,
+.chart-heading h2 {
+  font-size: 18px;
+}
+
+.panel-heading p,
+.chart-heading p,
+.panel-heading > button {
+  font-size: 13px;
+}
+
+.time strong {
+  font-size: 15px;
+}
+
+.time span,
+.appointment-info span,
+.therapist {
+  font-size: 12px;
+}
+
+.appointment-info strong {
+  font-size: 14px;
+}
+
+.patient-avatar {
+  font-size: 12px;
+}
+
+.danger-label,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.wait-time {
+  font-size: 11px;
+}
+
+.priority-highlight strong,
+.priority-row strong {
+  font-size: 13px;
+}
+
+.priority-number,
+.priority-row > span {
+  font-size: 16px;
+}
+
+.queue-button {
+  font-size: 13px;
+}
+
+.insight-strip strong {
+  font-size: 14px;
+}
+
+.insight-strip p,
+.insight-strip button {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.list-summary span {
+  font-size: 13px;
+}
+
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p {
+  font-size: 12px;
+}
+
+.metric-row article em {
+  font-size: 10px;
+}
+
+.table-search input {
+  font-size: 14px;
+}
+
+.filter-tabs button {
+  font-size: 12px;
+}
+
+.data-table th {
+  font-size: 11px;
+  letter-spacing: 0.7px;
+}
+
+.data-table td {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.person-cell strong {
+  font-size: 14px;
+}
+
+.person-cell small,
+.mono-text {
+  font-size: 11px;
+}
+
+.status-badge,
+.priority-pill,
+.protocol {
+  font-size: 10px;
+}
+
+.table-footer {
+  font-size: 12px;
+}
+
+.empty-state strong {
+  font-size: 15px;
+}
+
+.empty-state p {
+  font-size: 13px;
+}
+
+.success-toast strong {
+  font-size: 13px;
+}
+
+.success-toast small {
+  font-size: 11px;
+}
+
+.form-section-title strong,
+.profile-section-heading strong {
+  font-size: 15px;
+}
+
+.form-section-title small,
+.profile-section-heading small {
+  font-size: 12px;
+}
+
+.field > span,
+.report-date-fields .field span {
+  font-size: 12px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-size: 14px;
+}
+
+.form-error,
+.form-section p {
+  font-size: 13px;
+}
+
+.profile-hero h3 {
+  font-size: 21px;
+}
+
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p {
+  font-size: 12px;
+}
+
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong {
+  font-size: 14px;
+}
+
+.calendar-navigation strong {
+  font-size: 14px;
+}
+
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i {
+  font-size: 11px;
+}
+
+.agenda-header h2 {
+  font-size: 18px;
+}
+
+.agenda-header p,
+.capacity-badge {
+  font-size: 12px;
+}
+
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong {
+  font-size: 14px;
+}
+
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span,
+.overview-line,
+.next-slot p {
+  font-size: 11px;
+}
+
+.next-slot small {
+  font-size: 10px;
+}
+
+.next-slot strong {
+  font-size: 13px;
+}
+
+.next-slot button {
+  font-size: 12px;
+}
+
+.team-summary strong {
+  font-size: 16px;
+}
+
+.team-summary p,
+.team-capacity > span {
+  font-size: 12px;
+}
+
+.therapist-name h2 {
+  font-size: 17px;
+}
+
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button {
+  font-size: 12px;
+}
+
+.add-therapist-card strong {
+  font-size: 14px;
+}
+
+.add-therapist-card p {
+  font-size: 12px;
+}
+
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p {
+  font-size: 11px;
+}
+
+.donut-center strong {
+  font-size: 18px;
+}
+
+.donut-center span {
+  font-size: 10px;
+}
+
+.reports-library h2 {
+  font-size: 14px;
+}
+
+.reports-library p,
+.report-file strong,
+.report-file span {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.recharts-text {
+  font-size: 12px;
+}
+
+.notification-popover > div strong {
+  font-size: 16px;
+}
+
+.notification-popover > div span,
+.notification-popover button strong {
+  font-size: 12px;
+}
+
+.notification-popover button small {
+  font-size: 11px;
+}
+
+.api-state,
+.route-loading strong {
+  font-size: 14px;
+}
+
+@media (max-width: 680px) {
+  body {
+    font-size: 15px;
+  }
+  .page-heading p {
+    font-size: 14px;
+  }
+  .stat-card > p {
+    font-size: 14px;
+  }
+  .data-table td {
+    font-size: 12px;
+  }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 {
+    font-size: 16px;
+  }
+}
+
+body {
+  font-size: 17px;
+}
+
+.nav-item span:nth-child(2) {
+  font-size: 16px;
+}
+.nav-label {
+  font-size: 12px;
+}
+.sidebar-card strong,
+.profile-mini strong {
+  font-size: 15px;
+}
+.sidebar-card small,
+.profile-mini small {
+  font-size: 13px;
+}
+
+.global-search input,
+.primary-button {
+  font-size: 15px;
+}
+.global-search kbd {
+  font-size: 12px;
+}
+.page-heading p {
+  font-size: 17px;
+}
+.eyebrow {
+  font-size: 13px !important;
+}
+.date-button,
+.secondary-button,
+.text-button {
+  font-size: 15px;
+}
+
+.positive,
+.neutral,
+.warning {
+  font-size: 12px;
+}
+.stat-card > p {
+  font-size: 17px;
+}
+.stat-card > small {
+  font-size: 14px;
+}
+
+.panel-heading h2,
+.chart-heading h2 {
+  font-size: 20px;
+}
+.panel-heading p,
+.chart-heading p,
+.panel-heading > button {
+  font-size: 14px;
+}
+
+.time strong {
+  font-size: 16px;
+}
+.time span,
+.appointment-info span,
+.therapist {
+  font-size: 13px;
+}
+.appointment-info strong {
+  font-size: 15px;
+}
+.patient-avatar {
+  font-size: 13px;
+}
+
+.danger-label,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.wait-time {
+  font-size: 12px;
+}
+.priority-highlight strong,
+.priority-row strong {
+  font-size: 14px;
+}
+.priority-number,
+.priority-row > span {
+  font-size: 17px;
+}
+.queue-button {
+  font-size: 14px;
+}
+
+.insight-strip strong {
+  font-size: 15px;
+}
+.insight-strip p,
+.insight-strip button {
+  font-size: 14px;
+}
+.list-summary span {
+  font-size: 15px;
+}
+
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p {
+  font-size: 14px;
+}
+.metric-row article em {
+  font-size: 12px;
+}
+
+.table-search input {
+  font-size: 15px;
+}
+.filter-tabs button {
+  font-size: 13px;
+}
+.data-table th {
+  font-size: 12px;
+}
+.data-table td {
+  font-size: 15px;
+}
+.person-cell strong {
+  font-size: 15px;
+}
+.person-cell small,
+.mono-text {
+  font-size: 13px;
+}
+.status-badge,
+.priority-pill,
+.protocol {
+  font-size: 11px;
+}
+.table-footer {
+  font-size: 14px;
+}
+
+.empty-state strong {
+  font-size: 17px;
+}
+.empty-state p {
+  font-size: 15px;
+}
+.success-toast strong {
+  font-size: 14px;
+}
+.success-toast small {
+  font-size: 12px;
+}
+
+.form-section-title strong,
+.profile-section-heading strong {
+  font-size: 17px;
+}
+.form-section-title small,
+.profile-section-heading small {
+  font-size: 14px;
+}
+.field > span,
+.report-date-fields .field span {
+  font-size: 14px;
+}
+.field input,
+.field select,
+.field textarea {
+  font-size: 16px;
+}
+.form-error,
+.form-section p {
+  font-size: 15px;
+}
+
+.profile-hero h3 {
+  font-size: 23px;
+}
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p {
+  font-size: 14px;
+}
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong {
+  font-size: 16px;
+}
+
+.calendar-navigation strong {
+  font-size: 16px;
+}
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i {
+  font-size: 13px;
+}
+.agenda-header h2 {
+  font-size: 20px;
+}
+.agenda-header p,
+.capacity-badge {
+  font-size: 14px;
+}
+
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong {
+  font-size: 16px;
+}
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span,
+.overview-line,
+.next-slot p {
+  font-size: 13px;
+}
+.next-slot small {
+  font-size: 12px;
+}
+.next-slot strong {
+  font-size: 15px;
+}
+.next-slot button {
+  font-size: 14px;
+}
+
+.team-summary strong {
+  font-size: 18px;
+}
+.team-summary p,
+.team-capacity > span {
+  font-size: 14px;
+}
+.therapist-name h2 {
+  font-size: 19px;
+}
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button {
+  font-size: 14px;
+}
+.add-therapist-card strong {
+  font-size: 16px;
+}
+.add-therapist-card p {
+  font-size: 14px;
+}
+
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p {
+  font-size: 13px;
+}
+.donut-center strong {
+  font-size: 20px;
+}
+.donut-center span {
+  font-size: 12px;
+}
+.reports-library h2 {
+  font-size: 16px;
+}
+.reports-library p,
+.report-file strong,
+.report-file span {
+  font-size: 13px;
+}
+.recharts-text {
+  font-size: 14px;
+}
+
+.notification-popover > div strong {
+  font-size: 18px;
+}
+.notification-popover > div span,
+.notification-popover button strong {
+  font-size: 14px;
+}
+.notification-popover button small {
+  font-size: 13px;
+}
+.api-state,
+.route-loading strong {
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  body {
+    font-size: 16px;
+  }
+  .page-heading p {
+    font-size: 15px;
+  }
+  .stat-card > p {
+    font-size: 16px;
+  }
+  .data-table td {
+    font-size: 14px;
+  }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 {
+    font-size: 18px;
+  }
+}
+
+body {
+  font-size: 18px;
+}
+
+.main-content :where(p, span, small, em, button, input, select, textarea, th, td, label) {
+  font-size: 16px;
+}
+
+.topbar {
+  height: 84px;
+}
+
+.nav-item {
+  height: 52px;
+}
+
+.nav-item span:nth-child(2) {
+  font-size: 17px;
+}
+
+.nav-label,
+.eyebrow {
+  font-size: 14px !important;
+}
+
+.sidebar-card strong,
+.profile-mini strong {
+  font-size: 16px;
+}
+
+.sidebar-card small,
+.profile-mini small,
+.global-search kbd {
+  font-size: 14px;
+}
+
+.page-heading h1 {
+  font-size: clamp(36px, 3.4vw, 46px);
+}
+
+.page-heading p {
+  font-size: 18px;
+}
+
+.primary-button,
+.secondary-button,
+.date-button,
+.text-button,
+.global-search input {
+  font-size: 16px;
+}
+
+.primary-button,
+.secondary-button,
+.date-button {
+  min-height: 48px;
+}
+
+.stat-card {
+  min-height: 218px;
+  padding: 25px;
+}
+
+.stat-card > strong {
+  font-size: 40px;
+}
+
+.stat-card > p {
+  font-size: 19px;
+}
+
+.stat-card > small {
+  font-size: 16px;
+}
+
+.positive,
+.neutral,
+.warning,
+.status-badge,
+.priority-pill,
+.protocol {
+  font-size: 13px;
+}
+
+.panel-heading,
+.agenda-header {
+  min-height: 100px;
+}
+
+.panel-heading h2,
+.chart-heading h2,
+.agenda-header h2 {
+  font-size: 23px;
+}
+
+.panel-heading p,
+.chart-heading p,
+.agenda-header p,
+.panel-heading > button {
+  font-size: 16px;
+}
+
+.appointment {
+  min-height: 96px;
+}
+
+.time strong,
+.appointment-info strong,
+.priority-highlight strong,
+.priority-row strong,
+.consultation-time strong,
+.consultation-patient strong,
+.consultation-therapist strong {
+  font-size: 17px;
+}
+
+.time span,
+.appointment-info span,
+.therapist,
+.priority-highlight p,
+.priority-row p,
+.priority-row em,
+.danger-label,
+.wait-time,
+.consultation-time span,
+.consultation-patient span,
+.consultation-therapist span {
+  font-size: 15px;
+}
+
+.patient-avatar {
+  font-size: 15px;
+}
+
+.priority-number,
+.priority-row > span {
+  font-size: 20px;
+}
+
+.queue-button,
+.insight-strip p,
+.insight-strip button,
+.metric-row article p,
+.report-kpis article > span,
+.report-kpis p {
+  font-size: 16px;
+}
+
+.insight-strip strong,
+.list-summary span {
+  font-size: 17px;
+}
+
+.list-summary strong,
+.metric-row article strong,
+.report-kpis article > strong {
+  font-size: 32px;
+}
+
+.metric-row article em {
+  font-size: 14px;
+}
+
+.table-toolbar {
+  min-height: 88px;
+}
+
+.table-search,
+.field input,
+.field select {
+  min-height: 50px;
+}
+
+.table-search input,
+.filter-tabs button {
+  font-size: 16px;
+}
+
+.data-table th {
+  font-size: 14px;
+}
+
+.data-table td,
+.person-cell strong {
+  font-size: 17px;
+}
+
+.person-cell small,
+.mono-text,
+.table-footer {
+  font-size: 15px;
+}
+
+.empty-state strong,
+.form-section-title strong,
+.profile-section-heading strong,
+.profile-info-grid strong,
+.care-card h4,
+.empty-care strong {
+  font-size: 18px;
+}
+
+.empty-state p,
+.form-section-title small,
+.profile-section-heading small,
+.profile-hero p,
+.profile-info-grid span,
+.care-card p,
+.empty-care p {
+  font-size: 16px;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+}
+
+.modal-header p,
+.field > span,
+.report-date-fields .field span,
+.form-error,
+.form-section p {
+  font-size: 16px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-size: 17px;
+}
+
+.profile-hero h3 {
+  font-size: 26px;
+}
+
+.calendar-navigation strong,
+.team-summary strong,
+.therapist-name h2,
+.donut-center strong {
+  font-size: 21px;
+}
+
+.calendar-navigation span,
+.calendar-navigation .today-button,
+.view-switch button,
+.week-selector span,
+.week-selector i,
+.capacity-badge,
+.overview-line,
+.next-slot p,
+.next-slot small,
+.next-slot button,
+.team-summary p,
+.team-capacity > span,
+.therapist-name p,
+.specialty-label,
+.contact-lines,
+.therapist-body footer span,
+.therapist-body footer button,
+.add-therapist-card p,
+.chart-growth,
+.chart-legend > div,
+.insight-item strong,
+.insight-item p,
+.donut-center span,
+.reports-library p,
+.report-file strong,
+.report-file span,
+.notification-popover button small {
+  font-size: 15px;
+}
+
+.next-slot strong,
+.add-therapist-card strong,
+.reports-library h2,
+.notification-popover > div span,
+.notification-popover button strong {
+  font-size: 17px;
+}
+
+.recharts-text {
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  body {
+    font-size: 17px;
+  }
+  .main-content :where(p, span, small, em, button, input, select, textarea, th, td, label) {
+    font-size: 15px;
+  }
+  .page-heading h1 {
+    font-size: 34px;
+  }
+  .page-heading p {
+    font-size: 17px;
+  }
+  .stat-card > p {
+    font-size: 18px;
+  }
+  .data-table td {
+    font-size: 16px;
+  }
+  .panel-heading h2,
+  .chart-heading h2,
+  .agenda-header h2 {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 440px) {
+  .topbar-actions .primary-button,
+  .page-primary,
+  .panel-heading > button:not(.round-arrow) {
+    font-size: 0;
+  }
+}
+
+.appointment-detail-profile {
+  display: grid;
+  gap: 20px;
+}
+
+.appointment-context-card {
+  overflow: hidden;
+  border: 1px solid #cfe2d9;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 38px rgba(28, 75, 58, 0.06);
+}
+
+.appointment-context-heading {
+  min-height: 92px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #cee2d8;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(255, 255, 255, 0.72), transparent 32%),
+    linear-gradient(125deg, #dcefe6 0%, #edf7f2 66%, #f8fbf9 100%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.appointment-context-heading > span {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #b9d6c8;
+  border-radius: 15px;
+  color: #1c7156;
+  background: rgba(255, 255, 255, 0.78);
+  display: grid;
+  place-items: center;
+}
+
+.appointment-context-heading h2 {
+  margin: 0;
+  color: #244f40;
+  font:
+    750 22px/1.2 'Manrope',
+    sans-serif;
+}
+
+.appointment-context-heading p {
+  margin: 5px 0 0;
+  color: #668077;
+  font-size: 14px;
+}
+
+.appointment-context-grid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.appointment-context-grid > div {
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid #dce8e2;
+  border-radius: 17px;
+  background: #fbfdfc;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-content: center;
+  column-gap: 10px;
+}
+
+.appointment-context-icon {
+  grid-row: 1 / span 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  color: #28765c;
+  background: #e6f3ed;
+  display: grid;
+  place-items: center;
+}
+
+.appointment-context-grid > div > span:not(.appointment-context-icon) {
+  color: #74877f;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.appointment-context-grid strong {
+  margin-top: 6px;
+  color: #2d5043;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.appointment-detail-profile > .referral-consultations {
+  margin: 0;
+}
+
+.appointment-detail-profile .appointment-clinical-form {
+  margin: 0;
+}
+
+.appointment-detail-profile .subpage-action-bar {
+  margin-top: 0;
+}
+
+@media (max-width: 1050px) {
+  .appointment-context-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .appointment-context-heading {
+    min-height: 82px;
+    padding: 17px;
+  }
+
+  .appointment-context-heading > span {
+    width: 43px;
+    height: 43px;
+  }
+
+  .appointment-context-heading h2 {
+    font-size: 19px;
+  }
+
+  .appointment-context-heading p {
+    font-size: 13px;
+  }
+
+  .appointment-context-grid {
+    padding: 14px;
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-context-grid > div {
+    min-height: 106px;
+  }
+}

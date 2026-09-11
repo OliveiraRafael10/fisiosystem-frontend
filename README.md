@@ -12,12 +12,24 @@ src/
 ├── pages/        Páginas agrupadas por módulo do sistema
 ├── routes/       Definição central das rotas
 ├── services/     Comunicação com os endpoints do Spring
+├── styles/       CSS complexo separado por responsabilidade
 └── types/        Contratos TypeScript da API
 ```
 
 As páginas coordenam os dados e a navegação. Regras de comunicação ficam nos serviços, contratos
 ficam em `types` e comportamentos reutilizáveis são extraídos para componentes ou funções de
 domínio.
+
+## Estilização
+
+O projeto adota uma arquitetura híbrida. Tailwind CSS concentra estilos comuns de layout,
+espaçamento, tipografia, cores e responsividade diretamente nos componentes. Regras visuais mais
+complexas, como superfícies especializadas, gráficos, animações e composições do dashboard, ficam
+em arquivos temáticos dentro de `src/styles`.
+
+`src/App.css` funciona apenas como ponto de entrada desses estilos e mantém a ordem da cascata.
+Novos estilos genéricos devem ser escritos com utilitários Tailwind; CSS próprio deve ser reservado
+para comportamentos que não ficam claros ou reutilizáveis com utilitários.
 
 ## Desenvolvimento
 
