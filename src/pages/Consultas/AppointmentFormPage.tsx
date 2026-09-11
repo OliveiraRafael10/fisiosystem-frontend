@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CalendarDays, Save } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { AppointmentScheduledModal } from '../../components/appointments/AppointmentScheduledModal'
 import { DateTimePicker } from '../../components/appointments/DateTimePicker'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { SubpageShell } from '../../components/ui/SubpageShell'
@@ -16,6 +17,7 @@ export function AppointmentFormPage() {
   const queryClient = useQueryClient()
   const [searchParams] = useSearchParams()
   const selectedDate = searchParams.get('data') || localDate()
+  const [scheduledDateTime, setScheduledDateTime] = useState<string | null>(null)
   const [form, setForm] = useState<ConsultaInput>({
     dataHora: `${selectedDate}T08:00`,
     encaminhamento: { id: 0 },
@@ -29,7 +31,7 @@ export function AppointmentFormPage() {
     onSuccess: (appointment) => {
       void queryClient.invalidateQueries({ queryKey: ['appointments'] })
       void queryClient.invalidateQueries({ queryKey: ['referrals'] })
-      navigate(`/consultas/${appointment.id}`, { replace: true, state: { from: '/consultas' } })
+      setScheduledDateTime(appointment.dataHora || form.dataHora)
     },
   })
   const availableReferrals = (referrals.data ?? []).filter((item) =>
@@ -39,6 +41,10 @@ export function AppointmentFormPage() {
   function submit(event: FormEvent) {
     event.preventDefault()
     createMutation.mutate()
+  }
+
+  function returnToAppointments() {
+    navigate('/consultas', { replace: true })
   }
 
   if (referrals.isLoading || therapists.isLoading)
@@ -61,92 +67,96 @@ export function AppointmentFormPage() {
     )
 
   return (
-    <SubpageShell
-      eyebrow="AGENDA CLÍNICA"
-      title="Agendar consulta"
-      description="Defina o caso, o profissional e o horário do atendimento."
-      fallback="/consultas"
-      backLabel="consultas"
-    >
-      <form className="subpage-form" onSubmit={submit}>
-        <div className="form-section">
-          <div className="form-section-title">
-            <span>
-              <CalendarDays size={20} />
-            </span>
-            <div>
-              <strong>Detalhes do atendimento</strong>
-              <small>Somente encaminhamentos assumidos ou em tratamento</small>
+    <>
+      <SubpageShell
+        eyebrow="AGENDA CLÍNICA"
+        title="Agendar consulta"
+        description="Defina o caso, o profissional e o horário do atendimento."
+        fallback="/consultas"
+        backLabel="consultas"
+      >
+        <form className="subpage-form" onSubmit={submit}>
+          <div className="form-section">
+            <div className="form-section-title">
+              <span>
+                <CalendarDays size={20} />
+              </span>
+              <div>
+                <strong>Detalhes do atendimento</strong>
+                <small>Somente encaminhamentos assumidos ou em tratamento</small>
+              </div>
             </div>
-          </div>
-          <div className="form-grid">
-            <label className="field field-wide">
-              <span>Encaminhamento</span>
-              <select
-                value={form.encaminhamento.id}
-                onChange={(event) =>
-                  setForm({ ...form, encaminhamento: { id: Number(event.target.value) } })
-                }
-                required
-              >
-                <option value={0}>Selecione</option>
-                {availableReferrals.map((item) => (
-                  <option value={item.id} key={item.id}>
-                    #{item.id} • {item.pacienteNome} • {item.patologia}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="field">
-              <span>Fisioterapeuta</span>
-              <select
-                value={form.fisioterapeuta.id}
-                onChange={(event) =>
-                  setForm({ ...form, fisioterapeuta: { id: Number(event.target.value) } })
-                }
-                required
-              >
-                <option value={0}>Selecione</option>
-                {therapists.data
-                  ?.filter((item) => item.ativo)
-                  .map((item) => (
+            <div className="form-grid">
+              <label className="field field-wide">
+                <span>Encaminhamento</span>
+                <select
+                  value={form.encaminhamento.id}
+                  onChange={(event) =>
+                    setForm({ ...form, encaminhamento: { id: Number(event.target.value) } })
+                  }
+                  required
+                >
+                  <option value={0}>Selecione</option>
+                  {availableReferrals.map((item) => (
                     <option value={item.id} key={item.id}>
-                      {item.nome} • {item.crefito}
+                      #{item.id} • {item.pacienteNome} • {item.patologia}
                     </option>
                   ))}
-              </select>
-            </label>
-            <div className="field field-wide">
-              <span>Data e horário</span>
-              <DateTimePicker
-                value={form.dataHora}
-                onChange={(dataHora) => setForm({ ...form, dataHora })}
-              />
+                </select>
+              </label>
+              <label className="field">
+                <span>Fisioterapeuta</span>
+                <select
+                  value={form.fisioterapeuta.id}
+                  onChange={(event) =>
+                    setForm({ ...form, fisioterapeuta: { id: Number(event.target.value) } })
+                  }
+                  required
+                >
+                  <option value={0}>Selecione</option>
+                  {therapists.data
+                    ?.filter((item) => item.ativo)
+                    .map((item) => (
+                      <option value={item.id} key={item.id}>
+                        {item.nome} • {item.crefito}
+                      </option>
+                    ))}
+                </select>
+              </label>
+              <div className="field field-wide">
+                <span>Data e horário</span>
+                <DateTimePicker
+                  value={form.dataHora}
+                  onChange={(dataHora) => setForm({ ...form, dataHora })}
+                />
+              </div>
+              <label className="field field-wide">
+                <span>Observações</span>
+                <textarea
+                  value={form.observacoes}
+                  onChange={(event) => setForm({ ...form, observacoes: event.target.value })}
+                />
+              </label>
             </div>
-            <label className="field field-wide">
-              <span>Observações</span>
-              <textarea
-                value={form.observacoes}
-                onChange={(event) => setForm({ ...form, observacoes: event.target.value })}
-              />
-            </label>
           </div>
-        </div>
-        <MutationError error={createMutation.error} />
-        <div className="subpage-action-bar">
-          <button type="button" className="secondary-button" onClick={() => navigate('/consultas')}>
-            Cancelar
-          </button>
-          <button
-            className="primary-button"
-            disabled={
-              createMutation.isPending || !form.encaminhamento.id || !form.fisioterapeuta.id
-            }
-          >
-            <Save size={18} /> {createMutation.isPending ? 'Agendando...' : 'Confirmar agendamento'}
-          </button>
-        </div>
-      </form>
-    </SubpageShell>
+          <MutationError error={createMutation.error} />
+          <div className="subpage-action-bar">
+            <button type="button" className="secondary-button" onClick={returnToAppointments}>
+              Cancelar
+            </button>
+            <button
+              className="primary-button"
+              disabled={
+                createMutation.isPending || !form.encaminhamento.id || !form.fisioterapeuta.id
+              }
+            >
+              <Save size={18} />
+              {createMutation.isPending ? 'Agendando...' : 'Confirmar agendamento'}
+            </button>
+          </div>
+        </form>
+      </SubpageShell>
+      <AppointmentScheduledModal dateTime={scheduledDateTime} onClose={returnToAppointments} />
+    </>
   )
 }
