@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Save, UserRound } from 'lucide-react'
+import { IdCard, Save, UserRound } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
+import { ActionSuccessModal } from '../../components/ui/ActionSuccessModal'
 import { SubpageShell } from '../../components/ui/SubpageShell'
 import { localDate } from '../../lib/domain'
 import { patientService } from '../../services/patientService'
-import type { PacienteInput } from '../../types'
+import type { Paciente, PacienteInput } from '../../types'
 
 const emptyForm: PacienteInput = {
   nome: '',
@@ -23,6 +24,7 @@ export function PatientFormPage() {
   const { patientId } = useParams()
   const editingId = patientId ? Number(patientId) : null
   const [form, setForm] = useState<PacienteInput>(emptyForm)
+  const [savedPatient, setSavedPatient] = useState<Paciente | null>(null)
   const patients = useQuery({
     queryKey: ['patients'],
     queryFn: patientService.list,
@@ -47,13 +49,21 @@ export function PatientFormPage() {
       editingId ? patientService.update(editingId, form) : patientService.create(form),
     onSuccess: (patient) => {
       void queryClient.invalidateQueries({ queryKey: ['patients'] })
-      navigate(`/pacientes/${patient.id}`, { replace: true, state: { from: '/pacientes' } })
+      setSavedPatient(patient)
     },
   })
 
   function submit(event: FormEvent) {
     event.preventDefault()
     saveMutation.mutate()
+  }
+
+  function closeSuccess() {
+    if (!savedPatient) return
+    navigate(editingId ? `/pacientes/${savedPatient.id}` : '/pacientes', {
+      replace: true,
+      state: { from: '/pacientes' },
+    })
   }
 
   if (editingId && patients.isLoading)
@@ -79,96 +89,123 @@ export function PatientFormPage() {
     )
 
   return (
-    <SubpageShell
-      eyebrow="PRONTUÁRIO"
-      title={editing ? 'Editar paciente' : 'Novo paciente'}
-      description={
-        editing
-          ? `Atualize os dados de ${editing.nome}.`
-          : 'Cadastre os dados pessoais e de atendimento do paciente.'
-      }
-      fallback={editing ? `/pacientes/${editing.id}` : '/pacientes'}
-      backLabel={editing ? 'o prontuário' : 'pacientes'}
-    >
-      <form className="subpage-form" onSubmit={submit}>
-        <div className="form-section">
-          <div className="form-section-title">
-            <span>
-              <UserRound size={20} />
-            </span>
-            <div>
-              <strong>Dados do prontuário</strong>
-              <small>Nome e identificação SUS são obrigatórios</small>
+    <>
+      <SubpageShell
+        eyebrow="PRONTUÁRIO"
+        title={editing ? 'Editar paciente' : 'Novo paciente'}
+        description={
+          editing
+            ? `Atualize os dados de ${editing.nome}.`
+            : 'Cadastre os dados pessoais e de atendimento do paciente.'
+        }
+        fallback={editing ? `/pacientes/${editing.id}` : '/pacientes'}
+        backLabel={editing ? 'o prontuário' : 'pacientes'}
+      >
+        <form className="subpage-form" onSubmit={submit}>
+          <div className="form-section">
+            <div className="form-section-title">
+              <span>
+                <UserRound size={20} />
+              </span>
+              <div>
+                <strong>Dados do prontuário</strong>
+                <small>Nome e identificação SUS são obrigatórios</small>
+              </div>
+            </div>
+            <div className="form-grid">
+              <label className="field field-wide">
+                <span>Nome completo</span>
+                <input
+                  value={form.nome}
+                  onChange={(event) => setForm({ ...form, nome: event.target.value })}
+                  required
+                />
+              </label>
+              <label className="field">
+                <span>Número SUS</span>
+                <input
+                  value={form.numeroSus}
+                  onChange={(event) => setForm({ ...form, numeroSus: event.target.value })}
+                  required
+                />
+              </label>
+              <label className="field">
+                <span>Data de nascimento</span>
+                <input
+                  type="date"
+                  value={form.dataNascimento ?? ''}
+                  onChange={(event) => setForm({ ...form, dataNascimento: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span>Data de entrada</span>
+                <input
+                  type="date"
+                  value={form.dataEntrada ?? ''}
+                  onChange={(event) => setForm({ ...form, dataEntrada: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span>Telefone</span>
+                <input
+                  value={form.telefone ?? ''}
+                  onChange={(event) => setForm({ ...form, telefone: event.target.value })}
+                />
+              </label>
+              <label className="field field-wide">
+                <span>Endereço</span>
+                <input
+                  value={form.endereco ?? ''}
+                  onChange={(event) => setForm({ ...form, endereco: event.target.value })}
+                />
+              </label>
             </div>
           </div>
-          <div className="form-grid">
-            <label className="field field-wide">
-              <span>Nome completo</span>
-              <input
-                value={form.nome}
-                onChange={(event) => setForm({ ...form, nome: event.target.value })}
-                required
-              />
-            </label>
-            <label className="field">
-              <span>Número SUS</span>
-              <input
-                value={form.numeroSus}
-                onChange={(event) => setForm({ ...form, numeroSus: event.target.value })}
-                required
-              />
-            </label>
-            <label className="field">
-              <span>Data de nascimento</span>
-              <input
-                type="date"
-                value={form.dataNascimento ?? ''}
-                onChange={(event) => setForm({ ...form, dataNascimento: event.target.value })}
-              />
-            </label>
-            <label className="field">
-              <span>Data de entrada</span>
-              <input
-                type="date"
-                value={form.dataEntrada ?? ''}
-                onChange={(event) => setForm({ ...form, dataEntrada: event.target.value })}
-              />
-            </label>
-            <label className="field">
-              <span>Telefone</span>
-              <input
-                value={form.telefone ?? ''}
-                onChange={(event) => setForm({ ...form, telefone: event.target.value })}
-              />
-            </label>
-            <label className="field field-wide">
-              <span>Endereço</span>
-              <input
-                value={form.endereco ?? ''}
-                onChange={(event) => setForm({ ...form, endereco: event.target.value })}
-              />
-            </label>
+          <MutationError error={saveMutation.error} />
+          <div className="subpage-action-bar">
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => navigate(editing ? `/pacientes/${editing.id}` : '/pacientes')}
+            >
+              Cancelar
+            </button>
+            <button className="primary-button" disabled={saveMutation.isPending}>
+              <Save size={18} />{' '}
+              {saveMutation.isPending
+                ? 'Salvando...'
+                : editing
+                  ? 'Salvar alterações'
+                  : 'Criar prontuário'}
+            </button>
           </div>
-        </div>
-        <MutationError error={saveMutation.error} />
-        <div className="subpage-action-bar">
-          <button
-            type="button"
-            className="secondary-button"
-            onClick={() => navigate(editing ? `/pacientes/${editing.id}` : '/pacientes')}
-          >
-            Cancelar
-          </button>
-          <button className="primary-button" disabled={saveMutation.isPending}>
-            <Save size={18} />{' '}
-            {saveMutation.isPending
-              ? 'Salvando...'
-              : editing
-                ? 'Salvar alterações'
-                : 'Criar prontuário'}
-          </button>
-        </div>
-      </form>
-    </SubpageShell>
+        </form>
+      </SubpageShell>
+      <ActionSuccessModal
+        open={Boolean(savedPatient)}
+        title={editingId ? 'Paciente atualizado com sucesso' : 'Paciente cadastrado com sucesso'}
+        description="Os dados do prontuário foram confirmados pelo sistema."
+        message={
+          editingId
+            ? 'As alterações já estão disponíveis no prontuário do paciente.'
+            : 'O novo prontuário já está disponível para atendimento.'
+        }
+        actionLabel={editingId ? 'Voltar para o prontuário' : 'Voltar para pacientes'}
+        onClose={closeSuccess}
+        details={
+          savedPatient
+            ? [
+                { icon: UserRound, label: 'Paciente', value: savedPatient.nome },
+                {
+                  icon: IdCard,
+                  label: 'Número SUS',
+                  tone: 'blue',
+                  value: savedPatient.numeroSus,
+                },
+              ]
+            : []
+        }
+      />
+    </>
   )
 }

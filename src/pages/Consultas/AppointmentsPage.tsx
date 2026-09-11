@@ -17,11 +17,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import {
   AppointmentQuickActionModals,
   type AppointmentQuickAction,
+  type AppointmentQuickActionSuccess,
 } from '../../components/appointments/AppointmentQuickActionModals'
+import { ActionSuccessModal } from '../../components/ui/ActionSuccessModal'
 import { ApiError, ApiLoading } from '../../components/ui/ApiState'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusBadge } from '../../components/ui/StatusBadge'
-import { getStatusConsultaLabel, initials, localDate } from '../../lib/domain'
+import { formatDate, getStatusConsultaLabel, initials, localDate } from '../../lib/domain'
 import { appointmentService } from '../../services/appointmentService'
 import type { Consulta } from '../../types'
 
@@ -52,6 +54,7 @@ export function AppointmentsPage() {
   const [selectedDate, setSelectedDate] = useState(localDate())
   const [view, setView] = useState<'agenda' | 'lista'>('agenda')
   const [quickAction, setQuickAction] = useState<SelectedQuickAction | null>(null)
+  const [completedAction, setCompletedAction] = useState<AppointmentQuickActionSuccess | null>(null)
   const appointments = useQuery({ queryKey: ['appointments'], queryFn: appointmentService.list })
   const agenda = useQuery({
     queryKey: ['appointments', 'agenda', selectedDate],
@@ -325,6 +328,59 @@ export function AppointmentsPage() {
         action={quickAction?.type ?? null}
         appointment={quickAction?.appointment ?? null}
         onClose={() => setQuickAction(null)}
+        onSuccess={(result) => {
+          setQuickAction(null)
+          setCompletedAction(result)
+        }}
+      />
+      <ActionSuccessModal
+        open={Boolean(completedAction)}
+        title={
+          completedAction?.kind === 'rescheduled'
+            ? 'Consulta remarcada com sucesso'
+            : completedAction?.kind === 'absence'
+              ? 'Falta registrada com sucesso'
+              : 'Consulta cancelada com sucesso'
+        }
+        description="A agenda foi atualizada com as informações confirmadas pelo sistema."
+        message={
+          completedAction?.kind === 'rescheduled'
+            ? 'O novo horário já está disponível na agenda clínica.'
+            : 'A ocorrência foi registrada e a agenda já está atualizada.'
+        }
+        actionLabel="Continuar na agenda"
+        onClose={() => setCompletedAction(null)}
+        details={
+          completedAction?.kind === 'rescheduled'
+            ? [
+                {
+                  icon: CalendarDays,
+                  label: 'Nova data',
+                  value: formatDate(completedAction.appointment.dataHora.slice(0, 10)),
+                },
+                {
+                  icon: Clock3,
+                  label: 'Novo horário',
+                  tone: 'blue',
+                  value: completedAction.appointment.dataHora.slice(11, 16),
+                },
+              ]
+            : completedAction
+              ? [
+                  {
+                    icon: UsersRound,
+                    label: 'Paciente',
+                    value: completedAction.appointment.pacienteNome || 'Não informado',
+                  },
+                  {
+                    icon: CalendarDays,
+                    label: 'Consulta',
+                    tone: 'orange',
+                    value: `#${completedAction.appointment.id}`,
+                  },
+                ]
+              : []
+        }
       />
     </section>
   )

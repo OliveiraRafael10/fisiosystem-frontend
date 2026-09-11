@@ -8,12 +8,18 @@ import { Modal } from '../ui/Modal'
 
 export type AppointmentQuickAction = 'reschedule' | 'cancel'
 
+export interface AppointmentQuickActionSuccess {
+  appointment: Consulta
+  kind: 'absence' | 'cancelled' | 'rescheduled'
+}
+
 type CancellationKind = 'cancel' | 'absence'
 
 interface AppointmentQuickActionModalsProps {
   action: AppointmentQuickAction | null
   appointment: Consulta | null
   onClose: () => void
+  onSuccess: (result: AppointmentQuickActionSuccess) => void
 }
 
 function formatAppointmentDateTime(dateTime: string) {
@@ -27,6 +33,7 @@ export function AppointmentQuickActionModals({
   action,
   appointment,
   onClose,
+  onSuccess,
 }: AppointmentQuickActionModalsProps) {
   const queryClient = useQueryClient()
   const [newDateTime, setNewDateTime] = useState(
@@ -49,9 +56,17 @@ export function AppointmentQuickActionModals({
 
       return appointmentService.cancel(appointment.id, observation.trim())
     },
-    onSuccess: () => {
+    onSuccess: (updatedAppointment) => {
       void queryClient.invalidateQueries({ queryKey: ['appointments'] })
-      onClose()
+      onSuccess({
+        appointment: updatedAppointment,
+        kind:
+          action === 'reschedule'
+            ? 'rescheduled'
+            : cancellationKind === 'absence'
+              ? 'absence'
+              : 'cancelled',
+      })
     },
   })
 
