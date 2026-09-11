@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { CalendarDays, Save } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { DateTimePicker } from '../../components/appointments/DateTimePicker'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/ApiState'
 import { SubpageShell } from '../../components/ui/SubpageShell'
 import { localDate } from '../../lib/domain'
@@ -115,15 +116,13 @@ export function AppointmentFormPage() {
                   ))}
               </select>
             </label>
-            <label className="field">
+            <div className="field field-wide">
               <span>Data e horário</span>
-              <input
-                type="datetime-local"
+              <DateTimePicker
                 value={form.dataHora}
-                onChange={(event) => setForm({ ...form, dataHora: event.target.value })}
-                required
+                onChange={(dataHora) => setForm({ ...form, dataHora })}
               />
-            </label>
+            </div>
             <label className="field field-wide">
               <span>Observações</span>
               <textarea
