@@ -6,14 +6,9 @@ import { ApiError, ApiLoading, MutationError } from '../../components/ui/EstadoA
 import { ModalAcaoConcluida } from '../../components/ui/ModalAcaoConcluida'
 import { EstruturaSubpagina } from '../../components/ui/EstruturaSubpagina'
 import { dataLocal } from '../../lib/dominio'
-import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 import { servicoPaciente } from '../../services/servicoPaciente'
-import type {
-  Encaminhamento,
-  EncaminhamentoInput,
-  Prioridade,
-  TipoAtendimento,
-} from '../../types/modelos'
+import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
+import type { Encaminhamento, EncaminhamentoInput, Prioridade, TipoAtendimento } from '../../types/modelos'
 
 const emptyReferral: EncaminhamentoInput = {
   dataEntrega: dataLocal(),
@@ -33,7 +28,7 @@ interface ReferralFormLocationState {
 
 const patientNameCollator = new Intl.Collator('pt-BR', { sensitivity: 'base' })
 
-export function ReferralFormPage() {
+export function FormularioEncaminhamento() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryClient = useQueryClient()

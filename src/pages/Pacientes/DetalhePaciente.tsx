@@ -6,15 +6,15 @@ import { SeloStatus } from '../../components/ui/SeloStatus'
 import { EstruturaSubpagina } from '../../components/ui/EstruturaSubpagina'
 import {
   formatarData,
-  iniciais,
   obterRotuloPrioridade,
   obterRotuloStatusEncaminhamento,
+  iniciais,
   tomPrioridade,
 } from '../../lib/dominio'
-import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 import { servicoPaciente } from '../../services/servicoPaciente'
+import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 
-export function PatientDetailPage() {
+export function DetalhePaciente() {
   const navigate = useNavigate()
   const location = useLocation()
   const patientId = Number(useParams().patientId)

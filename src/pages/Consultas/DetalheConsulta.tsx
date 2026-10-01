@@ -1,0 +1,307 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { CheckCircle2, ClipboardList, HeartPulse, Stethoscope, UserRound } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { HistoricoConsultasEncaminhamento } from '../../components/referrals/HistoricoConsultasEncaminhamento'
+import { ModalAcaoConcluida } from '../../components/ui/ModalAcaoConcluida'
+import { ApiError, ApiLoading, MutationError } from '../../components/ui/EstadoApi'
+import { Modal } from '../../components/ui/Modal'
+import { EstruturaSubpagina } from '../../components/ui/EstruturaSubpagina'
+import { formatarDataHora } from '../../lib/dominio'
+import { servicoConsulta } from '../../services/servicoConsulta'
+import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
+import type { Encaminhamento } from '../../types/modelos'
+
+export function DetalheConsulta() {
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const appointmentId = Number(useParams().appointmentId)
+  const [clinical, setClinical] = useState({ diagnostico: '', procedimentos: '', conduta: '' })
+  const [dischargeConfirmationOpen, setDischargeConfirmationOpen] = useState(false)
+  const [dischargedReferral, setDischargedReferral] = useState<Encaminhamento | null>(null)
+  const appointments = useQuery({ queryKey: ['appointments'], queryFn: servicoConsulta.listar })
+  const referrals = useQuery({ queryKey: ['referrals'], queryFn: servicoEncaminhamento.listar })
+  const appointment = appointments.data?.find((item) => item.id === appointmentId)
+  const referral = referrals.data?.find((item) => item.id === appointment?.encaminhamentoId)
+  const actionMutation = useMutation({
+    mutationFn: () => servicoConsulta.realizar(appointmentId, clinical),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['appointments'] })
+      void queryClient.invalidateQueries({ queryKey: ['referrals'] })
+      setClinical({ diagnostico: '', procedimentos: '', conduta: '' })
+    },
+  })
+  const dischargeMutation = useMutation({
+    mutationFn: () => {
+      if (!referral) throw new Error('Encaminhamento não encontrado.')
+      return servicoEncaminhamento.darAlta(referral.id)
+    },
+    onSuccess: (updatedReferral) => {
+      void queryClient.invalidateQueries({ queryKey: ['referrals'] })
+      void queryClient.invalidateQueries({ queryKey: ['appointments'] })
+      setDischargeConfirmationOpen(false)
+      setDischargedReferral(updatedReferral)
+    },
+  })
+
+  function closeDischargeConfirmation() {
+    if (dischargeMutation.isPending) return
+    dischargeMutation.reset()
+    setDischargeConfirmationOpen(false)
+  }
+
+  if (appointments.isLoading || referrals.isLoading)
+    return (
+      <section className="page-content">
+        <ApiLoading label="Carregando consulta..." />
+      </section>
+    )
+  if (appointments.isError || referrals.isError)
+    return (
+      <section className="page-content">
+        <ApiError
+          error={appointments.error ?? referrals.error}
+          retry={() => {
+            void appointments.refetch()
+            void referrals.refetch()
+          }}
+        />
+      </section>
+    )
+  if (!appointment)
+    return (
+      <section className="page-content">
+        <ApiError
+          error={new Error('Consulta não encontrada.')}
+          retry={() => navigate('/consultas')}
+        />
+      </section>
+    )
+
+  return (
+    <>
+      <EstruturaSubpagina
+        eyebrow={`CONSULTA #${appointment.id}`}
+        title={appointment.pacienteNome || 'Paciente não informado'}
+        description={formatarDataHora(appointment.dataHora)}
+        fallback="/consultas"
+        backLabel="consultas"
+      >
+        <div className="patient-profile subpage-profile appointment-detail-profile">
+          <section className="appointment-context-card">
+            <header className="appointment-context-heading">
+              <span>
+                <ClipboardList size={22} />
+              </span>
+              <div>
+                <h2>Contexto do encaminhamento</h2>
+                <p>Informações essenciais para conduzir este atendimento</p>
+              </div>
+            </header>
+            <div className="appointment-context-grid">
+              <div>
+                <span className="appointment-context-icon">
+                  <Stethoscope size={20} />
+                </span>
+                <span>Médico solicitante</span>
+                <strong>{referral?.medicoSolicitante || 'Não informado'}</strong>
+              </div>
+              <div>
+                <span className="appointment-context-icon">
+                  <HeartPulse size={20} />
+                </span>
+                <span>Patologia</span>
+                <strong>{referral?.patologia || 'Não informada'}</strong>
+              </div>
+              <div>
+                <span className="appointment-context-icon">
+                  <UserRound size={20} />
+                </span>
+                <span>Fisioterapeuta responsável</span>
+                <strong>
+                  {referral?.fisioterapeutaResponsavelNome ||
+                    appointment.fisioterapeutaNome ||
+                    'Não informado'}
+                </strong>
+              </div>
+              <div>
+                <span className="appointment-context-icon">
+                  <ClipboardList size={20} />
+                </span>
+                <span>Número do encaminhamento</span>
+                <strong>#{appointment.encaminhamentoId}</strong>
+              </div>
+            </div>
+          </section>
+
+          <HistoricoConsultasEncaminhamento
+            referralId={appointment.encaminhamentoId}
+            excludeAppointmentId={appointment.id}
+            beforeDateTime={appointment.dataHora}
+          />
+
+          {appointment.status === 'AGENDADA' && (
+            <>
+              <div className="form-section appointment-clinical-form">
+                <div className="form-section-title">
+                  <span>
+                    <CheckCircle2 size={20} />
+                  </span>
+                  <div>
+                    <strong>Registro clínico</strong>
+                    <small>Documente o atendimento realizado</small>
+                  </div>
+                </div>
+                <div className="form-grid">
+                  <label className="field field-wide">
+                    <span>Diagnóstico</span>
+                    <textarea
+                      value={clinical.diagnostico}
+                      onChange={(event) =>
+                        setClinical({ ...clinical, diagnostico: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="field field-wide">
+                    <span>Procedimentos</span>
+                    <textarea
+                      value={clinical.procedimentos}
+                      onChange={(event) =>
+                        setClinical({ ...clinical, procedimentos: event.target.value })
+                      }
+                    />
+                  </label>
+                  <label className="field field-wide">
+                    <span>Conduta</span>
+                    <textarea
+                      value={clinical.conduta}
+                      onChange={(event) =>
+                        setClinical({ ...clinical, conduta: event.target.value })
+                      }
+                    />
+                  </label>
+                </div>
+              </div>
+              <MutationError error={actionMutation.error} />
+              <div className="subpage-action-bar">
+                <button
+                  className="primary-button"
+                  disabled={
+                    actionMutation.isPending ||
+                    Object.values(clinical).some((value) => !value.trim())
+                  }
+                  onClick={() => actionMutation.mutate()}
+                >
+                  {actionMutation.isPending
+                    ? 'Salvando consulta...'
+                    : 'Finalizar e salvar consulta'}
+                </button>
+              </div>
+            </>
+          )}
+          {appointment.status !== 'AGENDADA' && (
+            <div className="form-section clinical-record">
+              <h3>Registro clínico</h3>
+              <dl>
+                <div>
+                  <dt>Diagnóstico</dt>
+                  <dd>{appointment.diagnostico || 'Não informado'}</dd>
+                </div>
+                <div>
+                  <dt>Procedimentos</dt>
+                  <dd>{appointment.procedimentos || 'Não informado'}</dd>
+                </div>
+                <div>
+                  <dt>Conduta</dt>
+                  <dd>{appointment.conduta || 'Não informada'}</dd>
+                </div>
+                <div>
+                  <dt>Observações</dt>
+                  <dd>{appointment.observacoes || 'Sem observações'}</dd>
+                </div>
+              </dl>
+            </div>
+          )}
+          {appointment.status === 'REALIZADA' &&
+            referral &&
+            !['ALTA', 'RETIRADO_PELO_PACIENTE'].includes(referral.statusEncaminhamento) && (
+              <div className="subpage-action-bar">
+                <button
+                  type="button"
+                  className="primary-button"
+                  onClick={() => setDischargeConfirmationOpen(true)}
+                >
+                  Registrar alta terapêutica
+                </button>
+              </div>
+            )}
+        </div>
+      </EstruturaSubpagina>
+
+      <Modal
+        open={dischargeConfirmationOpen}
+        title="Registrar alta terapêutica"
+        description={appointment.pacienteNome || 'Paciente não informado'}
+        onClose={closeDischargeConfirmation}
+        size="medium"
+      >
+        <div className="grid gap-5 p-6 max-[560px]:p-4">
+          <section className="rounded-[18px] border border-[#f0d8bd] bg-[#fff8ef] p-5">
+            <strong className="font-display block text-lg text-[#6f4c2d]">
+              Confirme o encerramento do tratamento
+            </strong>
+            <p className="mt-2 mb-0 text-sm leading-6 text-[#806b58]">
+              A alta será registrada no encaminhamento #{appointment.encaminhamentoId} após a
+              consulta realizada.
+            </p>
+          </section>
+          <MutationError error={dischargeMutation.error} />
+          <div className="flex justify-end gap-3 max-[520px]:flex-col-reverse">
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={closeDischargeConfirmation}
+              disabled={dischargeMutation.isPending}
+            >
+              Voltar
+            </button>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={() => dischargeMutation.mutate()}
+              disabled={dischargeMutation.isPending}
+            >
+              {dischargeMutation.isPending ? 'Registrando alta...' : 'Confirmar alta'}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <ModalAcaoConcluida
+        open={Boolean(dischargedReferral)}
+        title="Alta registrada com sucesso"
+        description="O tratamento foi encerrado e confirmado pelo sistema."
+        message="O encaminhamento foi concluído e o paciente recebeu alta terapêutica."
+        actionLabel="Voltar para consultas"
+        onClose={() => navigate('/consultas', { replace: true })}
+        details={
+          dischargedReferral
+            ? [
+                {
+                  icon: UserRound,
+                  label: 'Paciente',
+                  value: appointment.pacienteNome || 'Não informado',
+                },
+                {
+                  icon: ClipboardList,
+                  label: 'Encaminhamento',
+                  tone: 'blue',
+                  value: `#${dischargedReferral.id}`,
+                },
+              ]
+            : []
+        }
+      />
+    </>
+  )
+}

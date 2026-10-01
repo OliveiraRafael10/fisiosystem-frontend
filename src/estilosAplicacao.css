@@ -1,0 +1,7 @@
+@import './styles/estrutura-base.css';
+@import './styles/componentes.css';
+@import './styles/responsivo.css';
+@import './styles/legibilidade.css';
+@import './styles/superficies-detalhe.css';
+@import './styles/painel.css';
+@import './styles/subpaginas.css';

@@ -24,7 +24,7 @@ interface PatientFormLocationState {
   returnWithPatient?: boolean
 }
 
-export function PatientFormPage() {
+export function FormularioPaciente() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryClient = useQueryClient()

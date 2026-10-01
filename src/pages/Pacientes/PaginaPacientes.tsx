@@ -6,10 +6,10 @@ import { ApiError, ApiLoading } from '../../components/ui/EstadoApi'
 import { CabecalhoPagina } from '../../components/ui/CabecalhoPagina'
 import { SeloStatus } from '../../components/ui/SeloStatus'
 import { formatarData, iniciais } from '../../lib/dominio'
-import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 import { servicoPaciente } from '../../services/servicoPaciente'
+import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 
-export function PatientsPage() {
+export function PaginaPacientes() {
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()

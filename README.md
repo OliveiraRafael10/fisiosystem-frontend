@@ -44,13 +44,27 @@ O Vite encaminha as chamadas de `/backend` para o Spring, portanto não é neces
 
 ## Configuração da API
 
-O valor padrão local é `VITE_API_URL=/backend`. Para uma versão publicada, crie `.env.production` com a URL HTTPS pública do backend:
+No desenvolvimento local, o valor padrão `VITE_API_URL=/backend` usa o proxy do Vite para o Spring em `http://localhost:8080`. Para produção, configure `VITE_API_URL` como variável de ambiente de build com a URL HTTPS pública do backend. O build de produção falha se essa variável não estiver configurada.
 
 ```env
 VITE_API_URL=https://api.seudominio.com
 ```
 
+Essa variável é incorporada ao JavaScript entregue ao navegador; não coloque segredos nela.
+
 O frontend usa os contratos reais de `Paciente`, `Fisioterapeuta`, `Encaminhamento` e `Consulta`, incluindo as ações de assumir, retirar, dar alta, realizar, reagendar, cancelar e registrar falta.
+
+## Deploy
+
+O projeto gera um site estático com Vite. Em uma hospedagem compatível com aplicações SPA, configure:
+
+- Instalação: `npm ci`
+- Build: `npm run build`
+- Diretório publicado: `dist`
+- Variável de build: `VITE_API_URL`, apontando para o backend HTTPS
+- Fallback de rotas: servir `/index.html` para caminhos da aplicação, como `/pacientes` e `/consultas`
+
+Configure também o CORS do backend para permitir a origem HTTPS do site publicado. Após publicar, teste uma rota interna com recarga direta do navegador e valide as chamadas da API na aba Rede.
 
 ## Validação
 

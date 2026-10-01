@@ -15,17 +15,17 @@ import { useNavigate } from 'react-router-dom'
 import { ApiError, ApiLoading } from '../../components/ui/EstadoApi'
 import { CabecalhoPagina } from '../../components/ui/CabecalhoPagina'
 import {
-  dataLocal,
   diasDeEspera,
   formatarData,
-  iniciais,
   obterRotuloPrioridade,
+  iniciais,
+  dataLocal,
   tomPrioridade,
 } from '../../lib/dominio'
 import { servicoConsulta } from '../../services/servicoConsulta'
+import { servicoPaciente } from '../../services/servicoPaciente'
 import { servicoEncaminhamento } from '../../services/servicoEncaminhamento'
 import { servicoFisioterapeuta } from '../../services/servicoFisioterapeuta'
-import { servicoPaciente } from '../../services/servicoPaciente'
 import type { Prioridade } from '../../types/modelos'
 
 type QueueFilter = 'TODOS' | Prioridade
@@ -46,7 +46,7 @@ function getReferralActionLabel(patientName?: string | null) {
   return `Abrir encaminhamento de ${patientName || 'paciente não informado'} para assumir o caso`
 }
 
-export function DashboardPage() {
+export function PaginaPainel() {
   const navigate = useNavigate()
   const [queueFilter, setQueueFilter] = useState<QueueFilter>('TODOS')
   const today = dataLocal()
@@ -69,7 +69,7 @@ export function DashboardPage() {
   })
   const priorityIndicators = useQuery({
     queryKey: ['referrals', 'queue-priority'],
-    queryFn: servicoEncaminhamento.obterIndicadoresPrioridadeFila,
+    queryFn: servicoEncaminhamento.listarFilaPriorityIndicators,
   })
   const queue = useQuery({
     queryKey: ['referrals', 'queue'],
