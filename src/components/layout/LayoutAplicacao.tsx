@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  Activity,
   CalendarDays,
   ChevronRight,
   ClipboardPlus,
@@ -157,23 +156,14 @@ export function LayoutAplicacao() {
             </NavLink>
           ))}
         </nav>
-        <div className="sidebar-card">
-          <span className="sidebar-card-icon">
-            <Activity size={18} />
-          </span>
+        <button type="button" className="profile-mini">
+          <span className="avatar">RO</span>
           <div>
-            <strong>Ambiente operacional</strong>
-            <small>Backend Spring integrado</small>
-          </div>
-        </div>
-        <div className="profile-mini">
-          <span className="avatar">RM</span>
-          <div>
-            <strong>Rafa Martins</strong>
+            <strong>Rafael Oliveira</strong>
             <small>Administrador</small>
           </div>
           <ChevronRight size={17} />
-        </div>
+        </button>
       </aside>
 
       <main className="main-content">
