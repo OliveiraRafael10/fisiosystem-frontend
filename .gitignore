@@ -15,7 +15,6 @@ dist-ssr
 .env.*
 !.env.example
 README.md
-.openai
 
 # Editor directories and files
 .vscode/*
