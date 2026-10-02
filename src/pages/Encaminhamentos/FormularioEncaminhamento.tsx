@@ -54,7 +54,13 @@ export function FormularioEncaminhamento() {
     mutationFn: () => servicoEncaminhamento.criar(form),
     onSuccess: (referral) => {
       void queryClient.invalidateQueries({ queryKey: ['referrals'] })
-      setCreatedReferral(referral)
+      const patientId = referral.pacienteId || form.paciente.id
+      const patientName =
+        referral.pacienteNome || sortedPatients.find((patient) => patient.id === patientId)?.nome
+      setCreatedReferral({
+        ...referral,
+        pacienteNome: patientName || 'Não informado',
+      })
     },
   })
 
