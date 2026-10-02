@@ -134,7 +134,7 @@ export function FormularioEncaminhamento() {
                   </button>
                 </div>
               </div>
-              <div className="field">
+              <div className="field mt-5">
                 <DatePicker
                   label="Data de entrega"
                   value={form.dataEntrega}
