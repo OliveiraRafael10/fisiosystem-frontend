@@ -20,6 +20,8 @@ import type { Encaminhamento } from '../../types/modelos'
 interface CompletedReferralAction {
   kind: 'assume' | 'withdraw'
   referral: Encaminhamento
+  patientName: string
+  therapistName: string
 }
 
 export function DetalheEncaminhamento() {
@@ -40,7 +42,17 @@ export function DetalheEncaminhamento() {
     onSuccess: (updatedReferral, action) => {
       void queryClient.invalidateQueries({ queryKey: ['referrals'] })
       void queryClient.invalidateQueries({ queryKey: ['appointments'] })
-      setCompletedAction({ kind: action, referral: updatedReferral })
+      setCompletedAction({
+        kind: action,
+        referral: updatedReferral,
+        patientName:
+          updatedReferral.pacienteNome || referral?.pacienteNome || 'Não informado',
+        therapistName:
+          updatedReferral.fisioterapeutaResponsavelNome ||
+          therapists.data?.find((therapist) => therapist.id === therapistId)?.nome ||
+          referral?.fisioterapeutaResponsavelNome ||
+          'Não informado',
+      })
       setTherapistId(0)
       setReason('')
     },
@@ -195,7 +207,7 @@ export function DetalheEncaminhamento() {
                 {
                   icon: UserRound,
                   label: 'Paciente',
-                  value: completedAction.referral.pacienteNome || 'Não informado',
+                  value: completedAction.patientName,
                 },
                 {
                   icon: ClipboardCheck,
@@ -204,7 +216,7 @@ export function DetalheEncaminhamento() {
                   tone: completedAction.kind === 'assume' ? 'blue' : 'orange',
                   value:
                     completedAction.kind === 'assume'
-                      ? completedAction.referral.fisioterapeutaResponsavelNome || 'Não informado'
+                      ? completedAction.therapistName
                       : `#${completedAction.referral.id}`,
                 },
               ]
