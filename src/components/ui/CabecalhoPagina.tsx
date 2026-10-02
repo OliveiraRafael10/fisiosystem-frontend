@@ -9,8 +9,8 @@ interface CabecalhoPaginaProps {
 
 export function CabecalhoPagina({ eyebrow, title, description, actions }: CabecalhoPaginaProps) {
   return (
-    <header className="mb-[30px] flex items-center justify-between gap-6 max-[760px]:items-start max-[760px]:gap-3">
-      <div className="max-w-[720px]">
+    <header className="mb-7.5 flex items-center justify-between gap-6 max-[760px]:items-start max-[760px]:gap-3">
+      <div className="max-w-180">
         <p className="mb-2.5 text-xs font-bold tracking-[0.165em] text-[#2c7a60] uppercase">
           {eyebrow}
         </p>

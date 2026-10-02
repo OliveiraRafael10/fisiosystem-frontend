@@ -24,7 +24,7 @@ function PickerLayer({ children, onClose, overlay }: PickerLayerProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[140] grid place-items-center overflow-hidden bg-[rgba(7,31,25,0.76)] p-4 backdrop-blur-[14px]"
+      className="fixed inset-0 z-140 grid place-items-center overflow-hidden bg-[rgba(7,31,25,0.76)] p-4 backdrop-blur-[14px]"
       role="presentation"
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
     >
@@ -165,7 +165,7 @@ export function SeletorDataHora({
     <div className="relative" ref={containerRef}>
       <div
         className={`flex w-full items-center justify-between gap-4 rounded-[15px] border bg-white px-4 text-left transition ${
-          variant === 'compact' ? 'min-h-[58px]' : 'min-h-[66px]'
+          variant === 'compact' ? 'min-h-14.5' : 'min-h-16.5'
         } ${
           isOpen
             ? 'border-brand-500 shadow-[0_0_0_4px_rgba(47,141,111,0.1)]'
@@ -200,10 +200,10 @@ export function SeletorDataHora({
           <section
             className={
               overlay
-                ? 'relative z-[141] w-[min(920px,calc(100vw-32px))] overflow-hidden rounded-[22px] border border-white/70 bg-[#f8fbf9] shadow-[0_36px_100px_rgba(5,29,22,0.38)] max-[760px]:max-h-[calc(100vh-24px)] max-[760px]:overflow-y-auto'
+                ? 'relative z-141 w-[min(920px,calc(100vw-32px))] overflow-hidden rounded-[22px] border border-white/70 bg-[#f8fbf9] shadow-[0_36px_100px_rgba(5,29,22,0.38)] max-[760px]:max-h-[calc(100vh-24px)] max-[760px]:overflow-y-auto'
                 : `absolute top-full z-40 mt-3 max-h-[min(720px,calc(100vh-120px))] overflow-y-auto rounded-[22px] border border-[#c5d9cf] bg-[#f8fbf9] shadow-[0_28px_70px_rgba(20,61,47,0.22)] max-[760px]:relative max-[760px]:top-auto max-[760px]:right-auto max-[760px]:left-auto ${
                     includesTime
-                      ? 'left-0 w-full max-w-[920px]'
+                      ? 'left-0 w-full max-w-230'
                       : `${align === 'right' ? 'right-0' : 'left-0'} w-[min(430px,calc(100vw-32px))]`
                   }`
             }
@@ -214,7 +214,7 @@ export function SeletorDataHora({
             ref={pickerRef}
           >
             <header
-              className={`flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-brand-800 to-brand-600 px-5 text-white ${
+              className={`flex flex-wrap items-center justify-between gap-4 bg-linear-to-r from-brand-800 to-brand-600 px-5 text-white ${
                 overlay ? 'py-3' : 'py-4'
               }`}
             >
@@ -357,7 +357,7 @@ export function SeletorDataHora({
                     className={`grid gap-2 pr-1 ${
                       overlay
                         ? 'grid-cols-3 overflow-hidden'
-                        : 'max-h-[330px] grid-cols-2 overflow-y-auto min-[520px]:grid-cols-3 min-[880px]:grid-cols-2'
+                        : 'max-h-82.5 grid-cols-2 overflow-y-auto min-[520px]:grid-cols-3 min-[880px]:grid-cols-2'
                     }`}
                   >
                     {timeSlots.map((time) => {

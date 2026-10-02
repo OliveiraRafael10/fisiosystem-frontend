@@ -113,28 +113,31 @@ export function PaginaRelatorios() {
         description="Indicadores calculados diretamente pela API do FisioSystem."
         actions={
           <div className="report-date-fields">
-            <div className="field">
-              <DatePicker
-                label="Início"
-                value={start}
-                variant="compact"
-                onChange={(value) => {
-                  setStart(value)
-                  if (value > end) setEnd(value)
-                }}
-              />
-            </div>
-            <div className="field">
-              <DatePicker
-                align="right"
-                label="Fim"
-                value={end}
-                variant="compact"
-                onChange={(value) => {
-                  setEnd(value)
-                  if (value < start) setStart(value)
-                }}
-              />
+            <span className="report-period-label">Período</span>
+            <div className="report-date-inputs">
+              <div className="field">
+                <DatePicker
+                  label="Início"
+                  value={start}
+                  variant="compact"
+                  onChange={(value) => {
+                    setStart(value)
+                    if (value > end) setEnd(value)
+                  }}
+                />
+              </div>
+              <div className="field">
+                <DatePicker
+                  align="right"
+                  label="Fim"
+                  value={end}
+                  variant="compact"
+                  onChange={(value) => {
+                    setEnd(value)
+                    if (value < start) setStart(value)
+                  }}
+                />
+              </div>
             </div>
           </div>
         }

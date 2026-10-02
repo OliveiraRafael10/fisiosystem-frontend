@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ClipboardCheck, Save, UserRound, UserRoundPlus } from 'lucide-react'
 import { useMemo, useState, type FormEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { DatePicker } from '../../components/appointments/SeletorDataHora'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/EstadoApi'
 import { ModalAcaoConcluida } from '../../components/ui/ModalAcaoConcluida'
 import { EstruturaSubpagina } from '../../components/ui/EstruturaSubpagina'
@@ -133,15 +134,13 @@ export function FormularioEncaminhamento() {
                   </button>
                 </div>
               </div>
-              <label className="field">
-                <span>Data de entrega</span>
-                <input
-                  type="date"
+              <div className="field">
+                <DatePicker
+                  label="Data de entrega"
                   value={form.dataEntrega}
-                  onChange={(event) => setForm({ ...form, dataEntrega: event.target.value })}
-                  required
+                  onChange={(dataEntrega) => setForm({ ...form, dataEntrega })}
                 />
-              </label>
+              </div>
               <label className="field">
                 <span>Tipo de atendimento</span>
                 <select
