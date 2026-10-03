@@ -184,11 +184,24 @@
 }
 
 .subpage-action-bar .primary-button,
-.subpage-action-bar .secondary-button {
+.subpage-action-bar .secondary-button,
+.subpage-action-bar .danger-button {
   min-width: 170px;
   min-height: 50px;
   justify-content: center;
   font-size: 16px;
+}
+
+.appointment-detail-profile .subpage-action-bar .primary-button {
+  background: #12664f;
+}
+
+.appointment-detail-profile .subpage-action-bar .primary-button:hover {
+  background: #0d5947;
+}
+
+.appointment-detail-profile .subpage-action-bar .primary-button:disabled {
+  opacity: 0.78;
 }
 
 .subpage-profile {
@@ -464,7 +477,8 @@
   }
 
   .subpage-action-bar .primary-button,
-  .subpage-action-bar .secondary-button {
+  .subpage-action-bar .secondary-button,
+  .subpage-action-bar .danger-button {
     width: 100%;
   }
 

@@ -1,7 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { CheckCircle2, ClipboardList, HeartPulse, Stethoscope, UserRound } from 'lucide-react'
+import {
+  CalendarDays,
+  CalendarX,
+  CheckCircle2,
+  ClipboardList,
+  HeartPulse,
+  Stethoscope,
+  UserRound,
+} from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import {
+  ModaisAcoesRapidasConsulta,
+  type AppointmentQuickActionSuccess,
+} from '../../components/appointments/ModaisAcoesRapidasConsulta'
 import { HistoricoConsultasEncaminhamento } from '../../components/referrals/HistoricoConsultasEncaminhamento'
 import { ModalAcaoConcluida } from '../../components/ui/ModalAcaoConcluida'
 import { ApiError, ApiLoading, MutationError } from '../../components/ui/EstadoApi'
@@ -17,6 +29,9 @@ export function DetalheConsulta() {
   const queryClient = useQueryClient()
   const appointmentId = Number(useParams().appointmentId)
   const [clinical, setClinical] = useState({ diagnostico: '', procedimentos: '', conduta: '' })
+  const [quickAction, setQuickAction] = useState<'cancel' | null>(null)
+  const [completedQuickAction, setCompletedQuickAction] =
+    useState<AppointmentQuickActionSuccess | null>(null)
   const [dischargeConfirmationOpen, setDischargeConfirmationOpen] = useState(false)
   const [dischargedReferral, setDischargedReferral] = useState<Encaminhamento | null>(null)
   const appointments = useQuery({ queryKey: ['appointments'], queryFn: servicoConsulta.listar })
@@ -185,6 +200,14 @@ export function DetalheConsulta() {
               <MutationError error={actionMutation.error} />
               <div className="subpage-action-bar">
                 <button
+                  type="button"
+                  className="danger-button"
+                  onClick={() => setQuickAction('cancel')}
+                >
+                  <CalendarX size={18} /> Cancelar / registrar falta
+                </button>
+                <button
+                  type="button"
                   className="primary-button"
                   disabled={
                     actionMutation.isPending ||
@@ -238,6 +261,17 @@ export function DetalheConsulta() {
         </div>
       </EstruturaSubpagina>
 
+      <ModaisAcoesRapidasConsulta
+        key={quickAction ? `${appointment.id}-${quickAction}` : 'closed'}
+        action={quickAction}
+        appointment={quickAction ? appointment : null}
+        onClose={() => setQuickAction(null)}
+        onSuccess={(result) => {
+          setQuickAction(null)
+          setCompletedQuickAction(result)
+        }}
+      />
+
       <Modal
         open={dischargeConfirmationOpen}
         title="Registrar alta terapêutica"
@@ -276,6 +310,36 @@ export function DetalheConsulta() {
           </div>
         </div>
       </Modal>
+
+      <ModalAcaoConcluida
+        open={Boolean(completedQuickAction)}
+        title={
+          completedQuickAction?.kind === 'absence'
+            ? 'Falta registrada com sucesso'
+            : 'Consulta cancelada com sucesso'
+        }
+        description="A agenda foi atualizada com as informações confirmadas pelo sistema."
+        message="A ocorrência foi registrada e a agenda já está atualizada."
+        actionLabel="Voltar para consultas"
+        onClose={() => navigate('/consultas', { replace: true })}
+        details={
+          completedQuickAction
+            ? [
+                {
+                  icon: UserRound,
+                  label: 'Paciente',
+                  value: completedQuickAction.appointment.pacienteNome || 'Não informado',
+                },
+                {
+                  icon: CalendarDays,
+                  label: 'Consulta',
+                  tone: 'blue',
+                  value: `#${completedQuickAction.appointment.id}`,
+                },
+              ]
+            : []
+        }
+      />
 
       <ModalAcaoConcluida
         open={Boolean(dischargedReferral)}
