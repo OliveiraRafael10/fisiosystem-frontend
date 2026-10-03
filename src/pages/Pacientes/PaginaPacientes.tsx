@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { ClipboardPlus, MoreHorizontal, Plus, Search } from 'lucide-react'
+import { ClipboardPlus, Plus, Search } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { ApiError, ApiLoading } from '../../components/ui/EstadoApi'
@@ -127,7 +127,6 @@ export function PaginaPacientes() {
                 <th>Entrada</th>
                 <th>Encaminhamentos</th>
                 <th>Situação</th>
-                <th />
               </tr>
             </thead>
             <tbody>
@@ -174,14 +173,6 @@ export function PaginaPacientes() {
                     </td>
                     <td>
                       <SeloStatus>{situation}</SeloStatus>
-                    </td>
-                    <td>
-                      <button
-                        className="table-more"
-                        aria-label={`Abrir prontuário de ${patient.nome}`}
-                      >
-                        <MoreHorizontal size={18} />
-                      </button>
                     </td>
                   </tr>
                 )
