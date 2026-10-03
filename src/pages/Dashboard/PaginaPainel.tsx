@@ -63,6 +63,10 @@ export function PaginaPainel() {
     queryKey: ['appointments', 'agenda', today],
     queryFn: () => servicoConsulta.agenda(today),
   })
+  const allAppointments = useQuery({
+    queryKey: ['appointments'],
+    queryFn: servicoConsulta.listar,
+  })
   const referralIndicators = useQuery({
     queryKey: ['referrals', 'indicators'],
     queryFn: servicoEncaminhamento.obterIndicadores,
@@ -80,6 +84,7 @@ export function PaginaPainel() {
     patients,
     therapists,
     appointments,
+    allAppointments,
     referralIndicators,
     priorityIndicators,
     queue,
@@ -108,6 +113,9 @@ export function PaginaPainel() {
   const currentPath = `${location.pathname}${location.search}`
   const activeTherapists = therapists.data?.filter((item) => item.ativo) ?? []
   const todayAppointments = appointments.data ?? []
+  const overdueAppointments = (allAppointments.data ?? []).filter(
+    (item) => item.status === 'AGENDADA' && item.dataHora.slice(0, 10) < today,
+  )
   const fullQueue = queue.data ?? []
   const filteredQueue = fullQueue
     .filter((item) => queueFilter === 'TODOS' || item.prioridade === queueFilter)
@@ -116,7 +124,7 @@ export function PaginaPainel() {
   const referralAlerts = fullQueue.filter(
     (item) => diasDeEspera(item.dataEntrega) > alertWaitLimit[item.prioridade],
   )
-  const alertCount = referralAlerts.length
+  const alertCount = referralAlerts.length + overdueAppointments.length
   const headerDate = new Date()
     .toLocaleDateString('pt-BR', {
       weekday: 'long',
@@ -141,7 +149,7 @@ export function PaginaPainel() {
             </button>
 
             <button
-              className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`}
+              className={`dashboard-alert-button ${alertCount ? 'has-critical' : ''}`}
               onClick={() => navigate('/alertas', { state: { from: '/' } })}
             >
               <span className="dashboard-alert-icon">

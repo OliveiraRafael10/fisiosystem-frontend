@@ -141,7 +141,7 @@ export function DashboardPage() {
             </button>
 
             <button
-              className={`dashboard-alert-button ${referralAlerts.length ? 'has-critical' : ''}`}
+              className={`dashboard-alert-button ${alertCount ? 'has-critical' : ''}`}
               onClick={() => navigate('/alertas', { state: { from: '/' } })}
             >
               <span className="dashboard-alert-icon">
